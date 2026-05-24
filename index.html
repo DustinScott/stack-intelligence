@@ -106,9 +106,7 @@
     .flow-diagram { display: flex; flex-direction: column; gap: 32px; }
     .flow-top-label { text-align: center; color: rgba(255,255,255,0.5); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; }
     .flow-nodes { display: flex; align-items: center; justify-content: center; gap: 0; }
-    .flow-node {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-    }
+    .flow-node { display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .flow-node-box {
       width: 110px; height: 110px; border-radius: 18px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -219,28 +217,40 @@
     }
     .view-all:hover { border-color: var(--navy); }
 
-    .mat-table { width: 100%; background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .mat-table { width: 100%; background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; table-layout: fixed; }
     .mat-thead { background: var(--bg); }
     .mat-thead th {
-      padding: 12px 16px; font-size: 0.68rem; font-weight: 800;
+      padding: 12px 14px; font-size: 0.68rem; font-weight: 800;
       letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3);
       text-align: left; border-bottom: 1px solid var(--border);
     }
     .mat-thead th.center { text-align: center; }
-    .mat-tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    .mat-tbody tr.mat-row { border-bottom: 1px solid var(--border); transition: background 0.15s; cursor: pointer; }
+    .mat-tbody tr.mat-row:hover { background: #fafbfd; }
+    .mat-tbody tr.detail-row { border-bottom: 1px solid var(--border); display: none; }
+    .mat-tbody tr.detail-row.open { display: table-row; }
     .mat-tbody tr:last-child { border-bottom: none; }
-    .mat-tbody tr:hover { background: var(--bg); }
-    .mat-tbody td { padding: 16px; font-size: 0.88rem; vertical-align: middle; }
+    .mat-tbody td { padding: 14px; font-size: 0.88rem; vertical-align: middle; }
     .mat-tbody td.center { text-align: center; }
+
+    /* col widths */
+    .col-provider   { width: 14%; }
+    .col-carrier    { width: 13%; }
+    .col-phase      { width: 22%; }
+    .col-bottleneck { width: 17%; }
+    .col-eta        { width: 10%; }
+    .col-trend      { width: 8%; }
+    .col-score      { width: 10%; }
+    .col-expand     { width: 5%; }
 
     .provider-cell { display: flex; align-items: center; gap: 10px; }
     .provider-logo {
-      width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
+      width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 800; background: #fff;
+      font-size: 0.65rem; font-weight: 800; background: #fff;
       flex-shrink: 0;
     }
-    .provider-name { font-weight: 700; font-size: 0.88rem; color: var(--text); }
+    .provider-name { font-weight: 700; font-size: 0.84rem; color: var(--text); }
 
     .score-pill {
       display: inline-flex; align-items: center; gap: 3px;
@@ -251,32 +261,28 @@
     .score-pill.medium { color: var(--orange); background: var(--orange-dim); }
     .score-pill.low    { color: var(--red);   background: var(--red-dim); }
 
-    .phase-score {
-      width: 30px; height: 30px; border-radius: 50%;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 0.78rem; font-weight: 800; margin: 0 auto;
+    /* ── PHASE BAR (redesigned) ────────────────────────────── */
+    .phase-bar {
+      display: flex; flex-direction: column; gap: 3px;
     }
-    .ps-5 { background: rgba(34,197,94,0.15);  color: #16a34a; border: 1px solid rgba(34,197,94,0.4); }
-    .ps-4 { background: rgba(34,197,94,0.1);   color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
-    .ps-3 { background: rgba(249,115,22,0.1);  color: var(--orange); border: 1px solid rgba(249,115,22,0.3); }
-    .ps-2 { background: rgba(234,179,8,0.1);   color: #ca8a04; border: 1px solid rgba(234,179,8,0.35); }
-    .ps-1 { background: rgba(239,68,68,0.08);  color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
-    .ps-0 { background: rgba(100,116,139,0.1); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
-
-    /* ── PHASE BAR ─────────────────────────────────────────────── */
-    .phase-bar { display: flex; gap: 4px; align-items: stretch; }
-    .pb-seg {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      flex: 1; min-width: 28px;
+    .pb-labels {
+      display: flex; gap: 4px;
+    }
+    .pb-labels span {
+      flex: 1; text-align: center;
+      font-size: 0.62rem; font-weight: 900; color: var(--text3);
+      letter-spacing: 0.05em;
+    }
+    .pb-blocks {
+      display: flex; gap: 4px;
     }
     .pb-block {
-      width: 100%; height: 32px; border-radius: 6px;
+      flex: 1; height: 30px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.72rem; font-weight: 900; color: white;
+      font-size: 0.7rem; font-weight: 900; color: white;
       transition: transform 0.15s;
     }
-    .pb-block:hover { transform: scaleY(1.08); }
-    .pb-letter { font-size: 0.58rem; font-weight: 800; color: var(--text3); letter-spacing: 0.04em; }
+    .pb-block:hover { transform: scaleY(1.1); }
     .pb-0 { background: #e2e8f0; color: #94a3b8; }
     .pb-1 { background: #fca5a5; color: #991b1b; }
     .pb-2 { background: #fcd34d; color: #92400e; }
@@ -286,7 +292,7 @@
 
     /* big score */
     .big-score { display: flex; flex-direction: column; align-items: center; gap: 1px; }
-    .big-score-num { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .big-score-num { font-size: 1.55rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
     .big-score-denom { font-size: 0.62rem; font-weight: 600; color: var(--text3); }
     .bsn-red    { color: #ef4444; }
     .bsn-amber  { color: #f59e0b; }
@@ -297,7 +303,7 @@
     /* bottleneck tag */
     .btag {
       display: inline-flex; align-items: center; gap: 5px;
-      font-size: 0.68rem; font-weight: 700; padding: 4px 10px;
+      font-size: 0.67rem; font-weight: 700; padding: 4px 10px;
       border-radius: 100px; white-space: nowrap;
     }
     .btag-red  { color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.22); }
@@ -305,17 +311,89 @@
     .btag-good { color: #16a34a; background: rgba(34,197,94,0.1);  border: 1px solid rgba(34,197,94,0.3);  }
     .btag-icon { font-size: 0.6rem; }
 
-    /* ── LEGEND ────────────────────────────────────────────────── */
+    /* ETA cell */
+    .eta-cell { font-size: 0.8rem; font-weight: 700; color: var(--text2); white-space: nowrap; }
+    .eta-sub  { font-size: 0.68rem; color: var(--text3); font-weight: 400; margin-top: 1px; }
+
+    /* expand chevron */
+    .expand-chevron {
+      font-size: 0.6rem; color: var(--text-light);
+      display: inline-block; transition: transform 0.22s;
+      padding: 6px;
+    }
+    .mat-row.open .expand-chevron { transform: rotate(180deg); color: var(--orange); }
+
+    /* expandable detail row */
+    .detail-content {
+      padding: 18px 20px 22px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      background: linear-gradient(to bottom, rgba(249,115,22,0.03), transparent);
+      border-top: 2px solid var(--orange-dim);
+    }
+    .detail-section { }
+    .detail-label {
+      font-size: 0.6rem; font-weight: 900; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text3); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .detail-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .assignee-wrap { display: flex; align-items: flex-start; gap: 10px; }
+    .assignee-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .assignee-name { font-size: 0.84rem; font-weight: 700; color: var(--text); }
+    .assignee-phase { font-size: 0.75rem; color: var(--text3); margin-top: 1px; }
+    .assignee-eta-text { font-size: 0.75rem; color: var(--orange); font-weight: 700; margin-top: 3px; }
+    .notes-area {
+      font-size: 0.8rem; color: var(--text2); line-height: 1.6;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 12px; min-height: 58px;
+      outline: none; width: 100%; resize: none; font-family: inherit;
+    }
+    .notes-area:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var(--orange-dim); }
+    .detail-stat { }
+    .detail-stat-num { font-size: 1.4rem; font-weight: 900; color: var(--navy); letter-spacing: -0.03em; line-height: 1; }
+    .detail-stat-label { font-size: 0.72rem; color: var(--text3); margin-top: 2px; }
+
+    /* ── LEGEND (collapsible) ──────────────────────────────── */
     .legend-wrap {
       background: #fff; border: 1px solid var(--border); border-radius: 16px;
-      padding: 24px 28px; margin-bottom: 28px;
+      margin-bottom: 28px; overflow: hidden;
     }
-    .legend-title {
-      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--text3); margin-bottom: 16px;
-      display: flex; align-items: center; gap: 8px;
+    .legend-trigger {
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; user-select: none;
+      transition: background 0.15s;
     }
-    .legend-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .legend-trigger:hover { background: var(--bg); }
+    .legend-trigger-left { display: flex; align-items: center; gap: 10px; }
+    .legend-trigger-title {
+      font-size: 0.7rem; font-weight: 900; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text3);
+    }
+    .legend-score-preview { display: flex; gap: 4px; }
+    .lsp { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.58rem; font-weight: 900; color: #fff; }
+    .lsp-0 { background: #94a3b8; }
+    .lsp-1 { background: #fca5a5; color: #991b1b; }
+    .lsp-2 { background: #fcd34d; color: #92400e; }
+    .lsp-3 { background: #fb923c; color: #7c2d12; }
+    .lsp-4 { background: #4ade80; color: #14532d; }
+    .lsp-5 { background: #16a34a; }
+    .legend-chevron {
+      font-size: 0.65rem; color: var(--text-light);
+      transition: transform 0.25s; display: inline-block;
+    }
+    .legend-wrap.open .legend-chevron { transform: rotate(180deg); color: var(--orange); }
+    .legend-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.25s;
+    }
+    .legend-wrap.open .legend-body { max-height: 300px; }
+    .legend-inner { padding: 4px 24px 20px; }
     .legend-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
     .legend-item {
       display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -324,9 +402,9 @@
     }
     .legend-item:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
     .legend-score {
-      width: 38px; height: 38px; border-radius: 50%;
+      width: 36px; height: 36px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; font-weight: 900;
+      font-size: 0.95rem; font-weight: 900;
     }
     .legend-score.l0 { background: rgba(100,116,139,0.12); color: #64748b; border: 2px solid rgba(100,116,139,0.3); }
     .legend-score.l1 { background: rgba(239,68,68,0.1);   color: #ef4444; border: 2px solid rgba(239,68,68,0.3); }
@@ -334,13 +412,8 @@
     .legend-score.l3 { background: rgba(249,115,22,0.12); color: var(--orange); border: 2px solid rgba(249,115,22,0.4); }
     .legend-score.l4 { background: rgba(34,197,94,0.1);   color: #22c55e; border: 2px solid rgba(34,197,94,0.35); }
     .legend-score.l5 { background: rgba(34,197,94,0.18);  color: #16a34a; border: 2px solid rgba(34,197,94,0.5); }
-    .legend-meaning { font-size: 0.75rem; font-weight: 800; color: var(--text); line-height: 1.2; }
-    .legend-reality { font-size: 0.67rem; color: var(--text3); line-height: 1.4; margin-top: 2px; }
-    .legend-drop {
-      font-size: 0.62rem; font-weight: 700; padding: 2px 8px; border-radius: 100px;
-      background: var(--bg); border: 1px solid var(--border); color: var(--text3);
-      margin-top: 4px; white-space: nowrap;
-    }
+    .legend-meaning { font-size: 0.73rem; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .legend-reality { font-size: 0.65rem; color: var(--text3); line-height: 1.4; margin-top: 2px; }
 
     .trend-spark { display: flex; align-items: flex-end; gap: 3px; height: 24px; justify-content: center; }
     .trend-bar   { width: 5px; border-radius: 2px; }
@@ -354,16 +427,6 @@
       text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
     }
     .explore-link a:hover { color: var(--navy); }
-
-    /* level badge */
-    .level-badge {
-      display: inline-block; font-size: 0.68rem; font-weight: 800;
-      padding: 2px 9px; border-radius: 100px; white-space: nowrap;
-    }
-    .level-0 { background: rgba(239,68,68,0.1);  color: var(--red);   border: 1px solid rgba(239,68,68,0.3); }
-    .level-1 { background: rgba(249,115,22,0.1); color: var(--orange); border: 1px solid rgba(249,115,22,0.3); }
-    .level-2 { background: rgba(59,130,246,0.1); color: var(--blue);   border: 1px solid rgba(59,130,246,0.3); }
-    .level-3 { background: rgba(34,197,94,0.1);  color: var(--green);  border: 1px solid rgba(34,197,94,0.3); }
 
     /* ── EXECUTIVE DASHBOARD ────────────────────────────────── */
     #dashboard { background: #fff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -412,10 +475,7 @@
     .why-item-desc  { font-size: 0.78rem; color: var(--text3); line-height: 1.5; }
 
     /* ── FOOTER BANNER ──────────────────────────────────────── */
-    #footer-banner {
-      background: var(--navy);
-      padding: 28px 0;
-    }
+    #footer-banner { background: var(--navy); padding: 28px 0; }
     .footer-banner-inner {
       max-width: 1200px; margin: 0 auto; padding: 0 28px;
       display: flex; align-items: center; justify-content: space-between; gap: 24px;
@@ -426,7 +486,6 @@
       background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3);
       display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
     }
-    .footer-banner-text { }
     .footer-banner-main { font-size: 0.95rem; font-weight: 700; color: #fff; }
     .footer-banner-sub  { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
 
@@ -455,11 +514,14 @@
       .dash-grid { grid-template-columns: 1fr; }
       .kpi-mini-grid { grid-template-columns: repeat(2,1fr); }
       .nav-links { display: none; }
+      .detail-content { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
       .framework-grid { grid-template-columns: 1fr; }
       .kpi-row { grid-template-columns: 1fr; }
       .footer-banner-inner { flex-direction: column; text-align: center; }
+      .detail-content { grid-template-columns: 1fr; }
+      .legend-grid { grid-template-columns: repeat(3,1fr); }
     }
   </style>
 </head>
@@ -606,226 +668,481 @@
     <div class="maturity-header-row fade-up">
       <div>
         <h2>AUTOMATION MATURITY OVERVIEW</h2>
-        <p>Measure the automation readiness of every payroll-to-carrier relationship.</p>
+        <p>Measure the automation readiness of every payroll-to-carrier relationship. Click any row to expand details.</p>
       </div>
       <a class="view-all" href="#">View All Relationships →</a>
     </div>
 
-    <!-- LEGEND -->
-    <div class="legend-wrap fade-up">
-      <div class="legend-title">STACK Maturity Score — What Each Level Means</div>
-      <div class="legend-grid">
-        <div class="legend-item">
-          <div class="legend-score l0">0</div>
-          <div class="legend-meaning">No Automation</div>
-          <div class="legend-reality">Entirely human-controlled</div>
-          <div class="legend-drop">Drop Zone 0</div>
+    <!-- LEGEND (collapsible) -->
+    <div class="legend-wrap fade-up" id="legend-wrap">
+      <div class="legend-trigger" onclick="toggleLegend()">
+        <div class="legend-trigger-left">
+          <div class="legend-trigger-title">STACK Maturity Score — What Each Level Means</div>
+          <div class="legend-score-preview">
+            <div class="lsp lsp-0">0</div>
+            <div class="lsp lsp-1">1</div>
+            <div class="lsp lsp-2">2</div>
+            <div class="lsp lsp-3">3</div>
+            <div class="lsp lsp-4">4</div>
+            <div class="lsp lsp-5">5</div>
+          </div>
         </div>
-        <div class="legend-item">
-          <div class="legend-score l1">1</div>
-          <div class="legend-meaning">Minimal Assistance</div>
-          <div class="legend-reality">Human-driven with small WOPR assistance</div>
-          <div class="legend-drop">Drop Zone 0–1</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-score l2">2</div>
-          <div class="legend-meaning">Assisted Workflow</div>
-          <div class="legend-reality">WOPR performs some structured tasks</div>
-          <div class="legend-drop">Drop Zone 1</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-score l3">3</div>
-          <div class="legend-meaning">Guided Automation</div>
-          <div class="legend-reality">WOPR handles most ops with oversight</div>
-          <div class="legend-drop">Drop Zone 2</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-score l4">4</div>
-          <div class="legend-meaning">High Automation</div>
-          <div class="legend-reality">Human involvement is rare</div>
-          <div class="legend-drop">Drop Zone 3</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-score l5">5</div>
-          <div class="legend-meaning">Full Autonomy</div>
-          <div class="legend-reality">WOPR fully controls the phase</div>
-          <div class="legend-drop">Drop Zone 3+</div>
+        <span class="legend-chevron" id="legend-chevron">▼</span>
+      </div>
+      <div class="legend-body" id="legend-body">
+        <div class="legend-inner">
+          <div class="legend-grid">
+            <div class="legend-item">
+              <div class="legend-score l0">0</div>
+              <div class="legend-meaning">No Automation</div>
+              <div class="legend-reality">Entirely human-controlled</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-score l1">1</div>
+              <div class="legend-meaning">Minimal Assistance</div>
+              <div class="legend-reality">Human-driven with small WOPR assistance</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-score l2">2</div>
+              <div class="legend-meaning">Assisted Workflow</div>
+              <div class="legend-reality">WOPR performs some structured tasks</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-score l3">3</div>
+              <div class="legend-meaning">Guided Automation</div>
+              <div class="legend-reality">WOPR handles most ops with oversight</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-score l4">4</div>
+              <div class="legend-meaning">High Automation</div>
+              <div class="legend-reality">Human involvement is rare</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-score l5">5</div>
+              <div class="legend-meaning">Full Autonomy</div>
+              <div class="legend-reality">WOPR fully controls the phase</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="fade-up">
       <table class="mat-table">
+        <colgroup>
+          <col class="col-provider">
+          <col class="col-carrier">
+          <col class="col-phase">
+          <col class="col-bottleneck">
+          <col class="col-eta">
+          <col class="col-trend">
+          <col class="col-score">
+          <col class="col-expand">
+        </colgroup>
         <thead class="mat-thead">
           <tr>
             <th>Payroll Provider</th>
             <th>Carrier</th>
-            <th class="center">STACK Score</th>
-            <th>Phase Breakdown — S &nbsp;·&nbsp; T &nbsp;·&nbsp; A &nbsp;·&nbsp; C &nbsp;·&nbsp; K</th>
+            <th>Phase Breakdown — S · T · A · C · K</th>
             <th>Bottleneck</th>
+            <th>Est. Completion</th>
             <th class="center">Trend</th>
+            <th class="center">STACK Score</th>
+            <th></th>
           </tr>
         </thead>
         <tbody class="mat-tbody">
 
-          <!-- ADP Run → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
-          <tr>
+          <!-- ── Row 1: ADP Run → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <tr class="mat-row" onclick="toggleRow('r1')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e74c3c;">ADP</div><span class="provider-name">ADP Run</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-2">2</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
+            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:10px"></div><div class="trend-bar trend-up" style="height:14px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r1">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r1">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#6366f1;">ML</div>
+                    <div>
+                      <div class="assignee-name">Marcus L.</div>
+                      <div class="assignee-phase">Working on Analyze (A) phase</div>
+                      <div class="assignee-eta-text">Est. done Sep 2026</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">Carrier template requires manual review. A + C phases need automation rules built out before Kickoff can be unlocked.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">8 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
-          <!-- Asure → AmTrust  S:3 T:3 A:3 C:3 K:2  avg 2.8 -->
-          <tr>
+          <!-- ── Row 2: Asure → AmTrust  S:3 T:3 A:3 C:3 K:2  avg 2.8 ── -->
+          <tr class="mat-row" onclick="toggleRow('r2')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#27ae60;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">AmTrust</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-orange">2.8</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-3">3</div>
+                  <div class="pb-block pb-3">3</div>
+                  <div class="pb-block pb-3">3</div>
+                  <div class="pb-block pb-3">3</div>
+                  <div class="pb-block pb-2">2</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-amber"><span class="btag-icon">▼</span> K — final mile gap</span></td>
+            <td><div class="eta-cell">Sep '26</div><div class="eta-sub">~4 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:12px"></div><div class="trend-bar trend-up" style="height:16px"></div><div class="trend-bar trend-up" style="height:20px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-orange">2.8</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r2">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r2">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#f59e0b;">TR</div>
+                    <div>
+                      <div class="assignee-name">Taylor R.</div>
+                      <div class="assignee-phase">Working on Kickoff (K) phase</div>
+                      <div class="assignee-eta-text">Est. done Aug 2026</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">Strong relationship — all phases at 3. Final Kickoff automation depends on carrier API access confirmation from AmTrust tech team.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">4 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
-          <!-- Asure → Hartford  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
-          <tr>
+          <!-- ── Row 3: Asure → Hartford  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <tr class="mat-row" onclick="toggleRow('r3')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#2c3e50;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">The Hartford</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-2">2</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
+            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:14px"></div><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r3">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r3">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#10b981;">JK</div>
+                    <div>
+                      <div class="assignee-name">Jordan K.</div>
+                      <div class="assignee-phase">Working on Analyze (A) phase</div>
+                      <div class="assignee-eta-text">Est. done Oct 2026</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">Hartford requires specific data field ordering. Check phase dependent on Analyze completion — both need to move together.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">8 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
-          <!-- QuickBooks → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
-          <tr>
+          <!-- ── Row 4: QuickBooks → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <tr class="mat-row" onclick="toggleRow('r4')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#8e44ad;">QB</div><span class="provider-name">QuickBooks Online</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-2">2</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
+            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:15px"></div><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r4">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r4">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#ec4899;">SR</div>
+                    <div>
+                      <div class="assignee-name">Sam R.</div>
+                      <div class="assignee-phase">Working on Check (C) phase</div>
+                      <div class="assignee-eta-text">Est. done Nov 2026</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">QB export format is inconsistent month-to-month. Analyze rules need training data before Check can be reliably automated.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">8 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
-          <!-- Serendipity → AmTrust  S:1 T:0 A:0 C:0 K:1  avg 0.4 -->
-          <tr>
+          <!-- ── Row 5: Serendipity → AmTrust  S:1 T:0 A:0 C:0 K:1  avg 0.4 ── -->
+          <tr class="mat-row" onclick="toggleRow('r5')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e67e22;">SE</div><span class="provider-name">Serendipity</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-1">1</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-red"><span class="btag-icon">▼</span> T · A · C — no automation</span></td>
+            <td><div class="eta-cell">Jul '27</div><div class="eta-sub">~14 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r5">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r5">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#64748b;">AL</div>
+                    <div>
+                      <div class="assignee-name">Alex L.</div>
+                      <div class="assignee-phase">Working on Transform (T) phase</div>
+                      <div class="assignee-eta-text">Est. done Mar 2027</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">Non-standard payroll format. Requires custom WOPR template build. Priority: T phase first, then A and C can follow.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">14 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
-          <!-- Self-Reporting → Employers  S:0 T:0 A:0 C:0 K:1  avg 0.2 -->
-          <tr>
+          <!-- ── Row 6: Self-Reporting → Employers  S:0 T:0 A:0 C:0 K:1  avg 0.2 ── -->
+          <tr class="mat-row" onclick="toggleRow('r6')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#c0392b;">SR</div><span class="provider-name">Self-Reporting</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">Employers</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-red">0.2</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-1">1</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-red"><span class="btag-icon">▼</span> S · T · A · C — fully manual</span></td>
+            <td><div class="eta-cell">Nov '27</div><div class="eta-sub">~18 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-red">0.2</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r6">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r6">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#ef4444;">DW</div>
+                    <div>
+                      <div class="assignee-name">Dana W.</div>
+                      <div class="assignee-phase">Working on Store (S) phase</div>
+                      <div class="assignee-eta-text">Est. done May 2027</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">Fully manual today. Client self-reports directly. First milestone: get data into WOPR intake. Store phase is the priority unlock.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">18 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
-          <!-- eBacon → ICW  S:1 T:0 A:0 C:0 K:1  avg 0.4 -->
-          <tr>
+          <!-- ── Row 7: eBacon → ICW  S:1 T:0 A:0 C:0 K:1  avg 0.4 ── -->
+          <tr class="mat-row" onclick="toggleRow('r7')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#16a085;">EB</div><span class="provider-name">eBacon</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏗️</div><span class="provider-name">ICW Group</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-0">0</div>
+                  <div class="pb-block pb-1">1</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-red"><span class="btag-icon">▼</span> T · A · C — no automation</span></td>
+            <td><div class="eta-cell">Jul '27</div><div class="eta-sub">~14 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:15px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r7">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r7">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#0891b2;">CP</div>
+                    <div>
+                      <div class="assignee-name">Chris P.</div>
+                      <div class="assignee-phase">Working on Transform (T) phase</div>
+                      <div class="assignee-eta-text">Est. done Feb 2027</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">eBacon is a prevailing wage platform — data structure is complex. ICW has unique submission requirements. T phase template build in progress.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">14 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
-          <!-- Toast → Travelers  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
-          <tr>
+          <!-- ── Row 8: Toast → Travelers  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <tr class="mat-row" onclick="toggleRow('r8')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#d35400;">TO</div><span class="provider-name">Toast</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">Travelers</span></div></td>
-            <td class="center">
-              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
-            </td>
             <td>
               <div class="phase-bar">
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
-                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
-                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
+                <div class="pb-blocks">
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-2">2</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-1">1</div>
+                  <div class="pb-block pb-2">2</div>
+                </div>
               </div>
             </td>
             <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
+            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:10px"></div><div class="trend-bar trend-up" style="height:14px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
+            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-r8">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-r8">
+            <td colspan="8">
+              <div class="detail-content">
+                <div class="detail-section">
+                  <div class="detail-label">Who's On It</div>
+                  <div class="assignee-wrap">
+                    <div class="assignee-avatar" style="background:#7c3aed;">BN</div>
+                    <div>
+                      <div class="assignee-name">Blake N.</div>
+                      <div class="assignee-phase">Working on Analyze (A) phase</div>
+                      <div class="assignee-eta-text">Est. done Oct 2026</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Notes</div>
+                  <textarea class="notes-area" placeholder="Add relationship notes…">Toast restaurant payroll is high-volume. Travelers template is mapped but Analyze rules need refinement for tip-credit pay types.</textarea>
+                </div>
+                <div class="detail-section">
+                  <div class="detail-label">Time to Build</div>
+                  <div class="detail-stat-num">8 mo</div>
+                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
+                </div>
+              </div>
+            </td>
           </tr>
 
         </tbody>
@@ -833,7 +1150,7 @@
     </div>
 
     <div class="explore-link fade-up">
-      <a href="#">Explore All Relationships →</a>
+      <a href="#">Explore All 51 Relationships →</a>
     </div>
   </div>
 </section>
@@ -881,9 +1198,9 @@
             <div class="kpi-mini-delta delta-up">↑ 3%</div>
           </div>
           <div class="kpi-mini">
-            <div class="kpi-mini-label">Level 0 → 1+ Upgrades</div>
-            <div class="kpi-mini-val">9</div>
-            <div class="kpi-mini-delta delta-up">↑ This quarter</div>
+            <div class="kpi-mini-label">Avg Time-to-Build</div>
+            <div class="kpi-mini-val">9.4<span style="font-size:0.8rem"> mo</span></div>
+            <div class="kpi-mini-delta delta-down">↓ improving</div>
           </div>
           <div class="kpi-mini">
             <div class="kpi-mini-label">Manual Touches Saved</div>
@@ -907,7 +1224,7 @@
           <div class="why-icon" style="background:rgba(249,115,22,0.1);">⚙️</div>
           <div>
             <div class="why-item-title">Reduce Manual Work</div>
-            <div class="why-item-desc">Identify bottlenecks across your Level 0 relationships and automate what matters most — starting with highest volume.</div>
+            <div class="why-item-desc">Identify bottlenecks across relationships and automate what matters most — starting with highest volume, lowest score.</div>
           </div>
         </div>
         <div class="why-item">
@@ -983,6 +1300,27 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // ── Legend toggle ──────────────────────────────────────────
+  function toggleLegend() {
+    const wrap = document.getElementById('legend-wrap');
+    wrap.classList.toggle('open');
+  }
+
+  // ── Row expand/collapse ────────────────────────────────────
+  function toggleRow(id) {
+    const detailRow = document.getElementById('detail-' + id);
+    const mainRow = detailRow.previousElementSibling;
+    const isOpen = detailRow.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.detail-row.open').forEach(r => r.classList.remove('open'));
+    document.querySelectorAll('.mat-row.open').forEach(r => r.classList.remove('open'));
+    // Open this one if it was closed
+    if (!isOpen) {
+      detailRow.classList.add('open');
+      mainRow.classList.add('open');
+    }
+  }
 </script>
 </body>
 </html>
