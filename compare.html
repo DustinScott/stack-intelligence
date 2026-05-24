@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WOPR — Phase Bar Design Comparison</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:       #0d1b2a;
+      --orange:     #f97316;
+      --orange2:    #fb923c;
+      --orange-dim: rgba(249,115,22,0.12);
+      --blue:       #3b82f6;
+      --green:      #22c55e;
+      --red:        #ef4444;
+      --bg:         #f1f5f9;
+      --bg2:        #ffffff;
+      --border:     #e2e8f0;
+      --text:       #0f172a;
+      --text2:      #334155;
+      --text3:      #64748b;
+      --text-light: #94a3b8;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif; background: var(--bg); color: var(--text); }
+
+    /* ── STICKY NAV ── */
+    .top-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .top-nav-logo { font-size: 1rem; font-weight: 900; color: #fff; letter-spacing: -0.02em; }
+    .top-nav-logo span { color: var(--orange); }
+    .top-nav-links { display: flex; gap: 8px; }
+    .nav-opt {
+      padding: 6px 16px; border-radius: 7px; font-size: 0.82rem; font-weight: 700;
+      text-decoration: none; color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.2s;
+    }
+    .nav-opt:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-opt.a { color: #60a5fa; border-color: rgba(96,165,250,0.35); }
+    .nav-opt.b { color: var(--orange2); border-color: rgba(249,115,22,0.35); }
+    .nav-opt.c { color: #4ade80; border-color: rgba(74,222,128,0.35); }
+    .nav-opt.back { color: rgba(255,255,255,0.4); border-color: rgba(255,255,255,0.1); font-size: 0.78rem; }
+
+    /* ── PAGE SHELL ── */
+    .page-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 28px 80px; }
+
+    .page-intro {
+      text-align: center; margin-bottom: 48px; padding: 32px;
+      background: #fff; border-radius: 16px; border: 1px solid var(--border);
+    }
+    .page-intro h1 { font-size: 1.4rem; font-weight: 900; color: var(--text); margin-bottom: 8px; letter-spacing: -0.02em; }
+    .page-intro p { color: var(--text3); font-size: 0.9rem; max-width: 520px; margin: 0 auto; }
+    .page-intro .changes-note {
+      margin-top: 16px; padding: 12px 16px;
+      background: var(--bg); border-radius: 10px;
+      font-size: 0.8rem; color: var(--text3);
+      display: flex; align-items: flex-start; gap: 8px; text-align: left; max-width: 520px; margin: 16px auto 0;
+    }
+
+    /* ── OPTION SECTION ── */
+    .option-section { margin-bottom: 64px; }
+    .option-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+    }
+    .option-badge {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .badge-a { background: var(--blue); }
+    .badge-b { background: var(--orange); }
+    .badge-c { background: #22c55e; }
+    .option-title { font-size: 1.2rem; font-weight: 900; color: var(--text); letter-spacing: -0.02em; }
+    .option-desc { font-size: 0.85rem; color: var(--text3); margin-top: 2px; }
+
+    /* ── TABLE SHARED ── */
+    .mat-table {
+      width: 100%; background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden; table-layout: fixed;
+    }
+    .mat-thead { background: var(--bg); }
+    .mat-thead th {
+      padding: 11px 14px; font-size: 0.66rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3);
+      text-align: left; border-bottom: 1px solid var(--border);
+    }
+    .mat-thead th.center { text-align: center; }
+    .mat-thead .phase-sublabels {
+      display: flex; gap: 4px; margin-top: 5px;
+    }
+    .mat-thead .phase-sublabels span {
+      flex: 1; text-align: center; font-size: 0.62rem; font-weight: 900;
+      color: var(--text-light); letter-spacing: 0.04em;
+    }
+    .mat-tbody tr.mat-row { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
+    .mat-tbody tr.mat-row:hover { background: #fafbfd; }
+    .mat-tbody tr.mat-row:last-of-type:not(.detail-row) { border-bottom: none; }
+    .mat-tbody tr.detail-row { border-bottom: 1px solid var(--border); display: none; }
+    .mat-tbody tr.detail-row.open { display: table-row; }
+    .mat-tbody td { padding: 13px 14px; font-size: 0.87rem; vertical-align: middle; }
+    .mat-tbody td.center { text-align: center; }
+
+    /* col widths */
+    .col-provider { width: 16%; }
+    .col-carrier  { width: 14%; }
+    .col-phase    { width: 26%; }
+    .col-eta      { width: 10%; }
+    .col-score    { width: 12%; }
+    .col-expand   { width: 5%; }
+
+    /* provider / carrier cells */
+    .provider-cell { display: flex; align-items: center; gap: 9px; }
+    .provider-logo {
+      width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.62rem; font-weight: 800; background: #fff; flex-shrink: 0;
+    }
+    .provider-name { font-weight: 700; font-size: 0.83rem; color: var(--text); }
+
+    /* score + trend combined */
+    .score-trend { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .st-num { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .st-denom { font-size: 0.6rem; font-weight: 600; color: var(--text3); }
+    .st-trend { font-size: 0.72rem; font-weight: 700; }
+    .st-trend.up   { color: var(--green); }
+    .st-trend.flat { color: var(--text-light); }
+    .st-trend.down { color: var(--red); }
+    .bsn-red    { color: #ef4444; }
+    .bsn-amber  { color: #f59e0b; }
+    .bsn-orange { color: var(--orange); }
+    .bsn-green  { color: #22c55e; }
+
+    /* ETA cell */
+    .eta-cell { font-size: 0.82rem; font-weight: 700; color: var(--text2); }
+
+    /* expand chevron */
+    .expand-chevron { font-size: 0.6rem; color: var(--text-light); display: inline-block; transition: transform 0.22s; padding: 6px; }
+    .mat-row.open .expand-chevron { transform: rotate(180deg); color: var(--orange); }
+
+    /* detail row */
+    .detail-content {
+      padding: 16px 18px 20px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+      background: linear-gradient(to bottom, rgba(249,115,22,0.03), transparent);
+      border-top: 2px solid var(--orange-dim);
+    }
+    .detail-label {
+      font-size: 0.6rem; font-weight: 900; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text3); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .detail-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .btag {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.67rem; font-weight: 700; padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .btag-red  { color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.22); }
+    .btag-amber{ color: #ca8a04; background: rgba(234,179,8,0.1);  border: 1px solid rgba(234,179,8,0.3); }
+    .assignee-wrap { display: flex; align-items: flex-start; gap: 9px; }
+    .assignee-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .assignee-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+    .assignee-phase { font-size: 0.73rem; color: var(--text3); margin-top: 1px; }
+    .assignee-eta-text { font-size: 0.73rem; color: var(--orange); font-weight: 700; margin-top: 3px; }
+    .notes-area {
+      font-size: 0.78rem; color: var(--text2); line-height: 1.6;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 9px 11px; min-height: 54px;
+      outline: none; width: 100%; resize: none; font-family: inherit;
+    }
+    .notes-area:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var(--orange-dim); }
+
+    /* ─────────────────────────────────────── */
+    /* OPTION A — pure color blocks, no text  */
+    /* ─────────────────────────────────────── */
+    .phase-bar-a { display: flex; gap: 4px; }
+    .pba-block {
+      flex: 1; height: 28px; border-radius: 6px;
+      transition: transform 0.15s;
+    }
+    .pba-block:hover { transform: scaleY(1.1); }
+
+    /* ─────────────────────────────────────── */
+    /* OPTION B — ghost letters, no numbers   */
+    /* ─────────────────────────────────────── */
+    .phase-bar-b { display: flex; gap: 4px; }
+    .pbb-block {
+      flex: 1; height: 28px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 900;
+      transition: transform 0.15s;
+    }
+    .pbb-block:hover { transform: scaleY(1.1); }
+    /* ghost letter = same hue but low opacity white overlay */
+    .pbb-block span { color: rgba(255,255,255,0.28); letter-spacing: 0.04em; }
+    /* on 0-level (light bg) ghost is dark */
+    .pbb-block.pb-0 span { color: rgba(100,116,139,0.35); }
+
+    /* ─────────────────────────────────────── */
+    /* OPTION C — segmented pill              */
+    /* ─────────────────────────────────────── */
+    .phase-pill-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .phase-pill {
+      display: flex; height: 16px; border-radius: 100px; overflow: hidden; gap: 3px;
+    }
+    .pp-seg { flex: 1; border-radius: 3px; transition: opacity 0.15s; }
+    .pp-seg:hover { opacity: 0.8; }
+    .pill-labels { display: flex; gap: 3px; }
+    .pill-labels span { flex: 1; text-align: center; font-size: 0.58rem; font-weight: 900; color: var(--text-light); letter-spacing: 0.04em; }
+
+    /* shared color classes */
+    .pb-0 { background: #e2e8f0; }
+    .pb-1 { background: #fca5a5; }
+    .pb-2 { background: #fcd34d; }
+    .pb-3 { background: #fb923c; }
+    .pb-4 { background: #4ade80; }
+    .pb-5 { background: #16a34a; }
+
+    /* option border accent */
+    .option-a-wrap { border: 2px solid rgba(59,130,246,0.25); border-radius: 18px; overflow: hidden; }
+    .option-b-wrap { border: 2px solid rgba(249,115,22,0.25); border-radius: 18px; overflow: hidden; }
+    .option-c-wrap { border: 2px solid rgba(34,197,94,0.25); border-radius: 18px; overflow: hidden; }
+
+    .option-desc-card {
+      padding: 14px 18px;
+      font-size: 0.82rem; color: var(--text3); line-height: 1.6;
+      display: flex; gap: 20px; align-items: flex-start;
+    }
+    .option-desc-card .pro { color: #16a34a; font-weight: 700; }
+    .option-desc-card .con { color: #dc2626; font-weight: 700; }
+    .desc-col { flex: 1; }
+    .desc-col-title { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+    .desc-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+    .desc-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+    .pros li::before  { background: #16a34a; }
+    .cons li::before  { background: #dc2626; }
+  </style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="top-nav">
+  <div class="top-nav-logo">WOPR <span>Phase Bar</span> Comparison</div>
+  <div class="top-nav-links">
+    <a class="nav-opt a" href="#option-a">Option A — Pure Color</a>
+    <a class="nav-opt b" href="#option-b">Option B — Ghost Letters</a>
+    <a class="nav-opt c" href="#option-c">Option C — Pill Bar</a>
+    <a class="nav-opt back" href="index.html">← Back to Main Site</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- INTRO -->
+  <div class="page-intro">
+    <h1>Which phase bar feels right?</h1>
+    <p>Three designs for the S·T·A·C·K phase breakdown column. Same data, same table — only the bar changes.</p>
+    <div class="changes-note">
+      <span style="font-size:1rem;">ℹ️</span>
+      <span>In all three options: Bottleneck moved to the expanded row · ETA shows date only · Trend replaced by a simple ↑ / → indicator next to the score · Column count reduced from 7 to 5.</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- OPTION A — Pure Color, No Text          -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="option-section" id="option-a">
+    <div class="option-header">
+      <div class="option-badge badge-a">A</div>
+      <div>
+        <div class="option-title">Pure Color — No Text Inside Bars</div>
+        <div class="option-desc">S · T · A · C · K labels sit once in the column header. Bars are pure color — the score tells you the number.</div>
+      </div>
+    </div>
+
+    <div class="option-a-wrap">
+      <div class="option-desc-card" style="background:#eff6ff; border-bottom:1px solid var(--border);">
+        <div class="desc-col">
+          <div class="desc-col-title">Pros</div>
+          <ul class="desc-list pros">
+            <li>Cleanest, most minimal look</li>
+            <li>Color tells the story instantly — no reading required</li>
+            <li>Labels never repeat — zero visual clutter</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <div class="desc-col-title">Cons</div>
+          <ul class="desc-list cons">
+            <li>Have to glance at the header to know which block is which phase</li>
+            <li>Less immediately scannable without labels</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="mat-table">
+        <thead class="mat-thead">
+          <tr>
+            <th class="col-provider">Payroll Provider</th>
+            <th class="col-carrier">Carrier</th>
+            <th class="col-phase">
+              Phase Breakdown
+              <div class="phase-sublabels">
+                <span>S</span><span>T</span><span>A</span><span>C</span><span>K</span>
+              </div>
+            </th>
+            <th class="col-eta">ETA</th>
+            <th class="col-score center">STACK Score</th>
+            <th class="col-expand"></th>
+          </tr>
+        </thead>
+        <tbody class="mat-tbody">
+
+          <tr class="mat-row" onclick="toggleRow('a1')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#e74c3c;">ADP</div><span class="provider-name">ADP Run</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-a"><div class="pba-block pb-2"></div><div class="pba-block pb-2"></div><div class="pba-block pb-1"></div><div class="pba-block pb-1"></div><div class="pba-block pb-2"></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-a1">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-a1"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#6366f1;">ML</div><div><div class="assignee-name">Marcus L.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Sep 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Carrier template requires manual review. A + C phases need automation rules built out.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('a2')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#27ae60;">AS</div><span class="provider-name">Asure</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-a"><div class="pba-block pb-3"></div><div class="pba-block pb-3"></div><div class="pba-block pb-3"></div><div class="pba-block pb-3"></div><div class="pba-block pb-2"></div></div></td>
+            <td><span class="eta-cell">Sep '26</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-orange">2.8</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-a2">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-a2"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-amber">▼ K — final mile gap</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#f59e0b;">TR</div><div><div class="assignee-name">Taylor R.</div><div class="assignee-phase">Working on Kickoff (K) phase</div><div class="assignee-eta-text">Est. done Aug 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Strong relationship. Final Kickoff automation depends on carrier API access confirmation.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('a3')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#8e44ad;">QB</div><span class="provider-name">QuickBooks</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-a"><div class="pba-block pb-2"></div><div class="pba-block pb-2"></div><div class="pba-block pb-1"></div><div class="pba-block pb-1"></div><div class="pba-block pb-2"></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend flat">→ holding</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-a3">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-a3"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ec4899;">SR</div><div><div class="assignee-name">Sam R.</div><div class="assignee-phase">Working on Check (C) phase</div><div class="assignee-eta-text">Est. done Nov 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">QB export format inconsistent month-to-month. Analyze rules need training data.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('a4')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#e67e22;">SE</div><span class="provider-name">Serendipity</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-a"><div class="pba-block pb-1"></div><div class="pba-block pb-0"></div><div class="pba-block pb-0"></div><div class="pba-block pb-0"></div><div class="pba-block pb-1"></div></div></td>
+            <td><span class="eta-cell">Jul '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-red">0.4</span><span class="st-denom">/ 5</span><span class="st-trend flat">→ holding</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-a4">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-a4"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ T · A · C — no automation</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#64748b;">AL</div><div><div class="assignee-name">Alex L.</div><div class="assignee-phase">Working on Transform (T) phase</div><div class="assignee-eta-text">Est. done Mar 2027</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Non-standard payroll format. Custom WOPR template build required.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('a5')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#d35400;">TO</div><span class="provider-name">Toast</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">Travelers</span></div></td>
+            <td><div class="phase-bar-a"><div class="pba-block pb-2"></div><div class="pba-block pb-2"></div><div class="pba-block pb-1"></div><div class="pba-block pb-1"></div><div class="pba-block pb-2"></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-a5">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-a5"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#7c3aed;">BN</div><div><div class="assignee-name">Blake N.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Analyze rules need refinement for tip-credit pay types specific to restaurant payroll.</textarea></div>
+          </div></td></tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- OPTION B — Ghost Letters                -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="option-section" id="option-b">
+    <div class="option-header">
+      <div class="option-badge badge-b">B</div>
+      <div>
+        <div class="option-title">Ghost Letters — Low Contrast, Same Hue</div>
+        <div class="option-desc">S · T · A · C · K letters are embedded inside each bar at very low opacity — visible if you look, invisible if you don't. No numbers.</div>
+      </div>
+    </div>
+
+    <div class="option-b-wrap">
+      <div class="option-desc-card" style="background:#fff7ed; border-bottom:1px solid var(--border);">
+        <div class="desc-col">
+          <div class="desc-col-title">Pros</div>
+          <ul class="desc-list pros">
+            <li>Labels are there without dominating — best of both worlds</li>
+            <li>Still mostly color-read but orientation is easier</li>
+            <li>Feels premium — like a watermark</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <div class="desc-col-title">Cons</div>
+          <ul class="desc-list cons">
+            <li>Slightly more "designed" — might feel busy to some</li>
+            <li>Ghost on yellow (score 2) is hardest to see</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="mat-table">
+        <thead class="mat-thead">
+          <tr>
+            <th class="col-provider">Payroll Provider</th>
+            <th class="col-carrier">Carrier</th>
+            <th class="col-phase">Phase Breakdown</th>
+            <th class="col-eta">ETA</th>
+            <th class="col-score center">STACK Score</th>
+            <th class="col-expand"></th>
+          </tr>
+        </thead>
+        <tbody class="mat-tbody">
+
+          <tr class="mat-row" onclick="toggleRow('b1')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#e74c3c;">ADP</div><span class="provider-name">ADP Run</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-b"><div class="pbb-block pb-2"><span>S</span></div><div class="pbb-block pb-2"><span>T</span></div><div class="pbb-block pb-1"><span>A</span></div><div class="pbb-block pb-1"><span>C</span></div><div class="pbb-block pb-2"><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-b1">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-b1"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#6366f1;">ML</div><div><div class="assignee-name">Marcus L.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Sep 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Carrier template requires manual review. A + C phases need automation rules built out.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('b2')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#27ae60;">AS</div><span class="provider-name">Asure</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-b"><div class="pbb-block pb-3"><span>S</span></div><div class="pbb-block pb-3"><span>T</span></div><div class="pbb-block pb-3"><span>A</span></div><div class="pbb-block pb-3"><span>C</span></div><div class="pbb-block pb-2"><span>K</span></div></div></td>
+            <td><span class="eta-cell">Sep '26</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-orange">2.8</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-b2">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-b2"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-amber">▼ K — final mile gap</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#f59e0b;">TR</div><div><div class="assignee-name">Taylor R.</div><div class="assignee-phase">Working on Kickoff (K) phase</div><div class="assignee-eta-text">Est. done Aug 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Strong relationship. Final Kickoff automation depends on carrier API access confirmation.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('b3')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#8e44ad;">QB</div><span class="provider-name">QuickBooks</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-b"><div class="pbb-block pb-2"><span>S</span></div><div class="pbb-block pb-2"><span>T</span></div><div class="pbb-block pb-1"><span>A</span></div><div class="pbb-block pb-1"><span>C</span></div><div class="pbb-block pb-2"><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend flat">→ holding</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-b3">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-b3"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ec4899;">SR</div><div><div class="assignee-name">Sam R.</div><div class="assignee-phase">Working on Check (C) phase</div><div class="assignee-eta-text">Est. done Nov 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">QB export format inconsistent month-to-month. Analyze rules need training data.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('b4')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#e67e22;">SE</div><span class="provider-name">Serendipity</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-bar-b"><div class="pbb-block pb-1"><span>S</span></div><div class="pbb-block pb-0"><span>T</span></div><div class="pbb-block pb-0"><span>A</span></div><div class="pbb-block pb-0"><span>C</span></div><div class="pbb-block pb-1"><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jul '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-red">0.4</span><span class="st-denom">/ 5</span><span class="st-trend flat">→ holding</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-b4">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-b4"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ T · A · C — no automation</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#64748b;">AL</div><div><div class="assignee-name">Alex L.</div><div class="assignee-phase">Working on Transform (T) phase</div><div class="assignee-eta-text">Est. done Mar 2027</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Non-standard payroll format. Custom WOPR template build required.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('b5')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#d35400;">TO</div><span class="provider-name">Toast</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">Travelers</span></div></td>
+            <td><div class="phase-bar-b"><div class="pbb-block pb-2"><span>S</span></div><div class="pbb-block pb-2"><span>T</span></div><div class="pbb-block pb-1"><span>A</span></div><div class="pbb-block pb-1"><span>C</span></div><div class="pbb-block pb-2"><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-b5">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-b5"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#7c3aed;">BN</div><div><div class="assignee-name">Blake N.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Analyze rules need refinement for tip-credit pay types specific to restaurant payroll.</textarea></div>
+          </div></td></tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- OPTION C — Segmented Pill              -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="option-section" id="option-c">
+    <div class="option-header">
+      <div class="option-badge badge-c">C</div>
+      <div>
+        <div class="option-title">Segmented Pill — Single Compact Bar</div>
+        <div class="option-desc">Five color segments in one thin pill. S · T · A · C · K labels sit beneath the pill. Maximum density — every relationship's pattern visible at a glance.</div>
+      </div>
+    </div>
+
+    <div class="option-c-wrap">
+      <div class="option-desc-card" style="background:#f0fdf4; border-bottom:1px solid var(--border);">
+        <div class="desc-col">
+          <div class="desc-col-title">Pros</div>
+          <ul class="desc-list pros">
+            <li>Most compact — fits naturally in a narrow column</li>
+            <li>Pattern recognition is instant — red gaps pop out</li>
+            <li>Leaves room for more columns or larger font elsewhere</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <div class="desc-col-title">Cons</div>
+          <ul class="desc-list cons">
+            <li>Thinner bars are harder to hover/interact with</li>
+            <li>Less visually impactful than a full block bar</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="mat-table">
+        <thead class="mat-thead">
+          <tr>
+            <th class="col-provider">Payroll Provider</th>
+            <th class="col-carrier">Carrier</th>
+            <th class="col-phase">Phase Breakdown</th>
+            <th class="col-eta">ETA</th>
+            <th class="col-score center">STACK Score</th>
+            <th class="col-expand"></th>
+          </tr>
+        </thead>
+        <tbody class="mat-tbody">
+
+          <tr class="mat-row" onclick="toggleRow('c1')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#e74c3c;">ADP</div><span class="provider-name">ADP Run</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-pill-wrap"><div class="phase-pill"><div class="pp-seg pb-2"></div><div class="pp-seg pb-2"></div><div class="pp-seg pb-1"></div><div class="pp-seg pb-1"></div><div class="pp-seg pb-2"></div></div><div class="pill-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-c1">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-c1"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#6366f1;">ML</div><div><div class="assignee-name">Marcus L.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Sep 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Carrier template requires manual review. A + C phases need automation rules built out.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('c2')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#27ae60;">AS</div><span class="provider-name">Asure</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-pill-wrap"><div class="phase-pill"><div class="pp-seg pb-3"></div><div class="pp-seg pb-3"></div><div class="pp-seg pb-3"></div><div class="pp-seg pb-3"></div><div class="pp-seg pb-2"></div></div><div class="pill-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div></div></td>
+            <td><span class="eta-cell">Sep '26</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-orange">2.8</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-c2">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-c2"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-amber">▼ K — final mile gap</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#f59e0b;">TR</div><div><div class="assignee-name">Taylor R.</div><div class="assignee-phase">Working on Kickoff (K) phase</div><div class="assignee-eta-text">Est. done Aug 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Strong relationship. Final Kickoff automation depends on carrier API access confirmation.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('c3')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#8e44ad;">QB</div><span class="provider-name">QuickBooks</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-pill-wrap"><div class="phase-pill"><div class="pp-seg pb-2"></div><div class="pp-seg pb-2"></div><div class="pp-seg pb-1"></div><div class="pp-seg pb-1"></div><div class="pp-seg pb-2"></div></div><div class="pill-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend flat">→ holding</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-c3">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-c3"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ec4899;">SR</div><div><div class="assignee-name">Sam R.</div><div class="assignee-phase">Working on Check (C) phase</div><div class="assignee-eta-text">Est. done Nov 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">QB export format inconsistent month-to-month. Analyze rules need training data.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('c4')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#e67e22;">SE</div><span class="provider-name">Serendipity</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
+            <td><div class="phase-pill-wrap"><div class="phase-pill"><div class="pp-seg pb-1"></div><div class="pp-seg pb-0"></div><div class="pp-seg pb-0"></div><div class="pp-seg pb-0"></div><div class="pp-seg pb-1"></div></div><div class="pill-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jul '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-red">0.4</span><span class="st-denom">/ 5</span><span class="st-trend flat">→ holding</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-c4">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-c4"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ T · A · C — no automation</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#64748b;">AL</div><div><div class="assignee-name">Alex L.</div><div class="assignee-phase">Working on Transform (T) phase</div><div class="assignee-eta-text">Est. done Mar 2027</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Non-standard payroll format. Custom WOPR template build required.</textarea></div>
+          </div></td></tr>
+
+          <tr class="mat-row" onclick="toggleRow('c5')">
+            <td><div class="provider-cell"><div class="provider-logo" style="color:#d35400;">TO</div><span class="provider-name">Toast</span></div></td>
+            <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">Travelers</span></div></td>
+            <td><div class="phase-pill-wrap"><div class="phase-pill"><div class="pp-seg pb-2"></div><div class="pp-seg pb-2"></div><div class="pp-seg pb-1"></div><div class="pp-seg pb-1"></div><div class="pp-seg pb-2"></div></div><div class="pill-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="score-trend"><span class="st-num bsn-amber">1.6</span><span class="st-denom">/ 5</span><span class="st-trend up">↑ trending up</span></div></td>
+            <td class="center"><span class="expand-chevron" id="chev-c5">▼</span></td>
+          </tr>
+          <tr class="detail-row" id="detail-c5"><td colspan="6"><div class="detail-content">
+            <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+            <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#7c3aed;">BN</div><div><div class="assignee-name">Blake N.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
+            <div><div class="detail-label">Notes</div><textarea class="notes-area">Analyze rules need refinement for tip-credit pay types specific to restaurant payroll.</textarea></div>
+          </div></td></tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+  function toggleRow(id) {
+    const detailRow = document.getElementById('detail-' + id);
+    const mainRow = detailRow.previousElementSibling;
+    const isOpen = detailRow.classList.contains('open');
+    document.querySelectorAll('.detail-row.open').forEach(r => r.classList.remove('open'));
+    document.querySelectorAll('.mat-row.open').forEach(r => r.classList.remove('open'));
+    if (!isOpen) {
+      detailRow.classList.add('open');
+      mainRow.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>
