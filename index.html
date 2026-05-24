@@ -263,6 +263,48 @@
     .ps-1 { background: rgba(239,68,68,0.08);  color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
     .ps-0 { background: rgba(100,116,139,0.1); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
 
+    /* ── PHASE BAR ─────────────────────────────────────────────── */
+    .phase-bar { display: flex; gap: 4px; align-items: stretch; }
+    .pb-seg {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      flex: 1; min-width: 28px;
+    }
+    .pb-block {
+      width: 100%; height: 32px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 900; color: white;
+      transition: transform 0.15s;
+    }
+    .pb-block:hover { transform: scaleY(1.08); }
+    .pb-letter { font-size: 0.58rem; font-weight: 800; color: var(--text3); letter-spacing: 0.04em; }
+    .pb-0 { background: #e2e8f0; color: #94a3b8; }
+    .pb-1 { background: #fca5a5; color: #991b1b; }
+    .pb-2 { background: #fcd34d; color: #92400e; }
+    .pb-3 { background: #fb923c; color: #7c2d12; }
+    .pb-4 { background: #4ade80; color: #14532d; }
+    .pb-5 { background: #16a34a; color: #fff; }
+
+    /* big score */
+    .big-score { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .big-score-num { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .big-score-denom { font-size: 0.62rem; font-weight: 600; color: var(--text3); }
+    .bsn-red    { color: #ef4444; }
+    .bsn-amber  { color: #f59e0b; }
+    .bsn-orange { color: var(--orange); }
+    .bsn-green  { color: #22c55e; }
+    .bsn-dkgreen{ color: #16a34a; }
+
+    /* bottleneck tag */
+    .btag {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.68rem; font-weight: 700; padding: 4px 10px;
+      border-radius: 100px; white-space: nowrap;
+    }
+    .btag-red  { color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.22); }
+    .btag-amber{ color: #ca8a04; background: rgba(234,179,8,0.1);  border: 1px solid rgba(234,179,8,0.3);  }
+    .btag-good { color: #16a34a; background: rgba(34,197,94,0.1);  border: 1px solid rgba(34,197,94,0.3);  }
+    .btag-icon { font-size: 0.6rem; }
+
     /* ── LEGEND ────────────────────────────────────────────────── */
     .legend-wrap {
       background: #fff; border: 1px solid var(--border); border-radius: 16px;
@@ -618,121 +660,174 @@
           <tr>
             <th>Payroll Provider</th>
             <th>Carrier</th>
-            <th>Drop Zone Level</th>
-            <th class="center">STACK Score<br><span style="font-weight:400;font-size:0.62rem;">(0–5)</span></th>
-            <th class="center">S<br><span style="font-weight:400;font-size:0.62rem;">STORE</span></th>
-            <th class="center">T<br><span style="font-weight:400;font-size:0.62rem;">TRANSFORM</span></th>
-            <th class="center">A<br><span style="font-weight:400;font-size:0.62rem;">ANALYZE</span></th>
-            <th class="center">C<br><span style="font-weight:400;font-size:0.62rem;">CHECK</span></th>
-            <th class="center">K<br><span style="font-weight:400;font-size:0.62rem;">KICKOFF</span></th>
+            <th class="center">STACK Score</th>
+            <th>Phase Breakdown — S &nbsp;·&nbsp; T &nbsp;·&nbsp; A &nbsp;·&nbsp; C &nbsp;·&nbsp; K</th>
+            <th>Bottleneck</th>
             <th class="center">Trend</th>
           </tr>
         </thead>
         <tbody class="mat-tbody">
-          <!-- Level 1 → STACK Score ~2.0 (Assisted Workflow): S:2 T:2 A:1 C:1 K:2 -->
+
+          <!-- ADP Run → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e74c3c;">ADP</div><span class="provider-name">ADP Run</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td><span class="level-badge level-1">Level 1 — WOPR Template</span></td>
-            <td class="center"><span class="score-pill medium">2.0 / 5</span></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:10px"></div><div class="trend-bar trend-up" style="height:14px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
           </tr>
-          <!-- Level 2 → STACK Score ~3.0 (Guided Automation): S:3 T:3 A:3 C:3 K:2 -->
+
+          <!-- Asure → AmTrust  S:3 T:3 A:3 C:3 K:2  avg 2.8 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#27ae60;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">AmTrust</span></div></td>
-            <td><span class="level-badge level-2">Level 2 — PDF into WOPR</span></td>
-            <td class="center"><span class="score-pill medium">2.8 / 5</span></td>
-            <td class="center"><div class="phase-score ps-3">3</div></td>
-            <td class="center"><div class="phase-score ps-3">3</div></td>
-            <td class="center"><div class="phase-score ps-3">3</div></td>
-            <td class="center"><div class="phase-score ps-3">3</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-orange">2.8</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-3">3</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-amber"><span class="btag-icon">▼</span> K — final mile gap</span></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:12px"></div><div class="trend-bar trend-up" style="height:16px"></div><div class="trend-bar trend-up" style="height:20px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
           </tr>
-          <!-- Level 1 → STACK Score ~2.0 -->
+
+          <!-- Asure → Hartford  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#2c3e50;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">The Hartford</span></div></td>
-            <td><span class="level-badge level-1">Level 1 — WOPR Template</span></td>
-            <td class="center"><span class="score-pill medium">2.0 / 5</span></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:14px"></div><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
           </tr>
-          <!-- Level 1 → STACK Score ~2.0 -->
+
+          <!-- QuickBooks → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#8e44ad;">QB</div><span class="provider-name">QuickBooks Online</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td><span class="level-badge level-1">Level 1 — WOPR Template</span></td>
-            <td class="center"><span class="score-pill medium">2.0 / 5</span></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:15px"></div><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
           </tr>
-          <!-- Level 0 → STACK Score ~0.6 (between No Automation and Minimal): S:1 T:0 A:0 C:0 K:1 -->
+
+          <!-- Serendipity → AmTrust  S:1 T:0 A:0 C:0 K:1  avg 0.4 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e67e22;">SE</div><span class="provider-name">Serendipity</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td><span class="level-badge level-0">Level 0 — Manual / Carrier Site</span></td>
-            <td class="center"><span class="score-pill low">0.6 / 5</span></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-red"><span class="btag-icon">▼</span> T · A · C — no automation</span></td>
+            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
           </tr>
-          <!-- Level 0 → STACK Score ~0.2 (entirely manual, no WOPR at all) -->
+
+          <!-- Self-Reporting → Employers  S:0 T:0 A:0 C:0 K:1  avg 0.2 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#c0392b;">SR</div><span class="provider-name">Self-Reporting</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">Employers</span></div></td>
-            <td><span class="level-badge level-0">Level 0 — Manual / Carrier Site</span></td>
-            <td class="center"><span class="score-pill low">0.2 / 5</span></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:20px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-red">0.2</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-red"><span class="btag-icon">▼</span> S · T · A · C — fully manual</span></td>
+            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
           </tr>
-          <!-- Level 0 → STACK Score ~0.6 -->
+
+          <!-- eBacon → ICW  S:1 T:0 A:0 C:0 K:1  avg 0.4 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#16a085;">EB</div><span class="provider-name">eBacon</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏗️</div><span class="provider-name">ICW Group</span></div></td>
-            <td><span class="level-badge level-0">Level 0 — Manual / Carrier Site</span></td>
-            <td class="center"><span class="score-pill low">0.6 / 5</span></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-0">0</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-0">0</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-red"><span class="btag-icon">▼</span> T · A · C — no automation</span></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:15px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
           </tr>
-          <!-- Level 1 → STACK Score ~2.0 -->
+
+          <!-- Toast → Travelers  S:2 T:2 A:1 C:1 K:2  avg 1.6 -->
           <tr>
             <td><div class="provider-cell"><div class="provider-logo" style="color:#d35400;">TO</div><span class="provider-name">Toast</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">Travelers</span></div></td>
-            <td><span class="level-badge level-1">Level 1 — WOPR Template</span></td>
-            <td class="center"><span class="score-pill medium">2.0 / 5</span></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-1">1</div></td>
-            <td class="center"><div class="phase-score ps-2">2</div></td>
+            <td class="center">
+              <div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div>
+            </td>
+            <td>
+              <div class="phase-bar">
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">S</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">T</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">A</div></div>
+                <div class="pb-seg"><div class="pb-block pb-1">1</div><div class="pb-letter">C</div></div>
+                <div class="pb-seg"><div class="pb-block pb-2">2</div><div class="pb-letter">K</div></div>
+              </div>
+            </td>
+            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
             <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:10px"></div><div class="trend-bar trend-up" style="height:14px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
           </tr>
+
         </tbody>
       </table>
     </div>
