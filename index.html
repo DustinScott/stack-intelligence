@@ -78,120 +78,60 @@
       display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center;
       position: relative; z-index: 1;
     }
-    .hero-eyebrow {
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
-    }
+    .hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; }
     .hero-h1 { font-size: clamp(3rem, 5.5vw, 4.5rem); font-weight: 900; color: #fff; line-height: 1.0; margin-bottom: 24px; letter-spacing: -0.03em; }
     .hero-h1 span { color: var(--orange); }
     .hero-desc { font-size: 1rem; color: rgba(255,255,255,0.6); max-width: 420px; margin-bottom: 36px; line-height: 1.7; }
     .hero-btns { display: flex; gap: 14px; }
-    .btn-orange-lg {
-      background: var(--orange); color: #fff; border: none; cursor: pointer;
-      padding: 13px 26px; border-radius: 9px; font-size: 0.95rem; font-weight: 700;
-      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
-      transition: all 0.2s;
-    }
+    .btn-orange-lg { background: var(--orange); color: #fff; border: none; cursor: pointer; padding: 13px 26px; border-radius: 9px; font-size: 0.95rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
     .btn-orange-lg:hover { background: var(--orange2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.4); }
-    .btn-ghost-lg {
-      background: rgba(255,255,255,0.08); color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 13px 26px; border-radius: 9px; font-size: 0.95rem; font-weight: 600;
-      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
-      cursor: pointer; transition: all 0.2s;
-    }
+    .btn-ghost-lg { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 13px 26px; border-radius: 9px; font-size: 0.95rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s; }
     .btn-ghost-lg:hover { background: rgba(255,255,255,0.12); }
 
     /* ── FLOW DIAGRAM ───────────────────────────────────────── */
     .flow-diagram { display: flex; flex-direction: column; gap: 32px; }
     .flow-top-label { text-align: center; color: rgba(255,255,255,0.5); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; }
-    .flow-nodes { display: flex; align-items: center; justify-content: center; gap: 0; }
+    .flow-nodes { display: flex; align-items: center; justify-content: center; }
     .flow-node { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .flow-node-box {
-      width: 110px; height: 110px; border-radius: 18px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 8px; border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
-    }
-    .flow-node-box.wopr {
-      width: 140px; height: 140px; border-radius: 50%;
-      border: 2px solid var(--blue);
-      background: rgba(59,130,246,0.08);
-      box-shadow: 0 0 40px rgba(59,130,246,0.2);
-      animation: woprPulse 3s ease-in-out infinite;
-    }
-    @keyframes woprPulse {
-      0%, 100% { box-shadow: 0 0 30px rgba(59,130,246,0.2); }
-      50%       { box-shadow: 0 0 60px rgba(59,130,246,0.4); }
-    }
+    .flow-node-box { width: 110px; height: 110px; border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); }
+    .flow-node-box.wopr { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--blue); background: rgba(59,130,246,0.08); box-shadow: 0 0 40px rgba(59,130,246,0.2); animation: woprPulse 3s ease-in-out infinite; }
+    @keyframes woprPulse { 0%, 100% { box-shadow: 0 0 30px rgba(59,130,246,0.2); } 50% { box-shadow: 0 0 60px rgba(59,130,246,0.4); } }
     .flow-node-icon { font-size: 1.8rem; }
     .flow-node-name { font-size: 0.75rem; font-weight: 800; color: #fff; letter-spacing: 0.05em; text-align: center; }
     .flow-node-sub  { font-size: 0.62rem; color: rgba(255,255,255,0.45); text-align: center; letter-spacing: 0.06em; text-transform: uppercase; }
     .flow-arrow { display: flex; align-items: center; padding: 0 12px; padding-bottom: 24px; }
-    .flow-arrow-line {
-      display: flex; align-items: center; gap: 4px; color: rgba(255,255,255,0.3);
-    }
+    .flow-arrow-line { display: flex; align-items: center; gap: 4px; color: rgba(255,255,255,0.3); }
     .flow-arrow-line::before { content: ''; display: block; width: 40px; height: 1px; background: rgba(255,255,255,0.25); }
     .flow-arrow-line::after  { content: '▶'; font-size: 0.55rem; }
 
-    /* STACK pipeline under flow */
-    .stack-pipeline { display: flex; justify-content: center; gap: 0; }
+    /* STACK pipeline */
+    .stack-pipeline { display: flex; justify-content: center; }
     .sp-item { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; position: relative; }
-    .sp-item:not(:last-child)::after {
-      content: ''; position: absolute; top: 20px; left: calc(50% + 20px); right: calc(-50% + 20px);
-      height: 2px; background: rgba(255,255,255,0.12);
-    }
-    .sp-circle {
-      width: 40px; height: 40px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 0.95rem;
-      border: 2px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.5);
-      transition: all 0.4s;
-      position: relative; z-index: 1;
-    }
-    .sp-circle.s-active { background: rgba(59,130,246,0.2);  border-color: var(--blue);   color: var(--blue2); }
-    .sp-circle.t-active { background: rgba(59,130,246,0.2);  border-color: var(--blue);   color: var(--blue2); }
-    .sp-circle.a-active { background: rgba(59,130,246,0.2);  border-color: var(--blue);   color: var(--blue2); }
-    .sp-circle.c-active { background: rgba(249,115,22,0.2);  border-color: var(--orange); color: var(--orange2); }
-    .sp-circle.k-active { background: rgba(249,115,22,0.3);  border-color: var(--orange); color: var(--orange);
-      box-shadow: 0 0 16px rgba(249,115,22,0.4); }
-    .sp-word  { font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.6); }
-    .sp-sub   { font-size: 0.6rem;  color: rgba(255,255,255,0.35); text-align: center; line-height: 1.3; }
+    .sp-item:not(:last-child)::after { content: ''; position: absolute; top: 20px; left: calc(50% + 20px); right: calc(-50% + 20px); height: 2px; background: rgba(255,255,255,0.12); }
+    .sp-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; border: 2px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); transition: all 0.4s; position: relative; z-index: 1; }
+    .sp-circle.s-active { background: rgba(59,130,246,0.2); border-color: var(--blue); color: var(--blue2); }
+    .sp-circle.t-active { background: rgba(59,130,246,0.2); border-color: var(--blue); color: var(--blue2); }
+    .sp-circle.a-active { background: rgba(59,130,246,0.2); border-color: var(--blue); color: var(--blue2); }
+    .sp-circle.c-active { background: rgba(249,115,22,0.2); border-color: var(--orange); color: var(--orange2); }
+    .sp-circle.k-active { background: rgba(249,115,22,0.3); border-color: var(--orange); color: var(--orange); box-shadow: 0 0 16px rgba(249,115,22,0.4); }
+    .sp-word { font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.6); }
+    .sp-sub  { font-size: 0.6rem; color: rgba(255,255,255,0.35); text-align: center; line-height: 1.3; }
 
     /* ── SECTION SHELL ──────────────────────────────────────── */
     .section { padding: 80px 0; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
-    .section-header { text-align: center; margin-bottom: 56px; }
-    .section-tag {
-      display: inline-block; font-size: 0.7rem; font-weight: 800;
-      letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange);
-      background: var(--orange-dim); border: 1px solid rgba(249,115,22,0.25);
-      padding: 5px 14px; border-radius: 100px; margin-bottom: 16px;
-    }
+    .section-tag { display: inline-block; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); background: var(--orange-dim); border: 1px solid rgba(249,115,22,0.25); padding: 5px 14px; border-radius: 100px; margin-bottom: 16px; }
     .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--text); margin-bottom: 12px; letter-spacing: -0.02em; }
     .section-desc { color: var(--text3); font-size: 0.95rem; max-width: 540px; margin: 0 auto; }
 
     /* ── STACK FRAMEWORK ────────────────────────────────────── */
     #framework { background: #fff; border-top: 1px solid var(--border); }
-    .framework-label {
-      text-align: center; font-size: 0.75rem; font-weight: 800;
-      letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3);
-      margin-bottom: 48px; padding-top: 8px;
-    }
+    .framework-label { text-align: center; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 48px; padding-top: 8px; }
     .framework-label span { color: var(--orange); }
     .framework-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-    .fw-card {
-      background: #fff; padding: 32px 24px;
-      display: flex; flex-direction: column; gap: 12px;
-      transition: background 0.2s;
-    }
+    .fw-card { background: #fff; padding: 32px 24px; display: flex; flex-direction: column; gap: 12px; transition: background 0.2s; }
     .fw-card:hover { background: var(--bg); }
-    .fw-badge {
-      width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 0.95rem; color: #fff;
-    }
+    .fw-badge { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; color: #fff; }
     .fw-badge.s { background: var(--blue); }
     .fw-badge.t { background: var(--blue); }
     .fw-badge.a { background: var(--blue); }
@@ -204,240 +144,133 @@
 
     /* ── MATURITY TABLE ─────────────────────────────────────── */
     #maturity { background: var(--bg); }
-    .maturity-header-row {
-      display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
-    }
+    .maturity-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
     .maturity-header-row h2 { font-size: 1.1rem; font-weight: 800; color: var(--text); }
     .maturity-header-row p  { font-size: 0.82rem; color: var(--text3); margin-top: 2px; }
-    .view-all {
-      font-size: 0.82rem; font-weight: 700; color: var(--navy);
-      border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px;
-      text-decoration: none; display: flex; align-items: center; gap: 6px;
-      background: #fff; transition: all 0.2s; white-space: nowrap;
-    }
+    .view-all { font-size: 0.82rem; font-weight: 700; color: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; text-decoration: none; display: flex; align-items: center; gap: 6px; background: #fff; transition: all 0.2s; white-space: nowrap; }
     .view-all:hover { border-color: var(--navy); }
 
     .mat-table { width: 100%; background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; table-layout: fixed; }
     .mat-thead { background: var(--bg); }
-    .mat-thead th {
-      padding: 12px 14px; font-size: 0.68rem; font-weight: 800;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3);
-      text-align: left; border-bottom: 1px solid var(--border);
-    }
+    .mat-thead th { padding: 10px 14px; font-size: 0.66rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-align: left; border-bottom: 1px solid var(--border); }
     .mat-thead th.center { text-align: center; }
-    .mat-tbody tr.mat-row { border-bottom: 1px solid var(--border); transition: background 0.15s; cursor: pointer; }
+
+    /* Phase column header — S T A C K aligned to pill segments */
+    .phase-col-header { display: flex; gap: 4px; margin-top: 4px; }
+    .phase-col-header span { flex: 1; text-align: center; font-size: 0.68rem; font-weight: 900; color: var(--text-light); letter-spacing: 0.06em; }
+
+    .mat-tbody tr.mat-row { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
     .mat-tbody tr.mat-row:hover { background: #fafbfd; }
     .mat-tbody tr.detail-row { border-bottom: 1px solid var(--border); display: none; }
     .mat-tbody tr.detail-row.open { display: table-row; }
-    .mat-tbody tr:last-child { border-bottom: none; }
+    .mat-tbody tr.detail-row:last-child { border-bottom: none; }
     .mat-tbody td { padding: 14px; font-size: 0.88rem; vertical-align: middle; }
     .mat-tbody td.center { text-align: center; }
 
     /* col widths */
-    .col-provider   { width: 14%; }
-    .col-carrier    { width: 13%; }
-    .col-phase      { width: 22%; }
-    .col-bottleneck { width: 17%; }
-    .col-eta        { width: 10%; }
-    .col-trend      { width: 8%; }
-    .col-score      { width: 10%; }
-    .col-expand     { width: 5%; }
+    .col-provider { width: 16%; }
+    .col-carrier  { width: 14%; }
+    .col-phase    { width: 30%; }
+    .col-eta      { width: 10%; }
+    .col-score    { width: 14%; }
+    .col-expand   { width: 5%; }
 
     .provider-cell { display: flex; align-items: center; gap: 10px; }
-    .provider-logo {
-      width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.65rem; font-weight: 800; background: #fff;
-      flex-shrink: 0;
-    }
+    .provider-logo { width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 800; background: #fff; flex-shrink: 0; }
     .provider-name { font-weight: 700; font-size: 0.84rem; color: var(--text); }
 
-    .score-pill {
-      display: inline-flex; align-items: center; gap: 3px;
-      font-weight: 800; font-size: 0.92rem; padding: 4px 12px;
-      border-radius: 100px;
-    }
-    .score-pill.high   { color: var(--green); background: var(--green-dim); }
-    .score-pill.medium { color: var(--orange); background: var(--orange-dim); }
-    .score-pill.low    { color: var(--red);   background: var(--red-dim); }
+    /* ── PHASE PILL ─────────────────────────────────────────── */
+    .phase-pill { display: flex; height: 18px; gap: 4px; }
+    .pp-seg { flex: 1; border-radius: 4px; transition: opacity 0.15s; }
+    .pp-seg:hover { opacity: 0.75; cursor: default; }
+    .pb-0 { background: #e2e8f0; }
+    .pb-1 { background: #fca5a5; }
+    .pb-2 { background: #fcd34d; }
+    .pb-3 { background: #fb923c; }
+    .pb-4 { background: #4ade80; }
+    .pb-5 { background: #16a34a; }
 
-    /* ── PHASE BAR (redesigned) ────────────────────────────── */
-    .phase-bar {
-      display: flex; flex-direction: column; gap: 3px;
-    }
-    .pb-labels {
-      display: flex; gap: 4px;
-    }
-    .pb-labels span {
-      flex: 1; text-align: center;
-      font-size: 0.62rem; font-weight: 900; color: var(--text3);
-      letter-spacing: 0.05em;
-    }
-    .pb-blocks {
-      display: flex; gap: 4px;
-    }
-    .pb-block {
-      flex: 1; height: 30px; border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 900; color: white;
-      transition: transform 0.15s;
-    }
-    .pb-block:hover { transform: scaleY(1.1); }
-    .pb-0 { background: #e2e8f0; color: #94a3b8; }
-    .pb-1 { background: #fca5a5; color: #991b1b; }
-    .pb-2 { background: #fcd34d; color: #92400e; }
-    .pb-3 { background: #fb923c; color: #7c2d12; }
-    .pb-4 { background: #4ade80; color: #14532d; }
-    .pb-5 { background: #16a34a; color: #fff; }
-
-    /* big score */
-    .big-score { display: flex; flex-direction: column; align-items: center; gap: 1px; }
-    .big-score-num { font-size: 1.55rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
-    .big-score-denom { font-size: 0.62rem; font-weight: 600; color: var(--text3); }
-    .bsn-red    { color: #ef4444; }
-    .bsn-amber  { color: #f59e0b; }
-    .bsn-orange { color: var(--orange); }
-    .bsn-green  { color: #22c55e; }
-    .bsn-dkgreen{ color: #16a34a; }
-
-    /* bottleneck tag */
-    .btag {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 0.67rem; font-weight: 700; padding: 4px 10px;
-      border-radius: 100px; white-space: nowrap;
-    }
-    .btag-red  { color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.22); }
-    .btag-amber{ color: #ca8a04; background: rgba(234,179,8,0.1);  border: 1px solid rgba(234,179,8,0.3);  }
-    .btag-good { color: #16a34a; background: rgba(34,197,94,0.1);  border: 1px solid rgba(34,197,94,0.3);  }
-    .btag-icon { font-size: 0.6rem; }
+    /* ── PERCENTAGE SCORE ───────────────────────────────────── */
+    .pct-score { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .pct-num { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .pct-label { font-size: 0.6rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+    .pct-trend { font-size: 0.68rem; font-weight: 700; margin-top: 1px; }
+    .pct-trend.up   { color: var(--green); }
+    .pct-trend.flat { color: var(--text-light); }
+    .pct-trend.down { color: var(--red); }
+    .pct-red    { color: #ef4444; }
+    .pct-amber  { color: #f59e0b; }
+    .pct-orange { color: var(--orange); }
+    .pct-green  { color: #22c55e; }
+    .pct-dkgreen{ color: #16a34a; }
 
     /* ETA cell */
-    .eta-cell { font-size: 0.8rem; font-weight: 700; color: var(--text2); white-space: nowrap; }
-    .eta-sub  { font-size: 0.68rem; color: var(--text3); font-weight: 400; margin-top: 1px; }
+    .eta-cell { font-size: 0.82rem; font-weight: 700; color: var(--text2); }
 
     /* expand chevron */
-    .expand-chevron {
-      font-size: 0.6rem; color: var(--text-light);
-      display: inline-block; transition: transform 0.22s;
-      padding: 6px;
-    }
+    .expand-chevron { font-size: 0.6rem; color: var(--text-light); display: inline-block; transition: transform 0.22s; padding: 6px; }
     .mat-row.open .expand-chevron { transform: rotate(180deg); color: var(--orange); }
 
-    /* expandable detail row */
+    /* ── EXPANDABLE DETAIL ROW ──────────────────────────────── */
     .detail-content {
       padding: 18px 20px 22px;
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
       background: linear-gradient(to bottom, rgba(249,115,22,0.03), transparent);
       border-top: 2px solid var(--orange-dim);
     }
-    .detail-section { }
-    .detail-label {
-      font-size: 0.6rem; font-weight: 900; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--text3); margin-bottom: 10px;
-      display: flex; align-items: center; gap: 6px;
-    }
+    .detail-label { font-size: 0.6rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
     .detail-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .btag { display: inline-flex; align-items: center; gap: 5px; font-size: 0.67rem; font-weight: 700; padding: 4px 10px; border-radius: 100px; }
+    .btag-red  { color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.22); }
+    .btag-amber{ color: #ca8a04; background: rgba(234,179,8,0.1);  border: 1px solid rgba(234,179,8,0.3); }
+    .btag-good { color: #16a34a; background: rgba(34,197,94,0.1);  border: 1px solid rgba(34,197,94,0.3); }
     .assignee-wrap { display: flex; align-items: flex-start; gap: 10px; }
-    .assignee-avatar {
-      width: 30px; height: 30px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.72rem; font-weight: 800; color: #fff; flex-shrink: 0;
-    }
+    .assignee-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; color: #fff; flex-shrink: 0; }
     .assignee-name { font-size: 0.84rem; font-weight: 700; color: var(--text); }
     .assignee-phase { font-size: 0.75rem; color: var(--text3); margin-top: 1px; }
     .assignee-eta-text { font-size: 0.75rem; color: var(--orange); font-weight: 700; margin-top: 3px; }
-    .notes-area {
-      font-size: 0.8rem; color: var(--text2); line-height: 1.6;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 8px; padding: 10px 12px; min-height: 58px;
-      outline: none; width: 100%; resize: none; font-family: inherit;
-    }
+    .notes-area { font-size: 0.8rem; color: var(--text2); line-height: 1.6; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; min-height: 58px; outline: none; width: 100%; resize: none; font-family: inherit; }
     .notes-area:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var(--orange-dim); }
-    .detail-stat { }
-    .detail-stat-num { font-size: 1.4rem; font-weight: 900; color: var(--navy); letter-spacing: -0.03em; line-height: 1; }
-    .detail-stat-label { font-size: 0.72rem; color: var(--text3); margin-top: 2px; }
 
-    /* ── LEGEND (collapsible) ──────────────────────────────── */
-    .legend-wrap {
-      background: #fff; border: 1px solid var(--border); border-radius: 16px;
-      margin-bottom: 28px; overflow: hidden;
-    }
-    .legend-trigger {
-      padding: 16px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; user-select: none;
-      transition: background 0.15s;
-    }
+    /* ── LEGEND (collapsible) ───────────────────────────────── */
+    .legend-wrap { background: #fff; border: 1px solid var(--border); border-radius: 16px; margin-bottom: 28px; overflow: hidden; }
+    .legend-trigger { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.15s; }
     .legend-trigger:hover { background: var(--bg); }
     .legend-trigger-left { display: flex; align-items: center; gap: 10px; }
-    .legend-trigger-title {
-      font-size: 0.7rem; font-weight: 900; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--text3);
-    }
-    .legend-score-preview { display: flex; gap: 4px; }
-    .lsp { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.58rem; font-weight: 900; color: #fff; }
-    .lsp-0 { background: #94a3b8; }
-    .lsp-1 { background: #fca5a5; color: #991b1b; }
-    .lsp-2 { background: #fcd34d; color: #92400e; }
-    .lsp-3 { background: #fb923c; color: #7c2d12; }
-    .lsp-4 { background: #4ade80; color: #14532d; }
+    .legend-trigger-title { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); }
+    .legend-score-preview { display: flex; gap: 4px; align-items: center; }
+    .lsp { width: 18px; height: 18px; border-radius: 4px; }
+    .lsp-0 { background: #e2e8f0; }
+    .lsp-1 { background: #fca5a5; }
+    .lsp-2 { background: #fcd34d; }
+    .lsp-3 { background: #fb923c; }
+    .lsp-4 { background: #4ade80; }
     .lsp-5 { background: #16a34a; }
-    .legend-chevron {
-      font-size: 0.65rem; color: var(--text-light);
-      transition: transform 0.25s; display: inline-block;
-    }
+    .legend-chevron { font-size: 0.65rem; color: var(--text-light); transition: transform 0.25s; display: inline-block; }
     .legend-wrap.open .legend-chevron { transform: rotate(180deg); color: var(--orange); }
-    .legend-body {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.25s;
-    }
+    .legend-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
     .legend-wrap.open .legend-body { max-height: 300px; }
     .legend-inner { padding: 4px 24px 20px; }
     .legend-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-    .legend-item {
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      padding: 14px 8px; border-radius: 12px; border: 1px solid var(--border);
-      text-align: center; transition: all 0.2s; cursor: default;
-    }
+    .legend-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 8px; border-radius: 12px; border: 1px solid var(--border); text-align: center; transition: all 0.2s; }
     .legend-item:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-    .legend-score {
-      width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.95rem; font-weight: 900;
-    }
-    .legend-score.l0 { background: rgba(100,116,139,0.12); color: #64748b; border: 2px solid rgba(100,116,139,0.3); }
-    .legend-score.l1 { background: rgba(239,68,68,0.1);   color: #ef4444; border: 2px solid rgba(239,68,68,0.3); }
-    .legend-score.l2 { background: rgba(234,179,8,0.12);  color: #ca8a04; border: 2px solid rgba(234,179,8,0.4); }
-    .legend-score.l3 { background: rgba(249,115,22,0.12); color: var(--orange); border: 2px solid rgba(249,115,22,0.4); }
-    .legend-score.l4 { background: rgba(34,197,94,0.1);   color: #22c55e; border: 2px solid rgba(34,197,94,0.35); }
-    .legend-score.l5 { background: rgba(34,197,94,0.18);  color: #16a34a; border: 2px solid rgba(34,197,94,0.5); }
+    .legend-swatch { width: 36px; height: 12px; border-radius: 4px; }
+    .legend-pct { font-size: 1rem; font-weight: 900; margin-top: 2px; }
     .legend-meaning { font-size: 0.73rem; font-weight: 800; color: var(--text); line-height: 1.2; }
     .legend-reality { font-size: 0.65rem; color: var(--text3); line-height: 1.4; margin-top: 2px; }
-
-    .trend-spark { display: flex; align-items: flex-end; gap: 3px; height: 24px; justify-content: center; }
-    .trend-bar   { width: 5px; border-radius: 2px; }
-    .trend-up    { background: var(--green); }
-    .trend-flat  { background: var(--text-light); }
-    .trend-down  { background: var(--red); }
+    .l0-pct { color: #64748b; } .l1-pct { color: #ef4444; } .l2-pct { color: #ca8a04; }
+    .l3-pct { color: var(--orange); } .l4-pct { color: #22c55e; } .l5-pct { color: #16a34a; }
 
     .explore-link { text-align: center; margin-top: 20px; }
-    .explore-link a {
-      font-size: 0.88rem; font-weight: 700; color: var(--blue);
-      text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-    }
+    .explore-link a { font-size: 0.88rem; font-weight: 700; color: var(--blue); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
     .explore-link a:hover { color: var(--navy); }
 
     /* ── EXECUTIVE DASHBOARD ────────────────────────────────── */
     #dashboard { background: #fff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .dash-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; }
-    .dash-card {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 16px; padding: 32px;
-    }
+    .dash-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
     .dash-card-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 24px; }
     .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
-    .kpi-item { }
     .kpi-label2 { font-size: 0.72rem; color: var(--text3); margin-bottom: 4px; }
     .kpi-value { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
     .kpi-value.orange { color: var(--orange); }
@@ -446,26 +279,16 @@
     .kpi-delta { font-size: 0.72rem; font-weight: 600; }
     .delta-up   { color: var(--green); }
     .delta-down { color: var(--red); }
-
     .kpi-mini-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding-top: 20px; border-top: 1px solid var(--border); }
-    .kpi-mini { }
     .kpi-mini-label { font-size: 0.68rem; color: var(--text3); margin-bottom: 4px; line-height: 1.3; }
     .kpi-mini-val   { font-size: 1.3rem; font-weight: 900; color: var(--text); letter-spacing: -0.02em; }
     .kpi-mini-delta { font-size: 0.68rem; font-weight: 600; }
-
-    /* donut */
     .donut-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
     .donut { width: 70px; height: 70px; position: relative; flex-shrink: 0; }
     .donut svg { transform: rotate(-90deg); }
-    .donut-center {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 900; color: var(--blue);
-    }
-    .donut-info { }
+    .donut-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 900; color: var(--blue); }
     .donut-val  { font-size: 2rem; font-weight: 900; color: var(--blue); letter-spacing: -0.03em; line-height: 1; }
     .donut-sub  { font-size: 0.72rem; color: var(--text3); }
-
-    /* why stack */
     .why-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
     .why-title { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 24px; }
     .why-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
@@ -474,40 +297,23 @@
     .why-item-title { font-size: 0.88rem; font-weight: 700; color: var(--orange); margin-bottom: 3px; }
     .why-item-desc  { font-size: 0.78rem; color: var(--text3); line-height: 1.5; }
 
-    /* ── FOOTER BANNER ──────────────────────────────────────── */
+    /* ── FOOTER ─────────────────────────────────────────────── */
     #footer-banner { background: var(--navy); padding: 28px 0; }
-    .footer-banner-inner {
-      max-width: 1200px; margin: 0 auto; padding: 0 28px;
-      display: flex; align-items: center; justify-content: space-between; gap: 24px;
-    }
+    .footer-banner-inner { max-width: 1200px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .footer-banner-left { display: flex; align-items: center; gap: 16px; }
-    .footer-banner-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3);
-      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-    }
+    .footer-banner-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
     .footer-banner-main { font-size: 0.95rem; font-weight: 700; color: #fff; }
     .footer-banner-sub  { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
-
-    /* ── ACTUAL FOOTER ──────────────────────────────────────── */
-    footer {
-      background: var(--navy); border-top: 1px solid rgba(255,255,255,0.07);
-      padding: 24px 0;
-    }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto; padding: 0 28px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
+    footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.07); padding: 24px 0; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; }
     .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
     .footer-links { display: flex; gap: 20px; }
     .footer-links a { font-size: 0.78rem; color: rgba(255,255,255,0.4); text-decoration: none; }
     .footer-links a:hover { color: rgba(255,255,255,0.7); }
 
-    /* ── SCROLL FADE ────────────────────────────────────────── */
     .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
     .fade-up.visible { opacity: 1; transform: none; }
 
-    /* ── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 960px) {
       .hero-grid { grid-template-columns: 1fr; }
       .framework-grid { grid-template-columns: 1fr 1fr; }
@@ -551,7 +357,6 @@
 <!-- ── HERO ─────────────────────────────────────────────────── -->
 <section id="hero">
   <div class="hero-grid">
-    <!-- Left -->
     <div>
       <div class="hero-eyebrow">Workers' Comp Payroll Reporting, Automated</div>
       <h1 class="hero-h1">Measure.<br>Automate.<br><span>Scale.</span></h1>
@@ -561,58 +366,21 @@
         <a class="btn-ghost-lg" href="#framework">▶ How STACK Works</a>
       </div>
     </div>
-    <!-- Right: Flow Diagram -->
     <div class="flow-diagram">
       <div class="flow-top-label">From Payroll to Carrier. &nbsp;Fully Orchestrated.</div>
       <div class="flow-nodes">
-        <div class="flow-node">
-          <div class="flow-node-box">
-            <div class="flow-node-icon">📄</div>
-            <div class="flow-node-name">PAYROLL<br>SOURCE</div>
-          </div>
-        </div>
+        <div class="flow-node"><div class="flow-node-box"><div class="flow-node-icon">📄</div><div class="flow-node-name">PAYROLL<br>SOURCE</div></div></div>
         <div class="flow-arrow"><div class="flow-arrow-line"></div></div>
-        <div class="flow-node">
-          <div class="flow-node-box wopr">
-            <div class="flow-node-name" style="font-size:1.4rem;">WOPR</div>
-            <div class="flow-node-sub">AI ENGINE</div>
-          </div>
-        </div>
+        <div class="flow-node"><div class="flow-node-box wopr"><div class="flow-node-name" style="font-size:1.4rem;">WOPR</div><div class="flow-node-sub">AI ENGINE</div></div></div>
         <div class="flow-arrow"><div class="flow-arrow-line"></div></div>
-        <div class="flow-node">
-          <div class="flow-node-box">
-            <div class="flow-node-icon">🛡️</div>
-            <div class="flow-node-name">CARRIER</div>
-          </div>
-        </div>
+        <div class="flow-node"><div class="flow-node-box"><div class="flow-node-icon">🛡️</div><div class="flow-node-name">CARRIER</div></div></div>
       </div>
-      <!-- STACK pipeline -->
       <div class="stack-pipeline">
-        <div class="sp-item">
-          <div class="sp-circle s-active" id="sp-s">S</div>
-          <div class="sp-word">Store</div>
-          <div class="sp-sub">Intake &amp;<br>Data Capture</div>
-        </div>
-        <div class="sp-item">
-          <div class="sp-circle" id="sp-t">T</div>
-          <div class="sp-word">Transform</div>
-          <div class="sp-sub">Carrier<br>Formatting</div>
-        </div>
-        <div class="sp-item">
-          <div class="sp-circle" id="sp-a">A</div>
-          <div class="sp-word">Analyze</div>
-          <div class="sp-sub">Data<br>Intelligence</div>
-        </div>
-        <div class="sp-item">
-          <div class="sp-circle" id="sp-c">C</div>
-          <div class="sp-word">Check</div>
-          <div class="sp-sub">Compliance<br>Validation</div>
-        </div>
-        <div class="sp-item">
-          <div class="sp-circle" id="sp-k">K</div>
-          <div class="sp-word">Kickoff</div>
-          <div class="sp-sub">Carrier<br>Transmission</div>
-        </div>
+        <div class="sp-item"><div class="sp-circle s-active" id="sp-s">S</div><div class="sp-word">Store</div><div class="sp-sub">Intake &amp;<br>Data Capture</div></div>
+        <div class="sp-item"><div class="sp-circle" id="sp-t">T</div><div class="sp-word">Transform</div><div class="sp-sub">Carrier<br>Formatting</div></div>
+        <div class="sp-item"><div class="sp-circle" id="sp-a">A</div><div class="sp-word">Analyze</div><div class="sp-sub">Data<br>Intelligence</div></div>
+        <div class="sp-item"><div class="sp-circle" id="sp-c">C</div><div class="sp-word">Check</div><div class="sp-sub">Compliance<br>Validation</div></div>
+        <div class="sp-item"><div class="sp-circle" id="sp-k">K</div><div class="sp-word">Kickoff</div><div class="sp-sub">Carrier<br>Transmission</div></div>
       </div>
     </div>
   </div>
@@ -623,41 +391,11 @@
   <div class="container">
     <div class="framework-label fade-up">THE <span>STACK™</span> FRAMEWORK</div>
     <div class="framework-grid fade-up">
-      <div class="fw-card">
-        <div class="fw-badge s">S</div>
-        <div class="fw-title">Store</div>
-        <div class="fw-sub">Intake &amp; Data Capture</div>
-        <div class="fw-desc">Securely capture payroll reports from any source — PDF, CSV, XLS, ZIP — and store them reliably with full audit trails.</div>
-        <div class="fw-icon">☁️</div>
-      </div>
-      <div class="fw-card">
-        <div class="fw-badge t">T</div>
-        <div class="fw-title">Transform</div>
-        <div class="fw-sub">Carrier Formatting</div>
-        <div class="fw-desc">Automatically convert data into the specific carrier-required format. Templates are learned and reused across relationships.</div>
-        <div class="fw-icon">🔄</div>
-      </div>
-      <div class="fw-card">
-        <div class="fw-badge a">A</div>
-        <div class="fw-title">Analyze</div>
-        <div class="fw-sub">Data Intelligence</div>
-        <div class="fw-desc">AI-powered analysis detects errors, anomalies and missing data. STACK Score is computed per payroll-carrier relationship.</div>
-        <div class="fw-icon">🧠</div>
-      </div>
-      <div class="fw-card">
-        <div class="fw-badge c">C</div>
-        <div class="fw-title">Check</div>
-        <div class="fw-sub">Compliance Validation</div>
-        <div class="fw-desc">Validate against carrier rules and SOPs to ensure accuracy. Smart rules learn from every exception to prevent future errors.</div>
-        <div class="fw-icon">🛡️</div>
-      </div>
-      <div class="fw-card">
-        <div class="fw-badge k">K</div>
-        <div class="fw-title">Kickoff</div>
-        <div class="fw-sub">Carrier Transmission</div>
-        <div class="fw-desc">Electronically submit validated reports to carriers with confidence. Human intervention only when the system flags it.</div>
-        <div class="fw-icon">🚀</div>
-      </div>
+      <div class="fw-card"><div class="fw-badge s">S</div><div class="fw-title">Store</div><div class="fw-sub">Intake &amp; Data Capture</div><div class="fw-desc">Securely capture payroll reports from any source — PDF, CSV, XLS, ZIP — and store them reliably with full audit trails.</div><div class="fw-icon">☁️</div></div>
+      <div class="fw-card"><div class="fw-badge t">T</div><div class="fw-title">Transform</div><div class="fw-sub">Carrier Formatting</div><div class="fw-desc">Automatically convert data into the specific carrier-required format. Templates are learned and reused across relationships.</div><div class="fw-icon">🔄</div></div>
+      <div class="fw-card"><div class="fw-badge a">A</div><div class="fw-title">Analyze</div><div class="fw-sub">Data Intelligence</div><div class="fw-desc">AI-powered analysis detects errors, anomalies and missing data. STACK Score is computed per payroll-carrier relationship.</div><div class="fw-icon">🧠</div></div>
+      <div class="fw-card"><div class="fw-badge c">C</div><div class="fw-title">Check</div><div class="fw-sub">Compliance Validation</div><div class="fw-desc">Validate against carrier rules and SOPs to ensure accuracy. Smart rules learn from every exception to prevent future errors.</div><div class="fw-icon">🛡️</div></div>
+      <div class="fw-card"><div class="fw-badge k">K</div><div class="fw-title">Kickoff</div><div class="fw-sub">Carrier Transmission</div><div class="fw-desc">Electronically submit validated reports to carriers with confidence. Human intervention only when the system flags it.</div><div class="fw-icon">🚀</div></div>
     </div>
   </div>
 </section>
@@ -668,7 +406,7 @@
     <div class="maturity-header-row fade-up">
       <div>
         <h2>AUTOMATION MATURITY OVERVIEW</h2>
-        <p>Measure the automation readiness of every payroll-to-carrier relationship. Click any row to expand details.</p>
+        <p>Click any relationship to see who's working on it, bottlenecks, and notes.</p>
       </div>
       <a class="view-all" href="#">View All Relationships →</a>
     </div>
@@ -677,14 +415,14 @@
     <div class="legend-wrap fade-up" id="legend-wrap">
       <div class="legend-trigger" onclick="toggleLegend()">
         <div class="legend-trigger-left">
-          <div class="legend-trigger-title">STACK Maturity Score — What Each Level Means</div>
+          <div class="legend-trigger-title">STACK Automation Score — What Each Level Means</div>
           <div class="legend-score-preview">
-            <div class="lsp lsp-0">0</div>
-            <div class="lsp lsp-1">1</div>
-            <div class="lsp lsp-2">2</div>
-            <div class="lsp lsp-3">3</div>
-            <div class="lsp lsp-4">4</div>
-            <div class="lsp lsp-5">5</div>
+            <div class="lsp lsp-0"></div>
+            <div class="lsp lsp-1"></div>
+            <div class="lsp lsp-2"></div>
+            <div class="lsp lsp-3"></div>
+            <div class="lsp lsp-4"></div>
+            <div class="lsp lsp-5"></div>
           </div>
         </div>
         <span class="legend-chevron" id="legend-chevron">▼</span>
@@ -693,32 +431,38 @@
         <div class="legend-inner">
           <div class="legend-grid">
             <div class="legend-item">
-              <div class="legend-score l0">0</div>
+              <div class="legend-swatch pb-0"></div>
+              <div class="legend-pct l0-pct">0%</div>
               <div class="legend-meaning">No Automation</div>
               <div class="legend-reality">Entirely human-controlled</div>
             </div>
             <div class="legend-item">
-              <div class="legend-score l1">1</div>
+              <div class="legend-swatch pb-1"></div>
+              <div class="legend-pct l1-pct">1–20%</div>
               <div class="legend-meaning">Minimal Assistance</div>
               <div class="legend-reality">Human-driven with small WOPR assistance</div>
             </div>
             <div class="legend-item">
-              <div class="legend-score l2">2</div>
+              <div class="legend-swatch pb-2"></div>
+              <div class="legend-pct l2-pct">21–40%</div>
               <div class="legend-meaning">Assisted Workflow</div>
               <div class="legend-reality">WOPR performs some structured tasks</div>
             </div>
             <div class="legend-item">
-              <div class="legend-score l3">3</div>
+              <div class="legend-swatch pb-3"></div>
+              <div class="legend-pct l3-pct">41–60%</div>
               <div class="legend-meaning">Guided Automation</div>
               <div class="legend-reality">WOPR handles most ops with oversight</div>
             </div>
             <div class="legend-item">
-              <div class="legend-score l4">4</div>
+              <div class="legend-swatch pb-4"></div>
+              <div class="legend-pct l4-pct">61–80%</div>
               <div class="legend-meaning">High Automation</div>
               <div class="legend-reality">Human involvement is rare</div>
             </div>
             <div class="legend-item">
-              <div class="legend-score l5">5</div>
+              <div class="legend-swatch pb-5"></div>
+              <div class="legend-pct l5-pct">81–100%</div>
               <div class="legend-meaning">Full Autonomy</div>
               <div class="legend-reality">WOPR fully controls the phase</div>
             </div>
@@ -727,15 +471,14 @@
       </div>
     </div>
 
+    <!-- TABLE -->
     <div class="fade-up">
       <table class="mat-table">
         <colgroup>
           <col class="col-provider">
           <col class="col-carrier">
           <col class="col-phase">
-          <col class="col-bottleneck">
           <col class="col-eta">
-          <col class="col-trend">
           <col class="col-score">
           <col class="col-expand">
         </colgroup>
@@ -743,406 +486,153 @@
           <tr>
             <th>Payroll Provider</th>
             <th>Carrier</th>
-            <th>Phase Breakdown — S · T · A · C · K</th>
-            <th>Bottleneck</th>
-            <th>Est. Completion</th>
-            <th class="center">Trend</th>
-            <th class="center">STACK Score</th>
+            <th>
+              Phase Automation
+              <div class="phase-col-header">
+                <span>S</span><span>T</span><span>A</span><span>C</span><span>K</span>
+              </div>
+            </th>
+            <th>ETA</th>
+            <th class="center">Automation</th>
             <th></th>
           </tr>
         </thead>
         <tbody class="mat-tbody">
 
-          <!-- ── Row 1: ADP Run → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <!-- ADP Run → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 → 32% -->
           <tr class="mat-row" onclick="toggleRow('r1')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e74c3c;">ADP</div><span class="provider-name">ADP Run</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-2">2</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
-            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:10px"></div><div class="trend-bar trend-up" style="height:14px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r1">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r1">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#6366f1;">ML</div>
-                    <div>
-                      <div class="assignee-name">Marcus L.</div>
-                      <div class="assignee-phase">Working on Analyze (A) phase</div>
-                      <div class="assignee-eta-text">Est. done Sep 2026</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">Carrier template requires manual review. A + C phases need automation rules built out before Kickoff can be unlocked.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">8 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#6366f1;">ML</div><div><div class="assignee-name">Marcus L.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Sep 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Carrier template requires manual review. A + C phases need automation rules built out before Kickoff can be unlocked.</textarea></div>
+            </div></td>
           </tr>
 
-          <!-- ── Row 2: Asure → AmTrust  S:3 T:3 A:3 C:3 K:2  avg 2.8 ── -->
+          <!-- Asure → AmTrust  S:3 T:3 A:3 C:3 K:2  avg 2.8 → 56% -->
           <tr class="mat-row" onclick="toggleRow('r2')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#27ae60;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">AmTrust</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-3">3</div>
-                  <div class="pb-block pb-3">3</div>
-                  <div class="pb-block pb-3">3</div>
-                  <div class="pb-block pb-3">3</div>
-                  <div class="pb-block pb-2">2</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-amber"><span class="btag-icon">▼</span> K — final mile gap</span></td>
-            <td><div class="eta-cell">Sep '26</div><div class="eta-sub">~4 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:12px"></div><div class="trend-bar trend-up" style="height:16px"></div><div class="trend-bar trend-up" style="height:20px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-orange">2.8</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-3" title="Store: 3/5"></div><div class="pp-seg pb-3" title="Transform: 3/5"></div><div class="pp-seg pb-3" title="Analyze: 3/5"></div><div class="pp-seg pb-3" title="Check: 3/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><span class="eta-cell">Sep '26</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-orange">56%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r2">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r2">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#f59e0b;">TR</div>
-                    <div>
-                      <div class="assignee-name">Taylor R.</div>
-                      <div class="assignee-phase">Working on Kickoff (K) phase</div>
-                      <div class="assignee-eta-text">Est. done Aug 2026</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">Strong relationship — all phases at 3. Final Kickoff automation depends on carrier API access confirmation from AmTrust tech team.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">4 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-amber">▼ K — final mile gap</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#f59e0b;">TR</div><div><div class="assignee-name">Taylor R.</div><div class="assignee-phase">Working on Kickoff (K) phase</div><div class="assignee-eta-text">Est. done Aug 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Strong relationship — all phases at 3. Final Kickoff automation depends on carrier API access confirmation from AmTrust tech team.</textarea></div>
+            </div></td>
           </tr>
 
-          <!-- ── Row 3: Asure → Hartford  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <!-- Asure → Hartford  S:2 T:2 A:1 C:1 K:2  avg 1.6 → 32% -->
           <tr class="mat-row" onclick="toggleRow('r3')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#2c3e50;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">The Hartford</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-2">2</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
-            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:14px"></div><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r3">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r3">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#10b981;">JK</div>
-                    <div>
-                      <div class="assignee-name">Jordan K.</div>
-                      <div class="assignee-phase">Working on Analyze (A) phase</div>
-                      <div class="assignee-eta-text">Est. done Oct 2026</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">Hartford requires specific data field ordering. Check phase dependent on Analyze completion — both need to move together.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">8 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#10b981;">JK</div><div><div class="assignee-name">Jordan K.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Hartford requires specific data field ordering. Check phase dependent on Analyze completion — both need to move together.</textarea></div>
+            </div></td>
           </tr>
 
-          <!-- ── Row 4: QuickBooks → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <!-- QuickBooks → AmTrust  S:2 T:2 A:1 C:1 K:2  avg 1.6 → 32% -->
           <tr class="mat-row" onclick="toggleRow('r4')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#8e44ad;">QB</div><span class="provider-name">QuickBooks Online</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-2">2</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
-            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:15px"></div><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r4">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r4">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#ec4899;">SR</div>
-                    <div>
-                      <div class="assignee-name">Sam R.</div>
-                      <div class="assignee-phase">Working on Check (C) phase</div>
-                      <div class="assignee-eta-text">Est. done Nov 2026</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">QB export format is inconsistent month-to-month. Analyze rules need training data before Check can be reliably automated.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">8 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ec4899;">SR</div><div><div class="assignee-name">Sam R.</div><div class="assignee-phase">Working on Check (C) phase</div><div class="assignee-eta-text">Est. done Nov 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">QB export format is inconsistent month-to-month. Analyze rules need training data before Check can be reliably automated.</textarea></div>
+            </div></td>
           </tr>
 
-          <!-- ── Row 5: Serendipity → AmTrust  S:1 T:0 A:0 C:0 K:1  avg 0.4 ── -->
+          <!-- Serendipity → AmTrust  S:1 T:0 A:0 C:0 K:1  avg 0.4 → 8% -->
           <tr class="mat-row" onclick="toggleRow('r5')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e67e22;">SE</div><span class="provider-name">Serendipity</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-1">1</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-red"><span class="btag-icon">▼</span> T · A · C — no automation</span></td>
-            <td><div class="eta-cell">Jul '27</div><div class="eta-sub">~14 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-flat" style="height:17px"></div><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-1" title="Store: 1/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Analyze: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Kickoff: 1/5"></div></div></td>
+            <td><span class="eta-cell">Jul '27</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-red">8%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r5">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r5">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#64748b;">AL</div>
-                    <div>
-                      <div class="assignee-name">Alex L.</div>
-                      <div class="assignee-phase">Working on Transform (T) phase</div>
-                      <div class="assignee-eta-text">Est. done Mar 2027</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">Non-standard payroll format. Requires custom WOPR template build. Priority: T phase first, then A and C can follow.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">14 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ T · A · C — no automation</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#64748b;">AL</div><div><div class="assignee-name">Alex L.</div><div class="assignee-phase">Working on Transform (T) phase</div><div class="assignee-eta-text">Est. done Mar 2027</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Non-standard payroll format. Requires custom WOPR template build. Priority: T phase first, then A and C can follow.</textarea></div>
+            </div></td>
           </tr>
 
-          <!-- ── Row 6: Self-Reporting → Employers  S:0 T:0 A:0 C:0 K:1  avg 0.2 ── -->
+          <!-- Self-Reporting → Employers  S:0 T:0 A:0 C:0 K:1  avg 0.2 → 4% -->
           <tr class="mat-row" onclick="toggleRow('r6')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#c0392b;">SR</div><span class="provider-name">Self-Reporting</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">Employers</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-1">1</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-red"><span class="btag-icon">▼</span> S · T · A · C — fully manual</span></td>
-            <td><div class="eta-cell">Nov '27</div><div class="eta-sub">~18 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:18px"></div><div class="trend-bar trend-flat" style="height:17px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-red">0.2</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-0" title="Store: 0/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Analyze: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Kickoff: 1/5"></div></div></td>
+            <td><span class="eta-cell">Nov '27</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-red">4%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r6">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r6">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#ef4444;">DW</div>
-                    <div>
-                      <div class="assignee-name">Dana W.</div>
-                      <div class="assignee-phase">Working on Store (S) phase</div>
-                      <div class="assignee-eta-text">Est. done May 2027</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">Fully manual today. Client self-reports directly. First milestone: get data into WOPR intake. Store phase is the priority unlock.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">18 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ S · T · A · C — fully manual</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ef4444;">DW</div><div><div class="assignee-name">Dana W.</div><div class="assignee-phase">Working on Store (S) phase</div><div class="assignee-eta-text">Est. done May 2027</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Fully manual today. Client self-reports directly. First milestone: get data into WOPR intake. Store phase is the priority unlock.</textarea></div>
+            </div></td>
           </tr>
 
-          <!-- ── Row 7: eBacon → ICW  S:1 T:0 A:0 C:0 K:1  avg 0.4 ── -->
+          <!-- eBacon → ICW  S:1 T:0 A:0 C:0 K:1  avg 0.4 → 8% -->
           <tr class="mat-row" onclick="toggleRow('r7')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#16a085;">EB</div><span class="provider-name">eBacon</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏗️</div><span class="provider-name">ICW Group</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-0">0</div>
-                  <div class="pb-block pb-1">1</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-red"><span class="btag-icon">▼</span> T · A · C — no automation</span></td>
-            <td><div class="eta-cell">Jul '27</div><div class="eta-sub">~14 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-flat" style="height:16px"></div><div class="trend-bar trend-flat" style="height:15px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:20px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-red">0.4</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-1" title="Store: 1/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Analyze: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Kickoff: 1/5"></div></div></td>
+            <td><span class="eta-cell">Jul '27</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-red">8%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r7">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r7">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#0891b2;">CP</div>
-                    <div>
-                      <div class="assignee-name">Chris P.</div>
-                      <div class="assignee-phase">Working on Transform (T) phase</div>
-                      <div class="assignee-eta-text">Est. done Feb 2027</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">eBacon is a prevailing wage platform — data structure is complex. ICW has unique submission requirements. T phase template build in progress.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">14 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ T · A · C — no automation</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#0891b2;">CP</div><div><div class="assignee-name">Chris P.</div><div class="assignee-phase">Working on Transform (T) phase</div><div class="assignee-eta-text">Est. done Feb 2027</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">eBacon is a prevailing wage platform — data structure is complex. ICW has unique submission requirements. T phase template build in progress.</textarea></div>
+            </div></td>
           </tr>
 
-          <!-- ── Row 8: Toast → Travelers  S:2 T:2 A:1 C:1 K:2  avg 1.6 ── -->
+          <!-- Toast → Travelers  S:2 T:2 A:1 C:1 K:2  avg 1.6 → 32% -->
           <tr class="mat-row" onclick="toggleRow('r8')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#d35400;">TO</div><span class="provider-name">Toast</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">Travelers</span></div></td>
-            <td>
-              <div class="phase-bar">
-                <div class="pb-labels"><span>S</span><span>T</span><span>A</span><span>C</span><span>K</span></div>
-                <div class="pb-blocks">
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-2">2</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-1">1</div>
-                  <div class="pb-block pb-2">2</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="btag btag-red"><span class="btag-icon">▼</span> A · C blocking Kickoff</span></td>
-            <td><div class="eta-cell">Jan '27</div><div class="eta-sub">~8 months</div></td>
-            <td class="center"><div class="trend-spark"><div class="trend-bar trend-up" style="height:10px"></div><div class="trend-bar trend-up" style="height:14px"></div><div class="trend-bar trend-up" style="height:18px"></div><div class="trend-bar trend-up" style="height:22px"></div></div></td>
-            <td class="center"><div class="big-score"><span class="big-score-num bsn-amber">1.6</span><span class="big-score-denom">/ 5</span></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><span class="eta-cell">Jan '27</span></td>
+            <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r8">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r8">
-            <td colspan="8">
-              <div class="detail-content">
-                <div class="detail-section">
-                  <div class="detail-label">Who's On It</div>
-                  <div class="assignee-wrap">
-                    <div class="assignee-avatar" style="background:#7c3aed;">BN</div>
-                    <div>
-                      <div class="assignee-name">Blake N.</div>
-                      <div class="assignee-phase">Working on Analyze (A) phase</div>
-                      <div class="assignee-eta-text">Est. done Oct 2026</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Notes</div>
-                  <textarea class="notes-area" placeholder="Add relationship notes…">Toast restaurant payroll is high-volume. Travelers template is mapped but Analyze rules need refinement for tip-credit pay types.</textarea>
-                </div>
-                <div class="detail-section">
-                  <div class="detail-label">Time to Build</div>
-                  <div class="detail-stat-num">8 mo</div>
-                  <div class="detail-stat-label">Estimated time to full automation from current state</div>
-                </div>
-              </div>
-            </td>
+            <td colspan="6"><div class="detail-content">
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#7c3aed;">BN</div><div><div class="assignee-name">Blake N.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Toast restaurant payroll is high-volume. Travelers template is mapped but Analyze rules need refinement for tip-credit pay types.</textarea></div>
+            </div></td>
           </tr>
 
         </tbody>
@@ -1159,27 +649,25 @@
 <section id="dashboard" class="section">
   <div class="container">
     <div class="dash-grid fade-up">
-      <!-- Left: KPIs -->
       <div class="dash-card">
         <div class="dash-card-title">Executive Dashboard</div>
         <div class="kpi-row">
           <div class="kpi-item">
-            <div class="kpi-label2">Average STACK Score</div>
-            <div class="kpi-value orange">1.7 <span style="font-size:1rem;font-weight:600;color:var(--text3);">/ 5</span></div>
-            <div class="kpi-delta delta-up">↑ Upgrading Level 0 → 1+ relationships</div>
+            <div class="kpi-label2">Platform Automation Rate</div>
+            <div class="kpi-value orange">34% <span style="font-size:1rem;font-weight:600;color:var(--text3);">avg</span></div>
+            <div class="kpi-delta delta-up">↑ Up from 28% last quarter</div>
           </div>
           <div class="kpi-item">
-            <div class="kpi-label2">Fully Automated (5/5)</div>
+            <div class="kpi-label2">Fully Automated (100%)</div>
             <div class="donut-wrap" style="margin-top:4px;">
               <div class="donut">
                 <svg viewBox="0 0 36 36" width="70" height="70">
                   <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e2e8f0" stroke-width="3"/>
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" stroke-width="3"
-                    stroke-dasharray="22 78" stroke-linecap="round"/>
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="22 78" stroke-linecap="round"/>
                 </svg>
                 <div class="donut-center">22%</div>
               </div>
-              <div class="donut-info">
+              <div>
                 <div class="donut-val">22%</div>
                 <div class="donut-sub">↑ 12% vs last month</div>
               </div>
@@ -1187,60 +675,18 @@
           </div>
         </div>
         <div class="kpi-mini-grid">
-          <div class="kpi-mini">
-            <div class="kpi-mini-label">Active Relationships</div>
-            <div class="kpi-mini-val">51</div>
-            <div class="kpi-mini-delta delta-up">↑ 8%</div>
-          </div>
-          <div class="kpi-mini">
-            <div class="kpi-mini-label">Carriers</div>
-            <div class="kpi-mini-val">14</div>
-            <div class="kpi-mini-delta delta-up">↑ 3%</div>
-          </div>
-          <div class="kpi-mini">
-            <div class="kpi-mini-label">Avg Time-to-Build</div>
-            <div class="kpi-mini-val">9.4<span style="font-size:0.8rem"> mo</span></div>
-            <div class="kpi-mini-delta delta-down">↓ improving</div>
-          </div>
-          <div class="kpi-mini">
-            <div class="kpi-mini-label">Manual Touches Saved</div>
-            <div class="kpi-mini-val">340<span style="font-size:0.8rem">/mo</span></div>
-            <div class="kpi-mini-delta delta-up">↑ 22%</div>
-          </div>
+          <div class="kpi-mini"><div class="kpi-mini-label">Active Relationships</div><div class="kpi-mini-val">51</div><div class="kpi-mini-delta delta-up">↑ 8%</div></div>
+          <div class="kpi-mini"><div class="kpi-mini-label">Carriers</div><div class="kpi-mini-val">14</div><div class="kpi-mini-delta delta-up">↑ 3%</div></div>
+          <div class="kpi-mini"><div class="kpi-mini-label">Avg Time-to-Build</div><div class="kpi-mini-val">9.4<span style="font-size:0.8rem"> mo</span></div><div class="kpi-mini-delta delta-up">↓ improving</div></div>
+          <div class="kpi-mini"><div class="kpi-mini-label">Manual Touches Saved</div><div class="kpi-mini-val">340<span style="font-size:0.8rem">/mo</span></div><div class="kpi-mini-delta delta-up">↑ 22%</div></div>
         </div>
       </div>
-
-      <!-- Right: Why STACK -->
       <div class="why-card">
         <div class="why-title">WHY STACK?</div>
-        <div class="why-item">
-          <div class="why-icon" style="background:rgba(249,115,22,0.1);">👥</div>
-          <div>
-            <div class="why-item-title">Qualify Relationships</div>
-            <div class="why-item-desc">Instantly understand automation potential before onboarding — every carrier and payroll provider has a measurable score.</div>
-          </div>
-        </div>
-        <div class="why-item">
-          <div class="why-icon" style="background:rgba(249,115,22,0.1);">⚙️</div>
-          <div>
-            <div class="why-item-title">Reduce Manual Work</div>
-            <div class="why-item-desc">Identify bottlenecks across relationships and automate what matters most — starting with highest volume, lowest score.</div>
-          </div>
-        </div>
-        <div class="why-item">
-          <div class="why-icon" style="background:rgba(34,197,94,0.1);">📈</div>
-          <div>
-            <div class="why-item-title">Drive Growth</div>
-            <div class="why-item-desc">Increase capacity, improve accuracy, and scale with confidence. More relationships, same team size.</div>
-          </div>
-        </div>
-        <div class="why-item">
-          <div class="why-icon" style="background:rgba(59,130,246,0.1);">🔒</div>
-          <div>
-            <div class="why-item-title">Proprietary Intelligence</div>
-            <div class="why-item-desc">STACK data on every payroll-carrier combination becomes your competitive advantage — no one else has it.</div>
-          </div>
-        </div>
+        <div class="why-item"><div class="why-icon" style="background:rgba(249,115,22,0.1);">👥</div><div><div class="why-item-title">Qualify Relationships</div><div class="why-item-desc">Instantly understand automation potential before onboarding — every carrier and payroll provider has a measurable score.</div></div></div>
+        <div class="why-item"><div class="why-icon" style="background:rgba(249,115,22,0.1);">⚙️</div><div><div class="why-item-title">Reduce Manual Work</div><div class="why-item-desc">Identify bottlenecks across relationships and automate what matters most — starting with highest volume, lowest score.</div></div></div>
+        <div class="why-item"><div class="why-icon" style="background:rgba(34,197,94,0.1);">📈</div><div><div class="why-item-title">Drive Growth</div><div class="why-item-desc">Increase capacity, improve accuracy, and scale with confidence. More relationships, same team size.</div></div></div>
+        <div class="why-item"><div class="why-icon" style="background:rgba(59,130,246,0.1);">🔒</div><div><div class="why-item-title">Proprietary Intelligence</div><div class="why-item-desc">STACK data on every payroll-carrier combination becomes your competitive advantage — no one else has it.</div></div></div>
       </div>
     </div>
   </div>
@@ -1251,75 +697,50 @@
   <div class="footer-banner-inner">
     <div class="footer-banner-left">
       <div class="footer-banner-icon">🧠</div>
-      <div class="footer-banner-text">
+      <div>
         <div class="footer-banner-main">WOPR AI is the intelligence behind every step.</div>
         <div class="footer-banner-sub">Learning. Validating. Improving. Continuously.</div>
       </div>
     </div>
-    <a class="btn-orange" href="mailto:dustale@gmail.com?subject=WOPR Demo Request" style="white-space:nowrap; padding:12px 24px; font-size:0.9rem;">
-      See STACK In Action →
-    </a>
+    <a class="btn-orange" href="mailto:dustale@gmail.com?subject=WOPR Demo Request" style="white-space:nowrap;padding:12px 24px;font-size:0.9rem;">See STACK In Action →</a>
   </div>
 </div>
-
 <footer>
   <div class="footer-inner">
     <div class="footer-copy">© 2026 WOPR — STACK Intelligence. All rights reserved.</div>
-    <div class="footer-links">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="mailto:dustale@gmail.com">Contact</a>
-    </div>
+    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="mailto:dustale@gmail.com">Contact</a></div>
   </div>
 </footer>
 
 <script>
-  // ── STACK pipeline animation ──────────────────────────────────
+  // STACK pipeline animation
   const circles = ['sp-s','sp-t','sp-a','sp-c','sp-k'];
   const activeClasses = ['s-active','t-active','a-active','c-active','k-active'];
   let current = 0;
-
   function animatePipeline() {
-    circles.forEach((id, i) => {
-      const el = document.getElementById(id);
-      el.className = 'sp-circle';
-      if (i < current) el.classList.add(activeClasses[i]);
-    });
-    if (current < circles.length) {
-      document.getElementById(circles[current]).className = 'sp-circle ' + activeClasses[current];
-      current++;
-      setTimeout(animatePipeline, 900);
-    } else {
-      setTimeout(() => { current = 0; animatePipeline(); }, 2500);
-    }
+    circles.forEach((id,i) => { const el=document.getElementById(id); el.className='sp-circle'; if(i<current) el.classList.add(activeClasses[i]); });
+    if(current<circles.length){ document.getElementById(circles[current]).className='sp-circle '+activeClasses[current]; current++; setTimeout(animatePipeline,900); }
+    else { setTimeout(()=>{ current=0; animatePipeline(); },2500); }
   }
   animatePipeline();
 
-  // ── Scroll fade-up ──────────────────────────────────────────
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  // Scroll fade-up
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  },{threshold:0.1});
+  document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-  // ── Legend toggle ──────────────────────────────────────────
-  function toggleLegend() {
-    const wrap = document.getElementById('legend-wrap');
-    wrap.classList.toggle('open');
-  }
+  // Legend toggle
+  function toggleLegend() { document.getElementById('legend-wrap').classList.toggle('open'); }
 
-  // ── Row expand/collapse ────────────────────────────────────
+  // Row expand/collapse
   function toggleRow(id) {
-    const detailRow = document.getElementById('detail-' + id);
-    const mainRow = detailRow.previousElementSibling;
-    const isOpen = detailRow.classList.contains('open');
-    // Close all
-    document.querySelectorAll('.detail-row.open').forEach(r => r.classList.remove('open'));
-    document.querySelectorAll('.mat-row.open').forEach(r => r.classList.remove('open'));
-    // Open this one if it was closed
-    if (!isOpen) {
-      detailRow.classList.add('open');
-      mainRow.classList.add('open');
-    }
+    const detail = document.getElementById('detail-'+id);
+    const main = detail.previousElementSibling;
+    const wasOpen = detail.classList.contains('open');
+    document.querySelectorAll('.detail-row.open').forEach(r=>r.classList.remove('open'));
+    document.querySelectorAll('.mat-row.open').forEach(r=>r.classList.remove('open'));
+    if(!wasOpen){ detail.classList.add('open'); main.classList.add('open'); }
   }
 </script>
 </body>
