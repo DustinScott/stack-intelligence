@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STACK Intelligence — Automate Every Payroll-to-Carrier Relationship</title>
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0a0f1e;
+      --navy-mid:   #0f172a;
+      --navy-card:  #111827;
+      --navy-border:#1e293b;
+      --orange:     #f97316;
+      --orange-light:#fb923c;
+      --orange-dim: rgba(249,115,22,0.15);
+      --blue-accent:#3b82f6;
+      --blue-dim:   rgba(59,130,246,0.12);
+      --text:       #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-dim:   #64748b;
+      --green:      #22c55e;
+      --green-dim:  rgba(34,197,94,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── TYPOGRAPHY ───────────────────────────────────────────────────── */
+    h1 { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+    h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.02em; }
+    h3 { font-size: 1.2rem; font-weight: 600; }
+    p  { color: var(--text-muted); font-size: 1.05rem; }
+
+    /* ─── UTILITY ──────────────────────────────────────────────────────── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .section    { padding: 120px 0; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      background: var(--orange-dim);
+      border: 1px solid rgba(249,115,22,0.3);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .text-orange { color: var(--orange); }
+    .text-blue   { color: var(--blue-accent); }
+
+    /* ─── NAV ──────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 1.2rem; color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo-badge {
+      background: linear-gradient(135deg, var(--orange), #ef4444);
+      color: white; font-size: 0.7rem; font-weight: 800;
+      padding: 3px 8px; border-radius: 6px; letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--orange); color: white; border: none; cursor: pointer;
+      padding: 8px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+      transition: background 0.2s, transform 0.1s;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--orange-light); transform: translateY(-1px); }
+
+    /* ─── HERO ─────────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 64px;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(249,115,22,0.1) 0%, transparent 50%),
+        var(--navy);
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(30,41,59,0.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30,41,59,0.5) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .hero-left { }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; font-weight: 600; color: var(--orange);
+      background: var(--orange-dim); border: 1px solid rgba(249,115,22,0.3);
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 28px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .hero-eyebrow-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--orange);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+    .hero-title { margin-bottom: 24px; }
+    .hero-title span { color: var(--orange); }
+    .hero-desc { font-size: 1.15rem; color: var(--text-muted); max-width: 480px; margin-bottom: 40px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--orange); color: white; border: none; cursor: pointer;
+      padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 1rem;
+      transition: all 0.2s; text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(249,115,22,0.4); }
+    .btn-ghost {
+      background: transparent; color: var(--text); border: 1px solid var(--navy-border);
+      cursor: pointer; padding: 14px 28px; border-radius: 10px; font-weight: 600; font-size: 1rem;
+      transition: all 0.2s; text-decoration: none; display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--text-dim); background: rgba(255,255,255,0.04); }
+
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 48px;
+      padding-top: 32px; border-top: 1px solid var(--navy-border);
+    }
+    .hero-stat-num { font-size: 1.8rem; font-weight: 800; color: var(--text); }
+    .hero-stat-num span { color: var(--orange); }
+    .hero-stat-label { font-size: 0.8rem; color: var(--text-dim); margin-top: 2px; }
+
+    /* ─── FLOW DIAGRAM ─────────────────────────────────────────────────── */
+    .flow-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 20px; padding: 32px;
+      position: relative; overflow: hidden;
+    }
+    .flow-card::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,115,22,0.08), transparent);
+    }
+    .flow-title {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 28px;
+    }
+    .flow-nodes {
+      display: flex; align-items: center; gap: 0; margin-bottom: 32px;
+    }
+    .flow-node {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      flex: 1; position: relative;
+    }
+    .flow-node-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      border: 2px solid var(--navy-border);
+      background: var(--navy-mid);
+      transition: all 0.3s;
+      position: relative; z-index: 1;
+    }
+    .flow-node-label {
+      font-size: 0.72rem; font-weight: 600; color: var(--text-dim);
+      text-align: center; letter-spacing: 0.03em;
+    }
+    .flow-arrow {
+      flex: 0 0 auto; color: var(--navy-border); font-size: 1rem;
+      margin: 0 2px; padding-bottom: 24px;
+      transition: color 0.3s;
+    }
+    /* animated pipeline */
+    .flow-pipeline {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .pipeline-step {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; border-radius: 10px;
+      border: 1px solid var(--navy-border);
+      background: var(--navy-mid);
+      transition: all 0.4s ease;
+      opacity: 0.4;
+    }
+    .pipeline-step.active {
+      border-color: rgba(249,115,22,0.5);
+      background: rgba(249,115,22,0.06);
+      opacity: 1;
+    }
+    .pipeline-step.done {
+      border-color: rgba(34,197,94,0.4);
+      background: rgba(34,197,94,0.06);
+      opacity: 1;
+    }
+    .step-indicator {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+      background: var(--navy-border); transition: background 0.4s;
+    }
+    .pipeline-step.active .step-indicator { background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+    .pipeline-step.done .step-indicator  { background: var(--green); }
+    .step-letter {
+      font-size: 0.7rem; font-weight: 800; color: var(--text-dim);
+      width: 16px; letter-spacing: 0.05em; transition: color 0.3s;
+    }
+    .pipeline-step.active .step-letter { color: var(--orange); }
+    .pipeline-step.done .step-letter   { color: var(--green); }
+    .step-name {
+      font-size: 0.8rem; font-weight: 600; color: var(--text-muted); flex: 1;
+    }
+    .step-status {
+      font-size: 0.7rem; color: var(--text-dim); transition: color 0.3s;
+    }
+    .pipeline-step.active .step-status { color: var(--orange); }
+    .pipeline-step.done  .step-status  { color: var(--green); }
+
+    /* ─── SECTION 2: STACK MODEL ───────────────────────────────────────── */
+    #stack {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--navy-border);
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .stack-header { text-align: center; margin-bottom: 64px; }
+    .stack-header p { max-width: 560px; margin: 16px auto 0; }
+    .stack-timeline {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+      position: relative;
+    }
+    .stack-timeline::before {
+      content: '';
+      position: absolute; top: 42px; left: 10%; right: 10%; height: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--blue-accent));
+      z-index: 0;
+    }
+    .stack-item {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 24px 16px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative; z-index: 1;
+    }
+    .stack-item:hover, .stack-item.open {
+      background: var(--navy-card);
+      border-color: var(--navy-border);
+      transform: translateY(-4px);
+    }
+    .stack-letter-wrap {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 900; margin-bottom: 16px;
+      background: var(--navy); border: 2px solid var(--navy-border);
+      transition: all 0.3s;
+    }
+    .stack-item:nth-child(1) .stack-letter-wrap { color: #f97316; }
+    .stack-item:nth-child(2) .stack-letter-wrap { color: #fb923c; }
+    .stack-item:nth-child(3) .stack-letter-wrap { color: #3b82f6; }
+    .stack-item:nth-child(4) .stack-letter-wrap { color: #60a5fa; }
+    .stack-item:nth-child(5) .stack-letter-wrap { color: #22c55e; }
+    .stack-item:hover .stack-letter-wrap, .stack-item.open .stack-letter-wrap {
+      border-color: currentColor;
+      box-shadow: 0 0 20px rgba(249,115,22,0.2);
+    }
+    .stack-word { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .stack-sub  { font-size: 0.75rem; color: var(--text-dim); text-align: center; }
+    .stack-detail {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+      font-size: 0.82rem; color: var(--text-muted); text-align: center;
+      line-height: 1.5;
+    }
+    .stack-item.open .stack-detail { max-height: 200px; margin-top: 12px; }
+
+    /* ─── SECTION 3: MATURITY SCORES ──────────────────────────────────── */
+    #maturity { }
+    .maturity-header { text-align: center; margin-bottom: 64px; }
+    .maturity-header p { max-width: 560px; margin: 16px auto 0; }
+    .maturity-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+      margin-bottom: 48px;
+    }
+    .maturity-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px; padding: 28px;
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .maturity-card:hover {
+      border-color: rgba(249,115,22,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .maturity-card-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .maturity-relationship {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .maturity-from {
+      font-weight: 700; font-size: 0.95rem; color: var(--text);
+    }
+    .maturity-arrow-small { color: var(--text-dim); font-size: 0.75rem; }
+    .maturity-to { font-size: 0.85rem; color: var(--text-muted); }
+    .score-badge {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 8px 16px; border-radius: 12px;
+      font-size: 1.6rem; font-weight: 900; line-height: 1;
+    }
+    .score-badge .score-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+    .score-high   { background: rgba(34,197,94,0.1);  color: var(--green);        border: 1px solid rgba(34,197,94,0.3); }
+    .score-medium { background: rgba(249,115,22,0.1); color: var(--orange);       border: 1px solid rgba(249,115,22,0.3); }
+    .score-low    { background: rgba(239,68,68,0.1);  color: #f87171;             border: 1px solid rgba(239,68,68,0.3); }
+    .score-bar-wrap { margin-bottom: 16px; }
+    .score-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--text-dim); margin-bottom: 6px;
+    }
+    .score-bar-bg {
+      height: 6px; background: var(--navy-border); border-radius: 100px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%; border-radius: 100px;
+      transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+    }
+    .score-bar-fill.green  { background: linear-gradient(90deg, var(--green), #86efac); }
+    .score-bar-fill.orange { background: linear-gradient(90deg, var(--orange), var(--orange-light)); }
+    .score-bar-fill.red    { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .maturity-tags {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px;
+    }
+    .tag {
+      font-size: 0.68rem; font-weight: 600; padding: 3px 10px;
+      border-radius: 100px; letter-spacing: 0.04em;
+    }
+    .tag-green  { background: rgba(34,197,94,0.1);  color: var(--green);  border: 1px solid rgba(34,197,94,0.2); }
+    .tag-orange { background: rgba(249,115,22,0.1); color: var(--orange); border: 1px solid rgba(249,115,22,0.2); }
+    .tag-blue   { background: rgba(59,130,246,0.1); color: var(--blue-accent); border: 1px solid rgba(59,130,246,0.2); }
+    .tag-red    { background: rgba(239,68,68,0.1);  color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+    /* maturity use-cases */
+    .maturity-uses {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .use-card {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: 14px; padding: 24px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .use-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .use-icon-orange { background: var(--orange-dim); }
+    .use-icon-blue   { background: var(--blue-dim); }
+    .use-icon-green  { background: var(--green-dim); }
+    .use-title  { font-size: 0.9rem; font-weight: 700; }
+    .use-desc   { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ─── SECTION 4: RELATIONSHIP INTELLIGENCE ─────────────────────────── */
+    #intelligence {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--navy-border);
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .intel-header { text-align: center; margin-bottom: 64px; }
+    .intel-header p { max-width: 560px; margin: 16px auto 0; }
+    .intel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .intel-panel {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: 20px; padding: 32px;
+    }
+    .intel-panel-title {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 24px;
+    }
+    .rank-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 0; border-bottom: 1px solid var(--navy-border);
+    }
+    .rank-row:last-child { border-bottom: none; }
+    .rank-num { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); width: 20px; }
+    .rank-name { flex: 1; font-size: 0.9rem; font-weight: 600; }
+    .rank-bar-wrap { width: 120px; }
+    .rank-bar-bg { height: 5px; background: var(--navy-border); border-radius: 100px; overflow: hidden; }
+    .rank-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--orange), var(--orange-light)); }
+    .rank-score { font-size: 0.8rem; font-weight: 700; color: var(--orange); width: 30px; text-align: right; }
+
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .metric-item {
+      background: var(--navy-mid); border: 1px solid var(--navy-border);
+      border-radius: 12px; padding: 16px;
+    }
+    .metric-label { font-size: 0.72rem; color: var(--text-dim); margin-bottom: 6px; }
+    .metric-val   { font-size: 1.3rem; font-weight: 800; }
+    .metric-delta { font-size: 0.72rem; margin-top: 4px; }
+    .delta-up   { color: var(--green); }
+    .delta-down { color: #f87171; }
+
+    /* ─── SECTION 5: EXECUTIVE DASHBOARD ──────────────────────────────── */
+    #dashboard { }
+    .dash-header { text-align: center; margin-bottom: 64px; }
+    .dash-header p { max-width: 560px; margin: 16px auto 0; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 40px; }
+    .kpi-card {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: 16px; padding: 24px 20px;
+      transition: all 0.3s;
+    }
+    .kpi-card:hover {
+      border-color: rgba(249,115,22,0.3);
+      transform: translateY(-3px);
+    }
+    .kpi-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; margin-bottom: 16px;
+    }
+    .kpi-val {
+      font-size: 1.9rem; font-weight: 900; letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+    .kpi-label { font-size: 0.72rem; color: var(--text-dim); font-weight: 600; line-height: 1.3; }
+    .kpi-trend { font-size: 0.72rem; margin-top: 10px; }
+
+    .dash-bottom { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+    .dash-chart-card {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: 20px; padding: 32px;
+    }
+    .chart-title {
+      font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 24px;
+    }
+    .mini-chart { display: flex; align-items: flex-end; gap: 8px; height: 80px; }
+    .bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+    .bar {
+      width: 100%; border-radius: 5px 5px 0 0;
+      background: linear-gradient(180deg, var(--orange), rgba(249,115,22,0.3));
+      transition: height 1s cubic-bezier(0.16,1,0.3,1);
+    }
+    .bar-month { font-size: 0.65rem; color: var(--text-dim); }
+    .activity-feed {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: 20px; padding: 32px;
+    }
+    .activity-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 20px; }
+    .activity-item {
+      display: flex; gap: 12px; padding: 12px 0;
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+    }
+    .activity-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+    .activity-text strong { color: var(--text); font-weight: 600; }
+    .activity-time { font-size: 0.7rem; color: var(--text-dim); margin-top: 3px; }
+
+    /* ─── CTA SECTION ──────────────────────────────────────────────────── */
+    #cta {
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(249,115,22,0.08) 0%, transparent 70%),
+        var(--navy-mid);
+      border-top: 1px solid var(--navy-border);
+      text-align: center;
+    }
+    .cta-inner { max-width: 680px; margin: 0 auto; }
+    .cta-inner h2 { margin-bottom: 20px; }
+    .cta-inner p  { margin-bottom: 40px; }
+    .cta-actions  { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid var(--navy-border);
+      padding: 40px 0;
+    }
+    .footer-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); }
+    .footer-right { display: flex; gap: 24px; }
+    .footer-right a { font-size: 0.8rem; color: var(--text-dim); text-decoration: none; }
+    .footer-right a:hover { color: var(--text-muted); }
+
+    /* ─── SCROLL ANIMATIONS ────────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .hero-content { grid-template-columns: 1fr; gap: 48px; }
+      .maturity-grid { grid-template-columns: 1fr 1fr; }
+      .maturity-uses { grid-template-columns: 1fr 1fr; }
+      .intel-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+      .dash-bottom { grid-template-columns: 1fr; }
+      .stack-timeline { grid-template-columns: 1fr; }
+      .stack-timeline::before { display: none; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .maturity-grid { grid-template-columns: 1fr; }
+      .maturity-uses { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-stats { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─────────────────────────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <span class="nav-logo-badge">STACK</span>
+        Intelligence
+      </a>
+      <ul class="nav-links">
+        <li><a href="#stack">The Model</a></li>
+        <li><a href="#maturity">Maturity</a></li>
+        <li><a href="#intelligence">Intelligence</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+      </ul>
+      <a class="nav-cta" href="#cta">Request Demo</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-dot"></span>
+            Payroll × Workers' Comp Automation
+          </div>
+          <h1 class="hero-title">
+            Measure.<br>
+            Automate.<br>
+            <span>Scale.</span>
+          </h1>
+          <p class="hero-desc">
+            STACK transforms payroll reporting relationships into measurable automation workflows — giving carriers, brokers, and agencies the operational intelligence to eliminate manual dependency.
+          </p>
+          <div class="hero-actions">
+            <a class="btn-primary" href="#cta">Request a Demo</a>
+            <a class="btn-ghost" href="#stack">See How It Works</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-num">4.8<span>×</span></div>
+              <div class="hero-stat-label">Faster submission cycles</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">92<span>%</span></div>
+              <div class="hero-stat-label">Manual touchpoint reduction</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">5<span>k+</span></div>
+              <div class="hero-stat-label">Relationships scored</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Animated Flow Card -->
+        <div class="hero-right">
+          <div class="flow-card">
+            <div class="flow-title">Live Workflow · ADP → AmTrust</div>
+            <div class="flow-nodes">
+              <div class="flow-node">
+                <div class="flow-node-icon" style="font-size:1.5rem;">📄</div>
+                <div class="flow-node-label">Payroll<br>Report</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="flow-node-icon" style="background: rgba(249,115,22,0.08); border-color: rgba(249,115,22,0.4);">
+                  <span style="font-weight:900; color: var(--orange); font-size:1rem;">W</span>
+                </div>
+                <div class="flow-node-label">WOPR<br>Engine</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="flow-node-icon">🏢</div>
+                <div class="flow-node-label">Carrier<br>Portal</div>
+              </div>
+            </div>
+
+            <div class="flow-pipeline" id="pipeline">
+              <div class="pipeline-step" data-step="0">
+                <div class="step-indicator"></div>
+                <div class="step-letter">S</div>
+                <div class="step-name">Store — Ingest &amp; archive payroll data</div>
+                <div class="step-status">Pending</div>
+              </div>
+              <div class="pipeline-step" data-step="1">
+                <div class="step-indicator"></div>
+                <div class="step-letter">T</div>
+                <div class="step-name">Transform — Map fields to carrier format</div>
+                <div class="step-status">Pending</div>
+              </div>
+              <div class="pipeline-step" data-step="2">
+                <div class="step-indicator"></div>
+                <div class="step-letter">A</div>
+                <div class="step-name">Analyze — Score automation readiness</div>
+                <div class="step-status">Pending</div>
+              </div>
+              <div class="pipeline-step" data-step="3">
+                <div class="step-indicator"></div>
+                <div class="step-letter">C</div>
+                <div class="step-name">Check — Validate &amp; flag exceptions</div>
+                <div class="step-status">Pending</div>
+              </div>
+              <div class="pipeline-step" data-step="4">
+                <div class="step-indicator"></div>
+                <div class="step-letter">K</div>
+                <div class="step-name">Kickoff — Submit to carrier autonomously</div>
+                <div class="step-status">Pending</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 2: STACK MODEL ───────────────────────────────────────── -->
+  <section id="stack" class="section">
+    <div class="container">
+      <div class="stack-header fade-up">
+        <div class="section-label">The STACK Model</div>
+        <h2>Five Phases. One Autonomous Pipeline.</h2>
+        <p>Every payroll-to-carrier relationship runs through the same five-phase lifecycle. STACK measures, manages, and accelerates each one.</p>
+      </div>
+      <div class="stack-timeline">
+        <div class="stack-item fade-up" onclick="toggleStack(this)">
+          <div class="stack-letter-wrap">S</div>
+          <div class="stack-word">Store</div>
+          <div class="stack-sub">Data Ingestion</div>
+          <div class="stack-detail">
+            Securely ingest payroll reports from every provider format — PDF, CSV, API, EDI. Raw data is normalized, versioned, and archived with full audit trails for compliance.
+          </div>
+        </div>
+        <div class="stack-item fade-up" onclick="toggleStack(this)" style="transition-delay:0.1s">
+          <div class="stack-letter-wrap">T</div>
+          <div class="stack-word">Transform</div>
+          <div class="stack-sub">Field Mapping</div>
+          <div class="stack-detail">
+            Intelligent field-level mapping translates every payroll format into each carrier's required submission structure. Templates are learned and reused automatically.
+          </div>
+        </div>
+        <div class="stack-item fade-up" onclick="toggleStack(this)" style="transition-delay:0.2s">
+          <div class="stack-letter-wrap">A</div>
+          <div class="stack-word">Analyze</div>
+          <div class="stack-sub">Intelligence Layer</div>
+          <div class="stack-detail">
+            STACK Score is computed per relationship — measuring automation readiness, exception frequency, and manual dependency. This score powers every downstream decision.
+          </div>
+        </div>
+        <div class="stack-item fade-up" onclick="toggleStack(this)" style="transition-delay:0.3s">
+          <div class="stack-letter-wrap">C</div>
+          <div class="stack-word">Check</div>
+          <div class="stack-sub">Validation Engine</div>
+          <div class="stack-detail">
+            Pre-submission validation catches mismatches, missing fields, and policy violations before they reach the carrier. Smart rules learn from every exception to prevent future errors.
+          </div>
+        </div>
+        <div class="stack-item fade-up" onclick="toggleStack(this)" style="transition-delay:0.4s">
+          <div class="stack-letter-wrap">K</div>
+          <div class="stack-word">Kickoff</div>
+          <div class="stack-sub">Autonomous Submit</div>
+          <div class="stack-detail">
+            Fully validated payroll data is submitted to the carrier — autonomously, on schedule, with confirmation receipts logged. Human intervention only when the system flags it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 3: AUTOMATION MATURITY ──────────────────────────────── -->
+  <section id="maturity" class="section">
+    <div class="container">
+      <div class="maturity-header fade-up">
+        <div class="section-label">Automation Maturity</div>
+        <h2>Every Relationship Has a Score.</h2>
+        <p>The STACK Score (0–5) quantifies automation readiness for every payroll-to-carrier pair — turning operational complexity into measurable intelligence.</p>
+      </div>
+
+      <div class="maturity-grid">
+        <!-- Card 1 -->
+        <div class="maturity-card fade-up">
+          <div class="maturity-card-header">
+            <div class="maturity-relationship">
+              <div class="maturity-from">ADP</div>
+              <div class="maturity-arrow-small">↓ to</div>
+              <div class="maturity-to">AmTrust Financial</div>
+            </div>
+            <div class="score-badge score-high">
+              4.2
+              <span class="score-label">STACK Score</span>
+            </div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Automation Readiness</span><span>84%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill green" style="width:84%"></div></div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Exception Rate</span><span>4%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill green" style="width:4%"></div></div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Manual Dependency</span><span>12%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill green" style="width:12%"></div></div>
+          </div>
+          <div class="maturity-tags">
+            <span class="tag tag-green">High Automation</span>
+            <span class="tag tag-blue">API Connected</span>
+            <span class="tag tag-green">Audit Ready</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="maturity-card fade-up" style="transition-delay:0.1s">
+          <div class="maturity-card-header">
+            <div class="maturity-relationship">
+              <div class="maturity-from">QuickBooks</div>
+              <div class="maturity-arrow-small">↓ to</div>
+              <div class="maturity-to">Travelers Insurance</div>
+            </div>
+            <div class="score-badge score-low">
+              1.8
+              <span class="score-label">STACK Score</span>
+            </div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Automation Readiness</span><span>36%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill red" style="width:36%"></div></div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Exception Rate</span><span>38%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill red" style="width:38%"></div></div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Manual Dependency</span><span>71%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill red" style="width:71%"></div></div>
+          </div>
+          <div class="maturity-tags">
+            <span class="tag tag-red">Needs Remediation</span>
+            <span class="tag tag-orange">PDF Only</span>
+            <span class="tag tag-red">High Touch</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="maturity-card fade-up" style="transition-delay:0.2s">
+          <div class="maturity-card-header">
+            <div class="maturity-relationship">
+              <div class="maturity-from">Paychex</div>
+              <div class="maturity-arrow-small">↓ to</div>
+              <div class="maturity-to">Omaha National</div>
+            </div>
+            <div class="score-badge score-medium">
+              3.7
+              <span class="score-label">STACK Score</span>
+            </div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Automation Readiness</span><span>74%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill orange" style="width:74%"></div></div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Exception Rate</span><span>14%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill orange" style="width:14%"></div></div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-label"><span>Manual Dependency</span><span>29%</span></div>
+            <div class="score-bar-bg"><div class="score-bar-fill orange" style="width:29%"></div></div>
+          </div>
+          <div class="maturity-tags">
+            <span class="tag tag-orange">Advancing</span>
+            <span class="tag tag-blue">EDI Enabled</span>
+            <span class="tag tag-orange">Training Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Use-case cards -->
+      <div class="maturity-uses">
+        <div class="use-card fade-up">
+          <div class="use-icon use-icon-orange">🎯</div>
+          <div class="use-title">Carrier Qualification</div>
+          <div class="use-desc">Instantly identify which relationships are ready for autonomous submission and which require remediation before onboarding.</div>
+        </div>
+        <div class="use-card fade-up" style="transition-delay:0.1s">
+          <div class="use-icon use-icon-blue">📈</div>
+          <div class="use-title">Automation Forecasting</div>
+          <div class="use-desc">Project STACK Score trajectories over time — predict when a relationship reaches full automation readiness with confidence.</div>
+        </div>
+        <div class="use-card fade-up" style="transition-delay:0.2s">
+          <div class="use-icon use-icon-green">🏷️</div>
+          <div class="use-title">Product Targeting</div>
+          <div class="use-desc">Score-stratified segmentation lets carriers and brokers prioritize high-value automation targets and right-size manual workflows.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 4: RELATIONSHIP INTELLIGENCE ─────────────────────────── -->
+  <section id="intelligence" class="section">
+    <div class="container">
+      <div class="intel-header fade-up">
+        <div class="section-label">Relationship Intelligence</div>
+        <h2>Proprietary Operational Rankings.</h2>
+        <p>STACK builds a continuously updated intelligence layer that ranks every entity in your network — carriers, payroll providers, brokers, agencies — by automation performance.</p>
+      </div>
+
+      <div class="intel-grid">
+        <!-- Carrier Rankings -->
+        <div class="intel-panel fade-up">
+          <div class="intel-panel-title">Carrier Automation Readiness Ranking</div>
+          <div class="rank-row">
+            <div class="rank-num">#1</div>
+            <div class="rank-name">AmTrust Financial</div>
+            <div class="rank-bar-wrap"><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:91%"></div></div></div>
+            <div class="rank-score">4.6</div>
+          </div>
+          <div class="rank-row">
+            <div class="rank-num">#2</div>
+            <div class="rank-name">Employers Holdings</div>
+            <div class="rank-bar-wrap"><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:82%"></div></div></div>
+            <div class="rank-score">4.1</div>
+          </div>
+          <div class="rank-row">
+            <div class="rank-num">#3</div>
+            <div class="rank-name">ICW Group</div>
+            <div class="rank-bar-wrap"><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:74%"></div></div></div>
+            <div class="rank-score">3.7</div>
+          </div>
+          <div class="rank-row">
+            <div class="rank-num">#4</div>
+            <div class="rank-name">Omaha National</div>
+            <div class="rank-bar-wrap"><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:72%"></div></div></div>
+            <div class="rank-score">3.6</div>
+          </div>
+          <div class="rank-row">
+            <div class="rank-num">#5</div>
+            <div class="rank-name">Travelers Insurance</div>
+            <div class="rank-bar-wrap"><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:38%"></div></div></div>
+            <div class="rank-score">1.9</div>
+          </div>
+
+          <div style="margin-top:28px; padding-top:24px; border-top: 1px solid var(--navy-border);">
+            <div class="intel-panel-title">Ranked By</div>
+            <div class="metric-grid">
+              <div class="metric-item">
+                <div class="metric-label">Onboarding Speed</div>
+                <div class="metric-val" style="color: var(--green);">Fast</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Exception Frequency</div>
+                <div class="metric-val" style="color: var(--orange);">Low</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">API Coverage</div>
+                <div class="metric-val" style="color: var(--blue-accent);">High</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Manual Dependency</div>
+                <div class="metric-val" style="color: var(--green);">Min.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intelligence Metrics -->
+        <div class="intel-panel fade-up" style="transition-delay:0.15s">
+          <div class="intel-panel-title">Platform Intelligence Metrics</div>
+          <div class="metric-grid" style="margin-bottom:24px">
+            <div class="metric-item">
+              <div class="metric-label">Payroll Providers Indexed</div>
+              <div class="metric-val" style="color: var(--text);">214</div>
+              <div class="metric-delta delta-up">↑ 12 this quarter</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Active Carriers</div>
+              <div class="metric-val" style="color: var(--text);">67</div>
+              <div class="metric-delta delta-up">↑ 8 this quarter</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Relationships Scored</div>
+              <div class="metric-val" style="color: var(--orange);">5.2k</div>
+              <div class="metric-delta delta-up">↑ 340 new</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Avg. STACK Score</div>
+              <div class="metric-val" style="color: var(--blue-accent);">3.1</div>
+              <div class="metric-delta delta-up">↑ 0.4 YoY</div>
+            </div>
+          </div>
+
+          <div style="padding-top:24px; border-top: 1px solid var(--navy-border);">
+            <div class="intel-panel-title" style="margin-bottom:16px">Dimensional Rankings Available</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="color:var(--orange); font-size:0.8rem;">●</span>
+                <span style="font-size:0.85rem; color:var(--text-muted);">Carriers — by API readiness &amp; exception rate</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="color:var(--blue-accent); font-size:0.8rem;">●</span>
+                <span style="font-size:0.85rem; color:var(--text-muted);">Payroll Providers — by format coverage &amp; accuracy</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="color:var(--green); font-size:0.8rem;">●</span>
+                <span style="font-size:0.85rem; color:var(--text-muted);">Brokers — by submission volume &amp; STACK Score avg</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="color:#a78bfa; font-size:0.8rem;">●</span>
+                <span style="font-size:0.85rem; color:var(--text-muted);">Agencies — by onboarding complexity &amp; automation ROI</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="color:#fb7185; font-size:0.8rem;">●</span>
+                <span style="font-size:0.85rem; color:var(--text-muted);">Workflows — by autonomous submission rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 5: EXECUTIVE DASHBOARD ──────────────────────────────── -->
+  <section id="dashboard" class="section">
+    <div class="container">
+      <div class="dash-header fade-up">
+        <div class="section-label">Executive Dashboard</div>
+        <h2>Leadership Sees the ROI.</h2>
+        <p>A single pane of glass showing measurable automation progress, operational efficiency gains, and the quantified value of every STACK relationship.</p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card fade-up">
+          <div class="kpi-icon" style="background:var(--orange-dim);">📊</div>
+          <div class="kpi-val" style="color:var(--orange);">3.1</div>
+          <div class="kpi-label">Average STACK Score</div>
+          <div class="kpi-trend delta-up">↑ +0.4 vs last year</div>
+        </div>
+        <div class="kpi-card fade-up" style="transition-delay:0.08s">
+          <div class="kpi-icon" style="background:var(--blue-dim);">🏢</div>
+          <div class="kpi-val" style="color:var(--blue-accent);">78%</div>
+          <div class="kpi-label">Carrier Automation Readiness</div>
+          <div class="kpi-trend delta-up">↑ +11% this quarter</div>
+        </div>
+        <div class="kpi-card fade-up" style="transition-delay:0.16s">
+          <div class="kpi-icon" style="background:var(--green-dim);">👤</div>
+          <div class="kpi-val" style="color:var(--green);">62%</div>
+          <div class="kpi-label">Human Dependency Reduction</div>
+          <div class="kpi-trend delta-up">↑ +18% since onboarding</div>
+        </div>
+        <div class="kpi-card fade-up" style="transition-delay:0.24s">
+          <div class="kpi-icon" style="background:rgba(167,139,250,0.1);">🤖</div>
+          <div class="kpi-val" style="color:#a78bfa;">84%</div>
+          <div class="kpi-label">Autonomous Submission Rate</div>
+          <div class="kpi-trend delta-up">↑ +7% MoM</div>
+        </div>
+        <div class="kpi-card fade-up" style="transition-delay:0.32s">
+          <div class="kpi-icon" style="background:rgba(251,113,133,0.1);">🔗</div>
+          <div class="kpi-val" style="color:#fb7185;">96%</div>
+          <div class="kpi-label">Payroll Compatibility Score</div>
+          <div class="kpi-trend delta-up">↑ Near-universal coverage</div>
+        </div>
+      </div>
+
+      <div class="dash-bottom fade-up">
+        <!-- Trend Chart -->
+        <div class="dash-chart-card">
+          <div class="chart-title">AUTONOMOUS SUBMISSION RATE · LAST 8 MONTHS</div>
+          <div class="mini-chart" id="miniChart">
+            <div class="bar-wrap"><div class="bar" style="height:38px"></div><div class="bar-month">Oct</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:44px"></div><div class="bar-month">Nov</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:51px"></div><div class="bar-month">Dec</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:55px"></div><div class="bar-month">Jan</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:58px"></div><div class="bar-month">Feb</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:64px"></div><div class="bar-month">Mar</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:70px"></div><div class="bar-month">Apr</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:80px"></div><div class="bar-month">May</div></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:24px; padding-top:20px; border-top:1px solid var(--navy-border);">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-dim);">Starting baseline</div>
+              <div style="font-size:1.1rem; font-weight:700; color:var(--text);">48%</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:0.75rem; color:var(--text-dim);">Net improvement</div>
+              <div style="font-size:1.1rem; font-weight:700; color:var(--green);">+36 pts</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:0.75rem; color:var(--text-dim);">Current rate</div>
+              <div style="font-size:1.1rem; font-weight:700; color:var(--orange);">84%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="activity-feed">
+          <div class="activity-title">LIVE ACTIVITY FEED</div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--green)"></div>
+            <div>
+              <div class="activity-text"><strong>ADP → AmTrust</strong> — Payroll submitted autonomously. 0 exceptions.</div>
+              <div class="activity-time">2 min ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--orange)"></div>
+            <div>
+              <div class="activity-text"><strong>QuickBooks → Travelers</strong> — 3 field mapping exceptions flagged for review.</div>
+              <div class="activity-time">14 min ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--blue-accent)"></div>
+            <div>
+              <div class="activity-text"><strong>Paychex → Omaha National</strong> — STACK Score improved to <strong>3.7</strong> (+0.2).</div>
+              <div class="activity-time">1 hr ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--green)"></div>
+            <div>
+              <div class="activity-text"><strong>Gusto → ICW Group</strong> — New relationship onboarded. Initial score: <strong>2.4</strong>.</div>
+              <div class="activity-time">3 hr ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ──────────────────────────────────────────────────────────── -->
+  <section id="cta" class="section">
+    <div class="container">
+      <div class="cta-inner fade-up">
+        <div class="section-label">Get Started</div>
+        <h2>Ready to Measure Your Automation Readiness?</h2>
+        <p>Join carriers, brokers, and agencies already using STACK Intelligence to eliminate manual dependency and scale autonomous payroll reporting.</p>
+        <div class="cta-actions">
+          <a class="btn-primary" href="mailto:dustale@gmail.com?subject=STACK Intelligence Demo Request">Request a Demo</a>
+          <a class="btn-ghost" href="#stack">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ────────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 STACK Intelligence. All rights reserved.</div>
+      <div class="footer-right">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="mailto:dustale@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPTS ───────────────────────────────────────────────────────── -->
+  <script>
+    // ── Animated Pipeline ──────────────────────────────────────────────────
+    const steps = document.querySelectorAll('.pipeline-step');
+    const statuses = ['Running…', 'Running…', 'Running…', 'Running…', 'Submitting…'];
+    const doneLabel = 'Complete ✓';
+    let current = -1;
+
+    function runPipeline() {
+      // reset
+      steps.forEach(s => { s.className = 'pipeline-step'; s.querySelector('.step-status').textContent = 'Pending'; });
+      current = -1;
+      advance();
+    }
+
+    function advance() {
+      if (current >= 0) {
+        steps[current].classList.remove('active');
+        steps[current].classList.add('done');
+        steps[current].querySelector('.step-status').textContent = doneLabel;
+      }
+      current++;
+      if (current < steps.length) {
+        steps[current].classList.add('active');
+        steps[current].querySelector('.step-status').textContent = statuses[current];
+        const delay = current === steps.length - 1 ? 1800 : 1200;
+        setTimeout(advance, delay);
+      } else {
+        // all done — wait and restart
+        setTimeout(runPipeline, 3000);
+      }
+    }
+
+    runPipeline();
+
+    // ── STACK item toggle ─────────────────────────────────────────────────
+    function toggleStack(el) {
+      const wasOpen = el.classList.contains('open');
+      document.querySelectorAll('.stack-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) el.classList.add('open');
+    }
+
+    // ── Scroll fade-up ────────────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
