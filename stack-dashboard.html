@@ -340,12 +340,11 @@
 <div class="main">
 
   <!-- ── GOOGLE SHEET CONNECTION BANNER ── -->
-  <div class="sheet-banner">
+  <div class="sheet-banner" id="sheet-banner">
     <div class="sheet-banner-text">
-      <strong>Data Source:</strong> Currently using local data. Connect your Google Sheet to enable live developer updates.
-      Set <code style="background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:4px;">SHEET_ID</code> in the script below.
+      <strong>Live Data:</strong> Connected to Google Sheet — team updates reflect within 5 minutes automatically.
     </div>
-    <a class="sheet-banner-btn" href="https://docs.google.com/spreadsheets" target="_blank">Open Google Sheets →</a>
+    <a class="sheet-banner-btn" href="https://docs.google.com/spreadsheets/d/1he0Ch_BzIbA4iMwWehlP7TZp4LeYSGEyQMmfyUKYZnk/edit" target="_blank">Open Sheet →</a>
   </div>
 
   <!-- ── KPI BAR ── -->
@@ -470,8 +469,8 @@
   // CONFIGURATION — Replace with your Google Sheet ID
   // Sheet must be published: File → Share → Publish to web
   // ─────────────────────────────────────────────────────────────
-  const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE';
-  const USE_SHEET = false; // Set to true once Sheet ID is configured
+  const SHEET_ID = '1he0Ch_BzIbA4iMwWehlP7TZp4LeYSGEyQMmfyUKYZnk';
+  const USE_SHEET = true; // Live — connected to Google Sheet
 
   // ─────────────────────────────────────────────────────────────
   // DATA — Local fallback (replace with Sheet API when ready)
@@ -793,13 +792,14 @@
       rows.forEach(row => {
         const cols = row.c;
         if (!cols[0]?.v) return; // skip empty rows
-        const productId   = cols[1]?.v;
-        const phaseLetter = cols[2]?.v;
-        const pct         = parseInt(cols[5]?.v) || 0;
-        const assignee    = cols[6]?.v || 'Dev Team';
-        const status      = cols[7]?.v || 'in_progress';
-        const eta         = cols[8]?.v || 'TBD';
-        const notes       = cols[9]?.v || '';
+        // Column order: product_id | phase | phase_label | pct | assignee | status | eta | notes | updated_at
+        const productId   = String(cols[0]?.v || '').toLowerCase().trim();
+        const phaseLetter = String(cols[1]?.v || '').toUpperCase().trim();
+        const pct         = parseInt(cols[3]?.v) || 0;
+        const assignee    = cols[4]?.v || 'Dev Team';
+        const status      = cols[5]?.v || 'in_progress';
+        const eta         = cols[6]?.v || 'TBD';
+        const notes       = cols[7]?.v || '';
 
         const product = PRODUCTS.find(p => p.id === productId);
         if (!product) return;
@@ -816,8 +816,20 @@
       renderCards();
       renderPlatformStats();
       updateTimestamp();
+      // Show success state in banner
+      const banner = document.getElementById('sheet-banner');
+      if (banner) {
+        banner.style.borderColor = 'rgba(34,197,94,0.3)';
+        banner.style.background  = 'rgba(34,197,94,0.06)';
+      }
     } catch(e) {
       console.warn('Sheet load failed, using local data:', e);
+      // Show fallback warning in banner
+      const banner = document.getElementById('sheet-banner');
+      if (banner) {
+        banner.querySelector('.sheet-banner-text').innerHTML =
+          '<strong>⚠ Sheet Unreachable:</strong> Showing cached data. Make sure the sheet is shared publicly (View access).';
+      }
     }
   }
 
