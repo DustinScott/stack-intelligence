@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STACK Intelligence — Internal Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #0d1b2a;
+      --navy2:   #1a2e45;
+      --navy3:   #243b55;
+      --border:  rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text:    #f1f5f9;
+      --text2:   #94a3b8;
+      --text3:   #64748b;
+      --orange:  #f97316;
+      --blue:    #3b82f6;
+      --green:   #22c55e;
+      --amber:   #f59e0b;
+      --red:     #ef4444;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif; background: var(--navy); color: var(--text); min-height: 100vh; }
+
+    /* ── HEADER ── */
+    .header {
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; position: sticky; top: 0; z-index: 100;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-logo { font-size: 1.2rem; font-weight: 900; color: #fff; letter-spacing: -0.02em; }
+    .header-logo span { color: var(--orange); }
+    .header-tag {
+      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text3);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border2);
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .last-updated { font-size: 0.72rem; color: var(--text3); }
+    .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+    .header-btn {
+      background: var(--orange); color: #fff; border: none; cursor: pointer;
+      padding: 7px 16px; border-radius: 7px; font-size: 0.8rem; font-weight: 700;
+      transition: all 0.2s; text-decoration: none;
+    }
+    .header-btn:hover { background: #fb923c; transform: translateY(-1px); }
+
+    /* ── MAIN WRAP ── */
+    .main { max-width: 1280px; margin: 0 auto; padding: 32px; }
+
+    /* ── PLATFORM KPI BAR ── */
+    .kpi-bar {
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border2); border-radius: 14px; overflow: hidden;
+      margin-bottom: 36px;
+    }
+    .kpi-item {
+      background: var(--navy2); padding: 20px 24px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .kpi-label { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); }
+    .kpi-value { font-size: 2rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .kpi-value.orange { color: var(--orange); }
+    .kpi-value.green  { color: var(--green); }
+    .kpi-value.blue   { color: var(--blue); }
+    .kpi-value.amber  { color: var(--amber); }
+    .kpi-sub { font-size: 0.7rem; color: var(--text3); margin-top: 2px; }
+    .delta-up   { color: var(--green); font-weight: 700; }
+    .delta-down { color: var(--red); font-weight: 700; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .section-title { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); }
+    .section-hint { font-size: 0.72rem; color: var(--text3); }
+
+    /* ── PRODUCT CARDS (Level 1) ── */
+    .products-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+      margin-bottom: 36px;
+    }
+    .product-card {
+      background: var(--navy2); border: 1px solid var(--border2);
+      border-radius: 16px; padding: 28px;
+      cursor: pointer; transition: all 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .product-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .product-card.atlas::before   { background: var(--amber); }
+    .product-card.relay::before   { background: var(--green); }
+    .product-card.compconnect::before { background: var(--blue); }
+    .product-card.wopr::before    { background: var(--orange); }
+    .product-card:hover { background: var(--navy3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .product-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+    .card-name-wrap { }
+    .card-product-tag {
+      font-size: 0.58rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 100px; margin-bottom: 6px; display: inline-block;
+    }
+    .tag-atlas       { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+    .tag-relay       { background: rgba(34,197,94,0.12);  color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+    .tag-compconnect { background: rgba(59,130,246,0.12); color: var(--blue);  border: 1px solid rgba(59,130,246,0.3); }
+    .tag-wopr        { background: rgba(249,115,22,0.12); color: var(--orange);border: 1px solid rgba(249,115,22,0.3); }
+    .card-name { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .card-tagline { font-size: 0.75rem; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+
+    .card-pct-wrap { text-align: right; }
+    .card-pct { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.05em; line-height: 1; }
+    .card-pct.atlas-c   { color: var(--amber); }
+    .card-pct.relay-c   { color: var(--green); }
+    .card-pct.compconn-c{ color: var(--blue); }
+    .card-pct.wopr-c    { color: var(--orange); }
+    .card-pct-label { font-size: 0.62rem; color: var(--text3); margin-top: 2px; }
+
+    /* Phase pill in card */
+    .card-pill-wrap { margin-bottom: 16px; }
+    .card-pill-header { display: flex; gap: 4px; margin-bottom: 4px; }
+    .card-pill-header span { flex: 1; text-align: center; font-size: 0.58rem; font-weight: 900; color: var(--text3); letter-spacing: 0.05em; }
+    .card-pill { display: flex; height: 10px; gap: 3px; }
+    .cp-seg { flex: 1; border-radius: 3px; transition: opacity 0.2s; }
+    .product-card:hover .cp-seg { opacity: 0.85; }
+
+    /* Phase color classes (dark theme) */
+    .pp-0 { background: #334155; }
+    .pp-1 { background: #ef4444; }
+    .pp-2 { background: #f59e0b; }
+    .pp-3 { background: #fb923c; }
+    .pp-4 { background: #4ade80; }
+    .pp-5 { background: #16a34a; }
+
+    .card-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .card-status {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.68rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .status-live      { background: rgba(34,197,94,0.1);  color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
+    .status-building  { background: rgba(249,115,22,0.1); color: var(--orange);border: 1px solid rgba(249,115,22,0.25); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .status-live .status-dot    { background: var(--green); animation: pulse 2s infinite; }
+    .status-building .status-dot{ background: var(--orange); animation: pulse 1.5s infinite; }
+    .card-arrow { font-size: 0.8rem; color: var(--text3); opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
+
+    /* ── LEVEL 2 — PRODUCT DETAIL PANEL ── */
+    .detail-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 200; display: none; align-items: flex-start; justify-content: flex-end;
+    }
+    .detail-overlay.open { display: flex; }
+    .detail-panel {
+      width: 600px; height: 100vh; background: var(--navy2);
+      border-left: 1px solid var(--border2);
+      display: flex; flex-direction: column;
+      animation: slideIn 0.28s ease;
+      overflow-y: auto;
+    }
+    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    .detail-header {
+      padding: 24px 28px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; justify-content: space-between;
+      position: sticky; top: 0; background: var(--navy2); z-index: 10;
+    }
+    .detail-close {
+      background: rgba(255,255,255,0.07); border: 1px solid var(--border2);
+      color: var(--text2); cursor: pointer; width: 32px; height: 32px;
+      border-radius: 8px; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .detail-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .detail-product-name { font-size: 1.4rem; font-weight: 900; color: #fff; letter-spacing: -0.03em; margin-bottom: 4px; }
+    .detail-product-desc { font-size: 0.8rem; color: var(--text2); }
+    .detail-pct-big { font-size: 2.8rem; font-weight: 900; letter-spacing: -0.05em; line-height: 1; }
+    .detail-pct-label { font-size: 0.62rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    .detail-body { padding: 24px 28px; flex: 1; }
+
+    /* Phase rows */
+    .phase-row {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 20px; margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+    .phase-row:hover { background: rgba(255,255,255,0.05); }
+    .phase-row-top { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .phase-letter-badge {
+      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 900; color: #fff;
+    }
+    .phase-row-info { flex: 1; }
+    .phase-row-name { font-size: 0.9rem; font-weight: 700; color: #fff; }
+    .phase-row-desc { font-size: 0.72rem; color: var(--text2); margin-top: 1px; }
+    .phase-row-pct { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .phase-bar-track {
+      height: 8px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .phase-bar-fill { height: 100%; border-radius: 100px; transition: width 0.6s ease; }
+    .phase-row-meta { display: flex; align-items: center; justify-content: space-between; }
+    .phase-assignee { font-size: 0.72rem; color: var(--text2); display: flex; align-items: center; gap: 6px; }
+    .phase-assignee-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.55rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .phase-eta { font-size: 0.7rem; color: var(--text3); }
+    .phase-notes { font-size: 0.72rem; color: var(--text3); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.5; }
+    .phase-status-tag {
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 100px;
+    }
+    .pst-complete  { background: rgba(34,197,94,0.12);  color: var(--green); border: 1px solid rgba(34,197,94,0.25); }
+    .pst-progress  { background: rgba(249,115,22,0.12); color: var(--orange);border: 1px solid rgba(249,115,22,0.25); }
+    .pst-blocked   { background: rgba(239,68,68,0.12);  color: var(--red);   border: 1px solid rgba(239,68,68,0.25); }
+    .pst-planning  { background: rgba(100,116,139,0.12);color: var(--text3); border: 1px solid rgba(100,116,139,0.25); }
+
+    .update-btn {
+      background: rgba(255,255,255,0.07); border: 1px solid var(--border2);
+      color: var(--text2); cursor: pointer; padding: 5px 12px; border-radius: 7px;
+      font-size: 0.72rem; font-weight: 700; transition: all 0.2s; margin-top: 10px;
+    }
+    .update-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+    /* ── LEVEL 3 — UPDATE MODAL ── */
+    .update-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      z-index: 300; display: none; align-items: center; justify-content: center;
+    }
+    .update-modal.open { display: flex; }
+    .update-box {
+      background: var(--navy2); border: 1px solid var(--border2);
+      border-radius: 18px; padding: 32px; width: 480px;
+      animation: popIn 0.22s ease;
+    }
+    @keyframes popIn { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .update-box-title { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .update-box-sub   { font-size: 0.78rem; color: var(--text2); margin-bottom: 24px; }
+    .form-label { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; display: block; }
+    .form-group { margin-bottom: 18px; }
+    .pct-slider-wrap { display: flex; align-items: center; gap: 14px; }
+    .pct-slider {
+      flex: 1; -webkit-appearance: none; height: 6px; border-radius: 3px;
+      background: rgba(255,255,255,0.1); outline: none; cursor: pointer;
+    }
+    .pct-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--orange); cursor: pointer; border: 2px solid var(--navy);
+      box-shadow: 0 2px 8px rgba(249,115,22,0.4);
+    }
+    .pct-display { font-size: 1.4rem; font-weight: 900; color: var(--orange); width: 60px; text-align: right; }
+    .form-input, .form-textarea {
+      width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 9px; padding: 10px 14px;
+      font-size: 0.85rem; outline: none; font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--orange); }
+    .form-textarea { resize: none; height: 80px; line-height: 1.5; }
+    .form-select {
+      width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 9px; padding: 10px 14px;
+      font-size: 0.85rem; outline: none; font-family: inherit; cursor: pointer;
+    }
+    .form-select option { background: var(--navy2); }
+    .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+    .btn-save {
+      flex: 1; background: var(--orange); color: #fff; border: none; cursor: pointer;
+      padding: 12px; border-radius: 9px; font-size: 0.9rem; font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-save:hover { background: #fb923c; }
+    .btn-cancel {
+      background: rgba(255,255,255,0.07); color: var(--text2); border: 1px solid var(--border2);
+      padding: 12px 20px; border-radius: 9px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-cancel:hover { background: rgba(255,255,255,0.12); }
+
+    /* save confirmation */
+    .save-confirm {
+      display: none; text-align: center; padding: 16px;
+      font-size: 0.85rem; color: var(--green); font-weight: 700;
+      background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 9px; margin-top: 12px;
+    }
+
+    /* ── PLATFORM PROGRESS BAR ── */
+    .platform-section { margin-bottom: 36px; }
+    .platform-bar-track { height: 12px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; margin-top: 12px; position: relative; }
+    .platform-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--orange), var(--amber)); transition: width 0.8s ease; }
+    .platform-bar-label { position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 0.65rem; font-weight: 800; color: var(--orange); padding-right: 8px; }
+
+    /* ── SHEET CONNECTION BANNER ── */
+    .sheet-banner {
+      background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.25);
+      border-radius: 12px; padding: 14px 18px; margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .sheet-banner-text { font-size: 0.8rem; color: #93c5fd; }
+    .sheet-banner-text strong { color: #fff; }
+    .sheet-banner-btn {
+      background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.4);
+      color: #93c5fd; padding: 6px 14px; border-radius: 7px; font-size: 0.75rem;
+      font-weight: 700; cursor: pointer; white-space: nowrap; text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .kpi-bar { grid-template-columns: 1fr 1fr; }
+      .detail-panel { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">WOPR <span>STACK</span></div>
+    <div class="header-tag">Internal Development Dashboard</div>
+  </div>
+  <div class="header-right">
+    <div class="pulse-dot"></div>
+    <div class="last-updated">Last updated: <span id="last-updated-time">loading...</span></div>
+    <a class="header-btn" href="index.html">← Main Site</a>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- ── GOOGLE SHEET CONNECTION BANNER ── -->
+  <div class="sheet-banner">
+    <div class="sheet-banner-text">
+      <strong>Data Source:</strong> Currently using local data. Connect your Google Sheet to enable live developer updates.
+      Set <code style="background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:4px;">SHEET_ID</code> in the script below.
+    </div>
+    <a class="sheet-banner-btn" href="https://docs.google.com/spreadsheets" target="_blank">Open Google Sheets →</a>
+  </div>
+
+  <!-- ── KPI BAR ── -->
+  <div class="kpi-bar">
+    <div class="kpi-item">
+      <div class="kpi-label">Platform Automation</div>
+      <div class="kpi-value orange" id="platform-pct">—</div>
+      <div class="kpi-sub"><span class="delta-up">↑ Up from 58% last quarter</span></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">Products Live</div>
+      <div class="kpi-value green">3 <span style="font-size:1rem;font-weight:600;color:var(--text3);">/ 4</span></div>
+      <div class="kpi-sub">ATLAS · Relay · CompConnect</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">Active Dev Product</div>
+      <div class="kpi-value amber">WOPR</div>
+      <div class="kpi-sub"><span class="delta-up">↑ 6% this sprint</span></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">Team Updates Today</div>
+      <div class="kpi-value blue" id="updates-today">0</div>
+      <div class="kpi-sub">Phase progress logs</div>
+    </div>
+  </div>
+
+  <!-- ── PLATFORM OVERALL BAR ── -->
+  <div class="platform-section">
+    <div class="section-header">
+      <div class="section-title">Overall Platform Progress</div>
+      <div class="section-hint" id="platform-hint">Avg across all 4 products · 20 STACK phases</div>
+    </div>
+    <div class="platform-bar-track">
+      <div class="platform-bar-fill" id="platform-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- ── PRODUCT CARDS (Level 1) ── -->
+  <div class="section-header">
+    <div class="section-title">Products</div>
+    <div class="section-hint">Click any card to see phase breakdown</div>
+  </div>
+  <div class="products-grid" id="products-grid">
+    <!-- Rendered by JS -->
+  </div>
+
+</div>
+
+<!-- ── LEVEL 2: DETAIL PANEL ── -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <div class="detail-header">
+      <div>
+        <div class="detail-product-name" id="detail-name"></div>
+        <div class="detail-product-desc" id="detail-desc"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <button class="detail-close" onclick="closeDetailPanel()">✕</button>
+        <div>
+          <div class="detail-pct-big" id="detail-pct"></div>
+          <div class="detail-pct-label">automated</div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-body" id="detail-body">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ── LEVEL 3: UPDATE MODAL ── -->
+<div class="update-modal" id="update-modal">
+  <div class="update-box">
+    <div class="update-box-title" id="modal-title">Update Phase Progress</div>
+    <div class="update-box-sub" id="modal-sub">Log your latest progress for this phase</div>
+
+    <div class="form-group">
+      <label class="form-label">Completion Percentage</label>
+      <div class="pct-slider-wrap">
+        <input type="range" class="pct-slider" id="pct-slider" min="0" max="100" value="50" oninput="updatePctDisplay(this.value)">
+        <div class="pct-display" id="pct-display">50%</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="modal-status">
+        <option value="planning">Planning</option>
+        <option value="in_progress" selected>In Progress</option>
+        <option value="blocked">Blocked</option>
+        <option value="complete">Complete</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your Name</label>
+      <input type="text" class="form-input" id="modal-assignee" placeholder="e.g. Marcus L.">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ETA</label>
+      <input type="text" class="form-input" id="modal-eta" placeholder="e.g. Aug 2026 or Done">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Progress Note</label>
+      <textarea class="form-textarea" id="modal-notes" placeholder="What did you complete? What's next? Any blockers?"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveUpdate()">Save Progress →</button>
+    </div>
+    <div class="save-confirm" id="save-confirm">
+      ✓ Progress saved! Dashboard will update shortly.
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────────────────────
+  // CONFIGURATION — Replace with your Google Sheet ID
+  // Sheet must be published: File → Share → Publish to web
+  // ─────────────────────────────────────────────────────────────
+  const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE';
+  const USE_SHEET = false; // Set to true once Sheet ID is configured
+
+  // ─────────────────────────────────────────────────────────────
+  // DATA — Local fallback (replace with Sheet API when ready)
+  // Developers: update pct_complete and notes here until
+  // Google Sheet is connected
+  // ─────────────────────────────────────────────────────────────
+  const PRODUCTS = [
+    {
+      id: 'atlas',
+      name: 'PayComp ATLAS',
+      tagline: 'Automated Tracking & Live Analytics System',
+      color: '#f59e0b',
+      cssClass: 'atlas',
+      tagClass: 'tag-atlas',
+      pctClass: 'atlas-c',
+      status: 'live',
+      phases: [
+        { letter:'S', name:'Store',     desc:'Data source connections & real-time feeds',        pct:92, assignee:'Dev Team',  assignee_color:'#f59e0b', status:'complete',  eta:'Done',      notes:'All PayComp data sources connected. Real-time feeds active.' },
+        { letter:'T', name:'Transform', desc:'Cross-platform data normalization & formatting',   pct:88, assignee:'Dev Team',  assignee_color:'#f59e0b', status:'complete',  eta:'Done',      notes:'Normalization layer working across Relay + CompConnect data.' },
+        { letter:'A', name:'Analyze',   desc:'Analytics engine, reporting intelligence',         pct:82, assignee:'Dev Team',  assignee_color:'#f59e0b', status:'in_progress', eta:'Jul 2026', notes:'Core analytics live. Advanced cross-platform reports in progress.' },
+        { letter:'C', name:'Check',     desc:'Role-based access, data validation, permissions',  pct:88, assignee:'Dev Team',  assignee_color:'#f59e0b', status:'complete',  eta:'Done',      notes:'Role-based access complete. Validation rules deployed.' },
+        { letter:'K', name:'Kickoff',   desc:'Dashboard delivery, export reports, alerts',       pct:90, assignee:'Dev Team',  assignee_color:'#f59e0b', status:'complete',  eta:'Done',      notes:'Dashboard live. Export and alert system operational.' },
+      ]
+    },
+    {
+      id: 'relay',
+      name: 'PayComp Relay',
+      tagline: 'ACH Premium Fund Transfer Program',
+      color: '#22c55e',
+      cssClass: 'relay',
+      tagClass: 'tag-relay',
+      pctClass: 'relay-c',
+      status: 'live',
+      phases: [
+        { letter:'S', name:'Store',     desc:'ACH authorization capture & client banking setup', pct:85, assignee:'Dev Team',  assignee_color:'#22c55e', status:'complete',  eta:'Done',      notes:'NACHA-compliant auth capture complete. FDIC trust account active.' },
+        { letter:'T', name:'Transform', desc:'Payroll run → ACH transaction parameters',         pct:78, assignee:'Dev Team',  assignee_color:'#22c55e', status:'complete',  eta:'Done',      notes:'Payroll trigger to ACH transformation working for all frequencies.' },
+        { letter:'A', name:'Analyze',   desc:'Reconciliation, amount validation, timing logic',  pct:70, assignee:'Dev Team',  assignee_color:'#22c55e', status:'in_progress', eta:'Jul 2026', notes:'Core reconciliation live. Edge cases for partial payments in progress.' },
+        { letter:'C', name:'Check',     desc:'NSF handling, return item management, validation', pct:72, assignee:'Dev Team',  assignee_color:'#22c55e', status:'in_progress', eta:'Aug 2026', notes:'NSF handling live via Dwolla. Return item automation 70% complete.' },
+        { letter:'K', name:'Kickoff',   desc:'Carrier remittance execution & confirmation',      pct:75, assignee:'Dev Team',  assignee_color:'#22c55e', status:'in_progress', eta:'Aug 2026', notes:'Live ACH transfers confirmed. Reconciliation reports automated.' },
+      ]
+    },
+    {
+      id: 'compconnect',
+      name: 'CompConnect',
+      tagline: 'Workers\' Comp Referral & Binding Program',
+      color: '#3b82f6',
+      cssClass: 'compconnect',
+      tagClass: 'tag-compconnect',
+      pctClass: 'compconn-c',
+      status: 'live',
+      phases: [
+        { letter:'S', name:'Store',     desc:'Referral capture, client data intake',             pct:80, assignee:'Dev Team',  assignee_color:'#3b82f6', status:'complete',  eta:'Done',      notes:'Referral flow complete. Partner intake form live.' },
+        { letter:'T', name:'Transform', desc:'Client data → carrier quote request format',       pct:72, assignee:'Dev Team',  assignee_color:'#3b82f6', status:'in_progress', eta:'Jul 2026', notes:'Quote formatting working for 140+ of 160+ carriers.' },
+        { letter:'A', name:'Analyze',   desc:'Carrier comparison, pricing, coverage analysis',   pct:65, assignee:'Dev Team',  assignee_color:'#3b82f6', status:'in_progress', eta:'Aug 2026', notes:'Carrier ranking algorithm live. Premium comparison 65% automated.' },
+        { letter:'C', name:'Check',     desc:'Eligibility validation, licensing, compliance',    pct:68, assignee:'Dev Team',  assignee_color:'#3b82f6', status:'in_progress', eta:'Sep 2026', notes:'State eligibility checks automated. TPG licensing layer complete.' },
+        { letter:'K', name:'Kickoff',   desc:'Policy binding, payroll integration trigger',      pct:65, assignee:'Dev Team',  assignee_color:'#3b82f6', status:'in_progress', eta:'Oct 2026', notes:'Binding working for major carriers. Payroll premium sync in progress.' },
+      ]
+    },
+    {
+      id: 'wopr',
+      name: 'WOPR',
+      tagline: 'Payroll Reporting Automation Engine',
+      color: '#f97316',
+      cssClass: 'wopr',
+      tagClass: 'tag-wopr',
+      pctClass: 'wopr-c',
+      status: 'building',
+      phases: [
+        { letter:'S', name:'Store',     desc:'Payroll data intake — PDF, CSV, XLS, ZIP',         pct:65, assignee:'Marcus L.', assignee_color:'#6366f1', status:'in_progress', eta:'Jul 2026', notes:'PDF and CSV intake working. XLS and ZIP formats in progress.' },
+        { letter:'T', name:'Transform', desc:'Carrier-specific format conversion & templates',   pct:45, assignee:'Taylor R.', assignee_color:'#f59e0b', status:'in_progress', eta:'Aug 2026', notes:'Templates built for 6 of 14 carriers. AmTrust and Hartford complete.' },
+        { letter:'A', name:'Analyze',   desc:'AI-powered error detection & anomaly scoring',     pct:20, assignee:'Jordan K.', assignee_color:'#10b981', status:'in_progress', eta:'Sep 2026', notes:'WOPR AI model in early training. Basic validation rules live.' },
+        { letter:'C', name:'Check',     desc:'Compliance validation against carrier SOPs',       pct:15, assignee:'Sam R.',    assignee_color:'#ec4899', status:'in_progress', eta:'Oct 2026', notes:'SOP rule engine being built. 3 carrier rulesets complete.' },
+        { letter:'K', name:'Kickoff',   desc:'Electronic carrier submission & confirmation',     pct:25, assignee:'Chris P.',  assignee_color:'#0891b2', status:'in_progress', eta:'Nov 2026', notes:'AmTrust and Hartford submission live. 12 carriers remaining.' },
+      ]
+    }
+  ];
+
+  // State
+  let activeProduct = null;
+  let activePhaseIndex = null;
+  let updatesCount = 0;
+
+  // ─── CALCULATE PERCENTAGES ───────────────────────────────────
+  function productPct(product) {
+    const avg = product.phases.reduce((s,p) => s + p.pct, 0) / product.phases.length;
+    return Math.round(avg);
+  }
+
+  function platformPct() {
+    const avg = PRODUCTS.reduce((s,p) => s + productPct(p), 0) / PRODUCTS.length;
+    return Math.round(avg);
+  }
+
+  // ─── PHASE COLOR ─────────────────────────────────────────────
+  function phaseColor(pct) {
+    if (pct >= 80) return '#16a34a';
+    if (pct >= 60) return '#4ade80';
+    if (pct >= 40) return '#fb923c';
+    if (pct >= 20) return '#f59e0b';
+    if (pct >= 1)  return '#ef4444';
+    return '#334155';
+  }
+
+  function pillClass(pct) {
+    if (pct >= 80) return 'pp-5';
+    if (pct >= 60) return 'pp-4';
+    if (pct >= 40) return 'pp-3';
+    if (pct >= 20) return 'pp-2';
+    if (pct >= 1)  return 'pp-1';
+    return 'pp-0';
+  }
+
+  function statusTag(status) {
+    const map = {
+      complete:    ['pst-complete', 'Complete'],
+      in_progress: ['pst-progress', 'In Progress'],
+      blocked:     ['pst-blocked',  'Blocked'],
+      planning:    ['pst-planning', 'Planning'],
+    };
+    const [cls, label] = map[status] || ['pst-planning', 'Planning'];
+    return `<span class="phase-status-tag ${cls}">${label}</span>`;
+  }
+
+  // ─── RENDER LEVEL 1: PRODUCT CARDS ───────────────────────────
+  function renderCards() {
+    const grid = document.getElementById('products-grid');
+    grid.innerHTML = PRODUCTS.map(p => {
+      const pct = productPct(p);
+      const pills = p.phases.map(ph =>
+        `<div class="cp-seg ${pillClass(ph.pct)}" title="${ph.name}: ${ph.pct}%"></div>`
+      ).join('');
+      return `
+        <div class="product-card ${p.cssClass}" onclick="openDetail('${p.id}')">
+          <div class="card-top">
+            <div class="card-name-wrap">
+              <div class="card-product-tag ${p.tagClass}">${p.status === 'live' ? '● Live' : '⚙ Building'}</div>
+              <div class="card-name">${p.name}</div>
+              <div class="card-tagline">${p.tagline}</div>
+            </div>
+            <div class="card-pct-wrap">
+              <div class="card-pct ${p.pctClass}">${pct}%</div>
+              <div class="card-pct-label">automated</div>
+            </div>
+          </div>
+          <div class="card-pill-wrap">
+            <div class="card-pill-header">
+              <span>S</span><span>T</span><span>A</span><span>C</span><span>K</span>
+            </div>
+            <div class="card-pill">${pills}</div>
+          </div>
+          <div class="card-bottom">
+            <span class="card-status ${p.status === 'live' ? 'status-live' : 'status-building'}">
+              <span class="status-dot"></span>
+              ${p.status === 'live' ? 'Live' : 'In Development'}
+            </span>
+            <span class="card-arrow">View Details →</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ─── RENDER LEVEL 2: DETAIL PANEL ────────────────────────────
+  function openDetail(productId) {
+    const p = PRODUCTS.find(x => x.id === productId);
+    if (!p) return;
+    activeProduct = p;
+    const pct = productPct(p);
+
+    document.getElementById('detail-name').textContent = p.name;
+    document.getElementById('detail-desc').textContent = p.tagline;
+    document.getElementById('detail-pct').textContent = pct + '%';
+    document.getElementById('detail-pct').style.color = p.color;
+
+    document.getElementById('detail-body').innerHTML = p.phases.map((ph, i) => {
+      const initials = ph.assignee.split(' ').map(w => w[0]).join('').substring(0,2);
+      return `
+        <div class="phase-row">
+          <div class="phase-row-top">
+            <div class="phase-letter-badge" style="background:${p.color}22;border:1px solid ${p.color}44;color:${p.color};">
+              ${ph.letter}
+            </div>
+            <div class="phase-row-info">
+              <div class="phase-row-name">${ph.name}</div>
+              <div class="phase-row-desc">${ph.desc}</div>
+            </div>
+            <div class="phase-row-pct" style="color:${phaseColor(ph.pct)}">${ph.pct}%</div>
+          </div>
+          <div class="phase-bar-track">
+            <div class="phase-bar-fill" style="width:${ph.pct}%;background:${phaseColor(ph.pct)};"></div>
+          </div>
+          <div class="phase-row-meta">
+            <div class="phase-assignee">
+              <div class="phase-assignee-dot" style="background:${ph.assignee_color}">${initials}</div>
+              ${ph.assignee}
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              ${statusTag(ph.status)}
+              <div class="phase-eta">ETA: ${ph.eta}</div>
+            </div>
+          </div>
+          ${ph.notes ? `<div class="phase-notes">📝 ${ph.notes}</div>` : ''}
+          <button class="update-btn" onclick="openUpdateModal('${productId}', ${i})">
+            + Update Progress
+          </button>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('detail-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDetail(e) {
+    if (e.target === document.getElementById('detail-overlay')) closeDetailPanel();
+  }
+
+  function closeDetailPanel() {
+    document.getElementById('detail-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+    activeProduct = null;
+  }
+
+  // ─── LEVEL 3: UPDATE MODAL ───────────────────────────────────
+  function openUpdateModal(productId, phaseIndex) {
+    const p = PRODUCTS.find(x => x.id === productId);
+    const ph = p.phases[phaseIndex];
+    activePhaseIndex = phaseIndex;
+
+    document.getElementById('modal-title').textContent = `Update: ${p.name} — ${ph.name} Phase`;
+    document.getElementById('modal-sub').textContent = ph.desc;
+    document.getElementById('pct-slider').value = ph.pct;
+    document.getElementById('pct-display').textContent = ph.pct + '%';
+    document.getElementById('modal-assignee').value = ph.assignee === 'Dev Team' ? '' : ph.assignee;
+    document.getElementById('modal-eta').value = ph.eta === 'Done' ? 'Done' : ph.eta;
+    document.getElementById('modal-notes').value = '';
+    document.getElementById('modal-status').value = ph.status;
+    document.getElementById('save-confirm').style.display = 'none';
+
+    document.getElementById('update-modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('update-modal').classList.remove('open');
+    activePhaseIndex = null;
+  }
+
+  function updatePctDisplay(val) {
+    document.getElementById('pct-display').textContent = val + '%';
+  }
+
+  function saveUpdate() {
+    if (activeProduct === null || activePhaseIndex === null) return;
+
+    const newPct    = parseInt(document.getElementById('pct-slider').value);
+    const newStatus = document.getElementById('modal-status').value;
+    const assignee  = document.getElementById('modal-assignee').value.trim();
+    const eta       = document.getElementById('modal-eta').value.trim();
+    const notes     = document.getElementById('modal-notes').value.trim();
+    const now       = new Date().toLocaleString();
+
+    // Update local data
+    const phase = activeProduct.phases[activePhaseIndex];
+    phase.pct = newPct;
+    phase.status = newStatus;
+    if (assignee) phase.assignee = assignee;
+    if (eta) phase.eta = eta;
+    if (notes) phase.notes = notes;
+
+    // Re-render everything
+    renderCards();
+    renderPlatformStats();
+    openDetail(activeProduct.id); // refresh detail panel
+
+    // Update counter
+    updatesCount++;
+    document.getElementById('updates-today').textContent = updatesCount;
+
+    // Show confirmation
+    document.getElementById('save-confirm').style.display = 'block';
+    document.getElementById('save-confirm').textContent =
+      `✓ ${activeProduct.name} · ${phase.name} updated to ${newPct}% · ${now}`;
+
+    // Auto-close after 2s
+    setTimeout(() => {
+      closeModal();
+    }, 2000);
+
+    // TODO: When Google Sheet is connected, also write to sheet here:
+    // writeToSheet(activeProduct.id, phase.letter, newPct, assignee, notes, newStatus);
+  }
+
+  // ─── PLATFORM STATS ──────────────────────────────────────────
+  function renderPlatformStats() {
+    const pct = platformPct();
+    document.getElementById('platform-pct').textContent = pct + '%';
+    document.getElementById('platform-bar').style.width = pct + '%';
+    document.getElementById('platform-hint').textContent =
+      `${pct}% avg across all 4 products · 20 STACK phases · Platform target: 100%`;
+  }
+
+  // ─── TIMESTAMP ───────────────────────────────────────────────
+  function updateTimestamp() {
+    const now = new Date();
+    document.getElementById('last-updated-time').textContent =
+      now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  }
+
+  // ─── GOOGLE SHEET LOADER (activate when Sheet ID is set) ─────
+  async function loadFromSheet() {
+    if (!USE_SHEET || SHEET_ID === 'YOUR_GOOGLE_SHEET_ID_HERE') return;
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=PHASES`;
+      const res = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+      const rows = json.table.rows;
+
+      rows.forEach(row => {
+        const cols = row.c;
+        if (!cols[0]?.v) return; // skip empty rows
+        const productId   = cols[1]?.v;
+        const phaseLetter = cols[2]?.v;
+        const pct         = parseInt(cols[5]?.v) || 0;
+        const assignee    = cols[6]?.v || 'Dev Team';
+        const status      = cols[7]?.v || 'in_progress';
+        const eta         = cols[8]?.v || 'TBD';
+        const notes       = cols[9]?.v || '';
+
+        const product = PRODUCTS.find(p => p.id === productId);
+        if (!product) return;
+        const phase = product.phases.find(p => p.letter === phaseLetter);
+        if (!phase) return;
+
+        phase.pct = pct;
+        phase.assignee = assignee;
+        phase.status = status;
+        phase.eta = eta;
+        phase.notes = notes;
+      });
+
+      renderCards();
+      renderPlatformStats();
+      updateTimestamp();
+    } catch(e) {
+      console.warn('Sheet load failed, using local data:', e);
+    }
+  }
+
+  // ─── INIT ─────────────────────────────────────────────────────
+  renderCards();
+  renderPlatformStats();
+  updateTimestamp();
+  loadFromSheet();
+
+  // Refresh from sheet every 5 minutes
+  setInterval(() => { loadFromSheet(); updateTimestamp(); }, 5 * 60 * 1000);
+</script>
+</body>
+</html>
