@@ -386,7 +386,7 @@
     </div>
     <div class="kpi-item">
       <div class="kpi-label">Active Dev Product</div>
-      <div class="kpi-value amber">WOPR</div>
+      <div class="kpi-value amber">Parsing Engine</div>
       <div class="kpi-sub"><span class="delta-up">↑ 6% this sprint</span></div>
     </div>
     <div class="kpi-item">
@@ -567,7 +567,7 @@
       ]
     },
     {
-      id: 'wopr', name: 'WOPR', tagline: 'Payroll Reporting Automation Engine',
+      id: 'wopr', name: 'Parsing Engine', tagline: 'Payroll Reporting Automation Engine',
       color: '#f97316', cssClass: 'wopr', pctClass: 'wopr-c', status: 'building',
       sections: [
         { name:'Payroll Ingestion',  desc:'PDF, CSV, XLS, ZIP intake from payroll provider exports',
@@ -577,7 +577,7 @@
         { name:'Report Builder',     desc:'Carrier-specific document generation and formatting',
           s:58, t:42, a:18, c:12, k:22, assignee:'Taylor R.', assignee_color:'#f59e0b', status:'in_progress', eta:'Aug 2026',  notes:'Report output working for AmTrust. Hartford in QA. 12 carriers pending.' },
         { name:'Error Detection',    desc:'AI-powered anomaly scoring, flagging, and deviation alerts',
-          s:45, t:30, a:18, c:10, k:15, assignee:'Jordan K.', assignee_color:'#10b981', status:'in_progress', eta:'Sep 2026',  notes:'WOPR AI model in early training. Basic rule-based validation live.' },
+          s:45, t:30, a:18, c:10, k:15, assignee:'Jordan K.', assignee_color:'#10b981', status:'in_progress', eta:'Sep 2026',  notes:'Parsing Engine AI model in early training. Basic rule-based validation live.' },
         { name:'SOP Compliance',     desc:'Carrier ruleset validation against submission standards',
           s:40, t:28, a:15, c:10, k:12, assignee:'Sam R.',    assignee_color:'#ec4899', status:'in_progress', eta:'Oct 2026',  notes:'SOP rule engine building. 3 of 14 carrier rulesets complete.' },
         { name:'Submission Engine',  desc:'Electronic carrier delivery, receipt confirmation, retry logic',
@@ -648,7 +648,7 @@
     grid.innerHTML = PRODUCTS.map(p => {
       const pct = productPct(p);
       // Card pill shows avg of each STACK phase across all sections
-      const phaseKeys = [['s','Store'],['t','Transform'],['a','Analyze'],['c','Check'],['k','Kickoff']];
+      const phaseKeys = [['s','Signal'],['t','Transform'],['a','Assess'],['c','Check'],['k','Keys']];
       const pills = phaseKeys.map(([key, name]) => {
         const avg = avgPhaseScore(p, key);
         return `<div class="cp-seg ${pillClass(avg)}" title="${name}: ${avg}%"></div>`;

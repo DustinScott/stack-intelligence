@@ -8,7 +8,7 @@
 
 ## What We're Building (and Why It Matters Right Now)
 
-We have built a lot. ATLAS is live and solid. Relay is working. CompConnect is taking shape. WOPR is in active development. The problem isn't the work — the problem is that the people at the top can't see it.
+We have built a lot. ATLAS is live and solid. Relay is working. CompConnect is taking shape. The Parsing Engine is in active development. The problem isn't the work — the problem is that the people at the top can't see it.
 
 **STACK Intelligence** is our answer to that. It's an internal operational dashboard that translates everything we're doing into a language the C-suite and board can understand — percentages, phases, trends, real-time progress. No jargon. No confusion. Just clarity.
 
@@ -22,11 +22,11 @@ Every product we build passes through five phases. We call it the STACK:
 
 | Letter | Phase | What It Means |
 |--------|-------|---------------|
-| **S** | Store | Data ingestion, storage architecture, database layer |
-| **T** | Transform | Processing, normalization, business logic |
-| **A** | Analyze | Reporting, scoring, intelligence layer |
+| **S** | Signal | Trusted intake, authentication, and secure data capture |
+| **T** | Transform | Processing, normalization, carrier-specific formatting |
+| **A** | Assess | Intelligence layer — scoring, business logic, automation decisions |
 | **C** | Check | Validation, QA, exception handling, compliance |
-| **K** | Kickoff | Deployment, automation, client onboarding |
+| **K** | Keys | Delivery and handoff — submission, go-live, client onboarding |
 
 Each phase is scored **0–100%** based on team input. These scores roll up to a product-level score, and all products roll up to a **Platform Automation %**.
 
@@ -34,7 +34,7 @@ Right now our platform sits at **67% overall** — with three products already i
 - ATLAS: 88%
 - Relay: 76%
 - CompConnect: 70%
-- WOPR (active build): 34% — this is the one we need to move
+- Parsing Engine (active build): 34% — this is the one we need to move
 
 ---
 
@@ -73,7 +73,7 @@ Create a Google Sheet with **three tabs**:
 #### Tab 1: `PRODUCTS`
 | product_id | name | description | status |
 |------------|------|-------------|--------|
-| wopr | WOPR | Payroll-to-carrier reporting | active |
+| wopr | Parsing Engine | Payroll-to-carrier reporting | active |
 | compconnect | CompConnect | Referral and bind platform | active |
 | relay | Relay | ACH payment processing | active |
 | atlas | ATLAS | Client visibility dashboard | live |
@@ -81,11 +81,11 @@ Create a Google Sheet with **three tabs**:
 #### Tab 2: `PHASES`
 | product_id | phase | phase_label | pct | assignee | status | eta | notes | updated_at |
 |------------|-------|-------------|-----|----------|--------|-----|-------|------------|
-| wopr | S | Store | 65 | Dev Name | on_track | 2026-06-01 | Schema complete | 2026-05-24 |
+| wopr | S | Signal | 65 | Dev Name | on_track | 2026-06-01 | Schema complete | 2026-05-24 |
 | wopr | T | Transform | 45 | Dev Name | at_risk | 2026-06-15 | Mapping 70% done | 2026-05-24 |
-| wopr | A | Analyze | 20 | Dev Name | in_progress | 2026-07-01 | Started scoring logic | 2026-05-24 |
+| wopr | A | Assess | 20 | Dev Name | in_progress | 2026-07-01 | Started scoring logic | 2026-05-24 |
 | wopr | C | Check | 15 | Dev Name | pending | 2026-07-15 | Not started | 2026-05-24 |
-| wopr | K | Kickoff | 25 | Dev Name | in_progress | 2026-08-01 | Carrier mapping begun | 2026-05-24 |
+| wopr | K | Keys | 25 | Dev Name | in_progress | 2026-08-01 | Carrier mapping begun | 2026-05-24 |
 
 *(Repeat for compconnect, relay, atlas)*
 
@@ -150,13 +150,13 @@ GET  /stack/updates            → full audit log of all updates
 ```json
 {
   "product_id": "wopr",
-  "name": "WOPR",
+  "name": "Parsing Engine",
   "phases": [
-    { "letter": "S", "label": "Store",     "pct": 65, "assignee": "Dev Name", "status": "on_track", "eta": "2026-06-01", "notes": "..." },
+    { "letter": "S", "label": "Signal",    "pct": 65, "assignee": "Dev Name", "status": "on_track", "eta": "2026-06-01", "notes": "..." },
     { "letter": "T", "label": "Transform", "pct": 45, "assignee": "Dev Name", "status": "at_risk",  "eta": "2026-06-15", "notes": "..." },
-    { "letter": "A", "label": "Analyze",   "pct": 20, "assignee": "Dev Name", "status": "in_progress", "eta": "2026-07-01", "notes": "..." },
+    { "letter": "A", "label": "Assess",    "pct": 20, "assignee": "Dev Name", "status": "in_progress", "eta": "2026-07-01", "notes": "..." },
     { "letter": "C", "label": "Check",     "pct": 15, "assignee": "Dev Name", "status": "pending",  "eta": "2026-07-15", "notes": "..." },
-    { "letter": "K", "label": "Kickoff",   "pct": 25, "assignee": "Dev Name", "status": "in_progress", "eta": "2026-08-01", "notes": "..." }
+    { "letter": "K", "label": "Keys",      "pct": 25, "assignee": "Dev Name", "status": "in_progress", "eta": "2026-08-01", "notes": "..." }
   ]
 }
 ```
@@ -180,7 +180,7 @@ GET  /stack/updates            → full audit log of all updates
 
 **Goal: Get the dashboard connected to a real data source**
 
-1. **Set up Google Sheet** — create the three-tab structure above, populate WOPR phase rows with real current numbers
+1. **Set up Google Sheet** — create the three-tab structure above, populate Parsing Engine phase rows with real current numbers
 2. **Connect the dashboard** — plug in the Sheet ID, flip `USE_SHEET = true`, verify data renders correctly
 3. **Assign real names** — update assignee fields with actual team member names per phase
 4. **Update real percentages** — each team member logs their honest current % per phase
@@ -197,7 +197,7 @@ When the CEO opens his laptop Monday morning and sees:
 - Platform: 67% automated
 - ATLAS: 88% — Live and running
 - Relay: 76% — Solid
-- WOPR: 34% — Active build, on schedule
+- Parsing Engine: 34% — Active build, on schedule
 
 ...that's a completely different conversation than "we're working on it."
 

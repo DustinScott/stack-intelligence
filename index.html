@@ -329,6 +329,68 @@
       .detail-content { grid-template-columns: 1fr; }
       .legend-grid { grid-template-columns: repeat(3,1fr); }
     }
+
+    /* ── STACK IN PRACTICE ──────────────────────────────────────── */
+    #stack-guide { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); }
+    .guide-header { text-align: center; margin-bottom: 48px; }
+    .guide-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+    .guide-h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; color: #fff; margin-bottom: 10px; letter-spacing: -0.02em; }
+    .guide-h2 span { color: var(--orange); }
+    .guide-subdesc { color: rgba(255,255,255,0.45); font-size: 0.92rem; max-width: 520px; margin: 0 auto 32px; line-height: 1.6; }
+    .guide-toggle { display: inline-flex; background: rgba(255,255,255,0.06); border-radius: 100px; padding: 4px; border: 1px solid rgba(255,255,255,0.1); }
+    .gtog-btn { padding: 9px 28px; border-radius: 100px; font-size: 0.88rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.25s; color: rgba(255,255,255,0.45); background: transparent; }
+    .gtog-btn.active { background: var(--orange); color: #fff; box-shadow: 0 2px 12px rgba(249,115,22,0.4); }
+
+    /* Business cards */
+    .biz-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+    .biz-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px 22px 24px; display: flex; flex-direction: column; gap: 12px; transition: all 0.22s; }
+    .biz-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-3px); border-color: rgba(255,255,255,0.14); }
+    .biz-letter { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.5rem; }
+    .biz-letter.bl { background: rgba(59,130,246,0.18); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
+    .biz-letter.or { background: rgba(249,115,22,0.15); color: #fdba74; border: 1px solid rgba(249,115,22,0.3); }
+    .biz-name { font-size: 1.15rem; font-weight: 900; color: #fff; }
+    .biz-phase-sub { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); margin-top: -8px; }
+    .biz-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.65; flex: 1; }
+    .biz-promise { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 14px; }
+    .biz-promise-label { font-size: 0.63rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.25); margin-bottom: 5px; }
+    .biz-promise-text { font-size: 0.79rem; color: rgba(255,255,255,0.6); line-height: 1.5; font-style: italic; }
+
+    /* Developer guide */
+    .dev-guide { display: flex; flex-direction: column; gap: 10px; }
+    .dev-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; }
+    .dev-header { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background 0.18s; }
+    .dev-header:hover { background: rgba(255,255,255,0.04); }
+    .dev-badge { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; flex-shrink: 0; }
+    .dev-badge.bl { background: rgba(59,130,246,0.18); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
+    .dev-badge.or { background: rgba(249,115,22,0.12); color: #fdba74; border: 1px solid rgba(249,115,22,0.25); }
+    .dev-name { font-size: 0.98rem; font-weight: 800; color: #fff; }
+    .dev-rule-preview { font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px; }
+    .dev-chevron { margin-left: auto; color: rgba(255,255,255,0.25); font-size: 0.9rem; transition: transform 0.22s; flex-shrink: 0; }
+    .dev-item.open .dev-chevron { transform: rotate(180deg); }
+    .dev-body { display: none; padding: 0 22px 22px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .dev-item.open .dev-body { display: block; }
+    .dev-rule-box { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.18); border-radius: 10px; padding: 14px 18px; margin: 16px 0 10px; }
+    .dev-rule-box.o { background: rgba(249,115,22,0.06); border-color: rgba(249,115,22,0.18); }
+    .dev-rule-label { font-size: 0.63rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blue2); margin-bottom: 6px; }
+    .dev-rule-label.o { color: var(--orange2); }
+    .dev-rule-text { font-size: 0.88rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+    .dev-rule-text strong { color: #fff; }
+    .dev-not { background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.14); border-radius: 10px; padding: 11px 16px; margin-bottom: 16px; font-size: 0.81rem; color: rgba(255,255,255,0.45); line-height: 1.5; }
+    .dev-not strong { color: #fca5a5; }
+    .dev-not em { color: rgba(255,255,255,0.6); }
+    .dev-examples-hdr { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.28); margin-bottom: 8px; }
+    .dev-ex-grid { display: flex; flex-direction: column; gap: 5px; }
+    .dev-ex { display: grid; grid-template-columns: 130px 1fr auto; gap: 14px; align-items: baseline; padding: 9px 14px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+    .dev-ex-product { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.38); }
+    .dev-ex-task { font-size: 0.82rem; color: rgba(255,255,255,0.72); }
+    .dev-ex-reason { font-size: 0.72rem; color: rgba(255,255,255,0.3); font-style: italic; white-space: nowrap; }
+    @media (max-width: 1100px) { .biz-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 700px) {
+      .biz-grid { grid-template-columns: 1fr 1fr; }
+      .dev-ex { grid-template-columns: 1fr; gap: 3px; }
+      .dev-ex-reason { white-space: normal; }
+    }
+    @media (max-width: 480px) { .biz-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -344,15 +406,15 @@
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="#framework">Platform</a></li>
       <li><a href="#framework">STACK Framework</a></li>
-      <li><a href="#maturity">Solutions</a></li>
+      <li><a href="#stack-guide">In Practice</a></li>
+      <li><a href="#maturity">Maturity</a></li>
       <li><a href="#dashboard">Resources</a></li>
       <li><a href="#footer-banner">Company</a></li>
     </ul>
     <div class="nav-btns">
       <a class="btn-outline-white" href="#">Login</a>
-      <a class="btn-orange" href="mailto:dustale@gmail.com?subject=WOPR Demo Request">Request Demo</a>
+      <a class="btn-orange" href="mailto:dustale@gmail.com?subject=STACK Demo Request">Request Demo</a>
     </div>
   </div>
 </nav>
@@ -374,16 +436,16 @@
       <div class="flow-nodes">
         <div class="flow-node"><div class="flow-node-box"><div class="flow-node-icon">📄</div><div class="flow-node-name">PAYROLL<br>SOURCE</div></div></div>
         <div class="flow-arrow"><div class="flow-arrow-line"></div></div>
-        <div class="flow-node"><div class="flow-node-box wopr"><div class="flow-node-name" style="font-size:1.4rem;">WOPR</div><div class="flow-node-sub">AI ENGINE</div></div></div>
+        <div class="flow-node"><div class="flow-node-box wopr"><div class="flow-node-name" style="font-size:1.1rem;">Parsing<br>Engine</div><div class="flow-node-sub">AI ENGINE</div></div></div>
         <div class="flow-arrow"><div class="flow-arrow-line"></div></div>
         <div class="flow-node"><div class="flow-node-box"><div class="flow-node-icon">🛡️</div><div class="flow-node-name">CARRIER</div></div></div>
       </div>
       <div class="stack-pipeline">
-        <div class="sp-item"><div class="sp-circle s-active" id="sp-s">S</div><div class="sp-word">Store</div><div class="sp-sub">Intake &amp;<br>Data Capture</div></div>
+        <div class="sp-item"><div class="sp-circle s-active" id="sp-s">S</div><div class="sp-word">Signal</div><div class="sp-sub">Trusted Intake<br>&amp; Auth</div></div>
         <div class="sp-item"><div class="sp-circle" id="sp-t">T</div><div class="sp-word">Transform</div><div class="sp-sub">Carrier<br>Formatting</div></div>
-        <div class="sp-item"><div class="sp-circle" id="sp-a">A</div><div class="sp-word">Analyze</div><div class="sp-sub">Data<br>Intelligence</div></div>
+        <div class="sp-item"><div class="sp-circle" id="sp-a">A</div><div class="sp-word">Assess</div><div class="sp-sub">Intelligence &amp;<br>Decision Logic</div></div>
         <div class="sp-item"><div class="sp-circle" id="sp-c">C</div><div class="sp-word">Check</div><div class="sp-sub">Compliance<br>Validation</div></div>
-        <div class="sp-item"><div class="sp-circle" id="sp-k">K</div><div class="sp-word">Kickoff</div><div class="sp-sub">Carrier<br>Transmission</div></div>
+        <div class="sp-item"><div class="sp-circle" id="sp-k">K</div><div class="sp-word">Keys</div><div class="sp-sub">Delivery &amp;<br>Handoff</div></div>
       </div>
     </div>
   </div>
@@ -394,12 +456,233 @@
   <div class="container">
     <div class="framework-label fade-up">THE <span>STACK™</span> FRAMEWORK</div>
     <div class="framework-grid fade-up">
-      <div class="fw-card"><div class="fw-badge s">S</div><div class="fw-title">Store</div><div class="fw-sub">Intake &amp; Data Capture</div><div class="fw-desc">Securely capture payroll reports from any source — PDF, CSV, XLS, ZIP — and store them reliably with full audit trails.</div><div class="fw-icon">☁️</div></div>
+      <div class="fw-card"><div class="fw-badge s">S</div><div class="fw-title">Signal</div><div class="fw-sub">Trusted Intake &amp; Auth</div><div class="fw-desc">Receive, authenticate, and securely capture payroll reports from any trusted source — PDF, CSV, XLS, ZIP — with full audit trails.</div><div class="fw-icon">☁️</div></div>
       <div class="fw-card"><div class="fw-badge t">T</div><div class="fw-title">Transform</div><div class="fw-sub">Carrier Formatting</div><div class="fw-desc">Automatically convert data into the specific carrier-required format. Templates are learned and reused across relationships.</div><div class="fw-icon">🔄</div></div>
-      <div class="fw-card"><div class="fw-badge a">A</div><div class="fw-title">Analyze</div><div class="fw-sub">Data Intelligence</div><div class="fw-desc">AI-powered analysis detects errors, anomalies and missing data. STACK Score is computed per payroll-carrier relationship.</div><div class="fw-icon">🧠</div></div>
+      <div class="fw-card"><div class="fw-badge a">A</div><div class="fw-title">Assess</div><div class="fw-sub">Intelligence &amp; Decision Logic</div><div class="fw-desc">AI-powered scoring detects errors, anomalies, and missing data. Business rules and automation decisions are made here.</div><div class="fw-icon">🧠</div></div>
       <div class="fw-card"><div class="fw-badge c">C</div><div class="fw-title">Check</div><div class="fw-sub">Compliance Validation</div><div class="fw-desc">Validate against carrier rules and SOPs to ensure accuracy. Smart rules learn from every exception to prevent future errors.</div><div class="fw-icon">🛡️</div></div>
-      <div class="fw-card"><div class="fw-badge k">K</div><div class="fw-title">Kickoff</div><div class="fw-sub">Carrier Transmission</div><div class="fw-desc">Electronically submit validated reports to carriers with confidence. Human intervention only when the system flags it.</div><div class="fw-icon">🚀</div></div>
+      <div class="fw-card"><div class="fw-badge k">K</div><div class="fw-title">Keys</div><div class="fw-sub">Delivery &amp; Handoff</div><div class="fw-desc">Hand over the keys — electronically deliver validated reports to carriers. Human intervention only when the system flags it.</div><div class="fw-icon">🔑</div></div>
     </div>
+  </div>
+</section>
+
+<!-- ── STACK IN PRACTICE ─────────────────────────────────────── -->
+<section id="stack-guide" class="section">
+  <div class="container">
+
+    <div class="guide-header fade-up">
+      <div class="guide-eyebrow">What Each Letter Means</div>
+      <h2 class="guide-h2">STACK <span>In Practice</span></h2>
+      <p class="guide-subdesc">One framework, two views. See what STACK means for the business — or open the Developer Guide to see exactly where each task belongs.</p>
+      <div class="guide-toggle">
+        <button class="gtog-btn active" onclick="showGuide('biz',event)">Business View</button>
+        <button class="gtog-btn" onclick="showGuide('dev',event)">Developer Guide</button>
+      </div>
+    </div>
+
+    <!-- ── BUSINESS VIEW ──────────────────────────────── -->
+    <div id="guide-biz" class="fade-up">
+      <div class="biz-grid">
+
+        <div class="biz-card">
+          <div class="biz-letter bl">S</div>
+          <div class="biz-name">Signal</div>
+          <div class="biz-phase-sub">Trusted Intake &amp; Auth</div>
+          <div class="biz-desc">Everything that happens before we touch the data — receiving a payroll file, confirming who sent it, and making sure it arrived intact and from a trusted source.</div>
+          <div class="biz-promise">
+            <div class="biz-promise-label">When Automated</div>
+            <div class="biz-promise-text">Files arrive, get authenticated, and enter the pipeline — no human needed in the loop.</div>
+          </div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-letter bl">T</div>
+          <div class="biz-name">Transform</div>
+          <div class="biz-phase-sub">Normalization &amp; Formatting</div>
+          <div class="biz-desc">Converting raw payroll data into the exact format each carrier requires — a universal translator between payroll systems and insurance carriers. Templates are learned and reused.</div>
+          <div class="biz-promise">
+            <div class="biz-promise-label">When Automated</div>
+            <div class="biz-promise-text">Any carrier gets data exactly how they want it. No manual reformatting, no spreadsheet work.</div>
+          </div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-letter bl">A</div>
+          <div class="biz-name">Assess</div>
+          <div class="biz-phase-sub">Intelligence &amp; Decision Logic</div>
+          <div class="biz-desc">Where the intelligence lives. Anomaly scoring, routing decisions, eligibility logic, and business rules — the system "thinks" here so your team doesn't have to.</div>
+          <div class="biz-promise">
+            <div class="biz-promise-label">When Automated</div>
+            <div class="biz-promise-text">Problems are caught before they cause rejections. Smart decisions happen without analyst intervention.</div>
+          </div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-letter or">C</div>
+          <div class="biz-name">Check</div>
+          <div class="biz-phase-sub">Compliance Validation</div>
+          <div class="biz-desc">Validating everything against carrier-specific rules and SOPs before anything goes out the door. Smart rules learn from every exception to prevent future errors.</div>
+          <div class="biz-promise">
+            <div class="biz-promise-label">When Automated</div>
+            <div class="biz-promise-text">A submission either passes or triggers a targeted fix request. No manual review of clean records.</div>
+          </div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-letter or">K</div>
+          <div class="biz-name">Keys</div>
+          <div class="biz-phase-sub">Delivery &amp; Handoff</div>
+          <div class="biz-desc">Handing over the keys — final delivery of validated reports to carriers, with confirmation receipts and retry logic built in. Human involvement only when something needs attention.</div>
+          <div class="biz-promise">
+            <div class="biz-promise-label">When Automated</div>
+            <div class="biz-promise-text">Carriers receive submissions directly, on time, with proof of delivery. Your team is notified only on exceptions.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── DEVELOPER GUIDE ────────────────────────────── -->
+    <div id="guide-dev" class="fade-up" style="display:none;">
+      <div class="dev-guide">
+
+        <!-- S -->
+        <div class="dev-item" id="dv-s">
+          <div class="dev-header" onclick="toggleDev('dv-s')">
+            <div class="dev-badge bl">S</div>
+            <div style="flex:1;min-width:0;">
+              <div class="dev-name">Signal — Trusted Intake &amp; Auth</div>
+              <div class="dev-rule-preview">Tag S if the task's primary output is authenticated, logged data arriving into the system</div>
+            </div>
+            <div class="dev-chevron">▼</div>
+          </div>
+          <div class="dev-body">
+            <div class="dev-rule-box">
+              <div class="dev-rule-label">The Rule</div>
+              <div class="dev-rule-text">Tag S if the task's primary purpose is <strong>receiving, authenticating, or ingesting data</strong> from an external source — and the primary output is that data now being inside the system in a trusted, logged state.</div>
+            </div>
+            <div class="dev-not"><strong>Not S if:</strong> the task is changing the shape or format of data (→ T), or making a decision about it (→ A). Receiving ≠ reformatting. Authentication is S; if the task's job is confirming a trusted source, tag S regardless of the tech involved.</div>
+            <div class="dev-examples-hdr">Real Examples</div>
+            <div class="dev-ex-grid">
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">PDF, CSV, XLS, ZIP file intake from payroll provider exports</div><div class="dev-ex-reason">Receiving the file is the output</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">File format validation on arrival — is it readable and complete?</div><div class="dev-ex-reason">Confirming a valid signal arrived</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">ATLAS</div><div class="dev-ex-task">User login, JWT auth, SSO token validation</div><div class="dev-ex-reason">Authentication = trusted intake</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Relay</div><div class="dev-ex-task">ACH payment instruction receipt + bank auth handshake</div><div class="dev-ex-reason">Payment signal arrives and is verified</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">CompConnect</div><div class="dev-ex-task">Broker/agency auth + referral intake form submission</div><div class="dev-ex-reason">Receiving a trusted referral signal</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- T -->
+        <div class="dev-item" id="dv-t">
+          <div class="dev-header" onclick="toggleDev('dv-t')">
+            <div class="dev-badge bl">T</div>
+            <div style="flex:1;min-width:0;">
+              <div class="dev-name">Transform — Normalization &amp; Formatting</div>
+              <div class="dev-rule-preview">Tag T if the task's primary output is data in a new format, structure, or shape</div>
+            </div>
+            <div class="dev-chevron">▼</div>
+          </div>
+          <div class="dev-body">
+            <div class="dev-rule-box">
+              <div class="dev-rule-label">The Rule</div>
+              <div class="dev-rule-text">Tag T if the task's primary purpose is <strong>converting, normalizing, or reshaping data</strong> — and the primary output is that same data in a new structure or carrier-specific format.</div>
+            </div>
+            <div class="dev-not"><strong>Not T if:</strong> the task is receiving the data (→ S) or making a decision about it (→ A). Converting data ≠ deciding something about it. Mapping fields and building templates → T. Scoring or routing based on what's in those fields → A.</div>
+            <div class="dev-examples-hdr">Real Examples</div>
+            <div class="dev-ex-grid">
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">Payroll field → carrier format mapping &amp; template engine (14 carriers)</div><div class="dev-ex-reason">Output is reformatted data</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">Multi-tab XLS normalization into a flat record structure</div><div class="dev-ex-reason">Reshaping the data structure</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">ATLAS</div><div class="dev-ex-task">Raw platform events → structured KPI metrics for dashboard</div><div class="dev-ex-reason">Events become formatted display data</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Relay</div><div class="dev-ex-task">Bank transaction record → normalized ACH payment object</div><div class="dev-ex-reason">Raw data → standard internal format</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">CompConnect</div><div class="dev-ex-task">Quote data → bind-ready carrier submission packet</div><div class="dev-ex-reason">Reformatted for carrier requirements</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- A -->
+        <div class="dev-item" id="dv-a">
+          <div class="dev-header" onclick="toggleDev('dv-a')">
+            <div class="dev-badge bl">A</div>
+            <div style="flex:1;min-width:0;">
+              <div class="dev-name">Assess — Intelligence &amp; Decision Logic</div>
+              <div class="dev-rule-preview">Tag A if the task scores, classifies, routes, or applies business logic to data</div>
+            </div>
+            <div class="dev-chevron">▼</div>
+          </div>
+          <div class="dev-body">
+            <div class="dev-rule-box">
+              <div class="dev-rule-label">The Rule</div>
+              <div class="dev-rule-text">Tag A if the task's primary purpose is <strong>making a decision, scoring something, or applying business logic</strong> — and the primary output is a score, classification, route, or automated action based on that intelligence.</div>
+            </div>
+            <div class="dev-not"><strong>Not A if:</strong> the task is reformatting data without deciding anything (→ T), or checking data against a specific written checklist or ruleset (→ C). The test: <em>is the system exercising judgment?</em> If yes → A. If it's just matching against a known standard → C.</div>
+            <div class="dev-examples-hdr">Real Examples</div>
+            <div class="dev-ex-grid">
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">AI anomaly detection — flagging unusual or suspicious payroll values</div><div class="dev-ex-reason">Scoring / classifying data</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">Exception routing — deciding what goes to human review vs. auto-proceed</div><div class="dev-ex-reason">Routing decision = Assess</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">ATLAS</div><div class="dev-ex-task">STACK score calculation per product and phase</div><div class="dev-ex-reason">Scoring logic lives in Assess</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Relay</div><div class="dev-ex-task">Payment rail selection + retry logic (which bank, which timing)</div><div class="dev-ex-reason">Routing decision = Assess</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">CompConnect</div><div class="dev-ex-task">Carrier eligibility scoring + bind recommendation engine</div><div class="dev-ex-reason">Scoring + decision = Assess</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C -->
+        <div class="dev-item" id="dv-c">
+          <div class="dev-header" onclick="toggleDev('dv-c')">
+            <div class="dev-badge or">C</div>
+            <div style="flex:1;min-width:0;">
+              <div class="dev-name">Check — Compliance Validation</div>
+              <div class="dev-rule-preview">Tag C if the task validates data against a specific rule, standard, or SOP</div>
+            </div>
+            <div class="dev-chevron">▼</div>
+          </div>
+          <div class="dev-body">
+            <div class="dev-rule-box o">
+              <div class="dev-rule-label o">The Rule</div>
+              <div class="dev-rule-text">Tag C if the task's primary purpose is <strong>validating output against a known rule, standard, SOP, or compliance requirement</strong> — and the primary output is a pass/fail result with specific error details.</div>
+            </div>
+            <div class="dev-not"><strong>Not C if:</strong> the task is making an AI or business-logic decision (→ A). The test: <em>is the rule written down somewhere?</em> If there's a spec, a checklist, or a carrier SOP — it's C. If the system is exercising judgment about ambiguous data → A.</div>
+            <div class="dev-examples-hdr">Real Examples</div>
+            <div class="dev-ex-grid">
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">Carrier SOP ruleset validation — field formats, required values, data ranges</div><div class="dev-ex-reason">Checking against written carrier rules</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">Required field completeness check — are all fields present and non-null?</div><div class="dev-ex-reason">Validating against a defined standard</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">ATLAS</div><div class="dev-ex-task">Data integrity checks before dashboard render (no nulls, valid ranges)</div><div class="dev-ex-reason">Checking correctness before output</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Relay</div><div class="dev-ex-task">Pre-flight NACHA compliance check on ACH file before transmission</div><div class="dev-ex-reason">Validating against NACHA spec</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">CompConnect</div><div class="dev-ex-task">Carrier bind requirements checklist — all required docs and signatures present?</div><div class="dev-ex-reason">Checklist = Check</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- K -->
+        <div class="dev-item" id="dv-k">
+          <div class="dev-header" onclick="toggleDev('dv-k')">
+            <div class="dev-badge or">K</div>
+            <div style="flex:1;min-width:0;">
+              <div class="dev-name">Keys — Delivery &amp; Handoff</div>
+              <div class="dev-rule-preview">Tag K if the task delivers a final output to an external party or crosses the system boundary</div>
+            </div>
+            <div class="dev-chevron">▼</div>
+          </div>
+          <div class="dev-body">
+            <div class="dev-rule-box o">
+              <div class="dev-rule-label o">The Rule</div>
+              <div class="dev-rule-text">Tag K if the task's primary purpose is <strong>delivering a final output to an external system, carrier, or client</strong> — and the primary output is confirmation that delivery happened (a receipt, response, or delivery notification).</div>
+            </div>
+            <div class="dev-not"><strong>Not K if:</strong> the task is verifying the output is ready to send (→ C). The test: <em>does this task cross the boundary out of our system?</em> If yes → K. Sending → K. Making sure it's correct before sending → C.</div>
+            <div class="dev-examples-hdr">Real Examples</div>
+            <div class="dev-ex-grid">
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">Electronic submission to carrier portal + delivery receipt logging</div><div class="dev-ex-reason">Crosses the system boundary</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Parsing Engine</div><div class="dev-ex-task">Failed submission retry logic + re-delivery confirmation</div><div class="dev-ex-reason">Still the delivery step</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">ATLAS</div><div class="dev-ex-task">Client dashboard publish + scheduled report delivery to client</div><div class="dev-ex-reason">Final output delivered to client</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">Relay</div><div class="dev-ex-task">ACH file transmission to bank + settlement confirmation handling</div><div class="dev-ex-reason">Crossing the boundary to the bank</div></div>
+              <div class="dev-ex"><div class="dev-ex-product">CompConnect</div><div class="dev-ex-task">Bind confirmation sent to carrier and broker simultaneously</div><div class="dev-ex-reason">Keys handed to both parties</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -443,19 +726,19 @@
               <div class="legend-swatch pb-1"></div>
               <div class="legend-pct l1-pct">1–20%</div>
               <div class="legend-meaning">Minimal Assistance</div>
-              <div class="legend-reality">Human-driven with small WOPR assistance</div>
+              <div class="legend-reality">Human-driven with small Parsing Engine assistance</div>
             </div>
             <div class="legend-item">
               <div class="legend-swatch pb-2"></div>
               <div class="legend-pct l2-pct">21–40%</div>
               <div class="legend-meaning">Assisted Workflow</div>
-              <div class="legend-reality">WOPR performs some structured tasks</div>
+              <div class="legend-reality">Parsing Engine performs some structured tasks</div>
             </div>
             <div class="legend-item">
               <div class="legend-swatch pb-3"></div>
               <div class="legend-pct l3-pct">41–60%</div>
               <div class="legend-meaning">Guided Automation</div>
-              <div class="legend-reality">WOPR handles most ops with oversight</div>
+              <div class="legend-reality">Parsing Engine handles most ops with oversight</div>
             </div>
             <div class="legend-item">
               <div class="legend-swatch pb-4"></div>
@@ -467,7 +750,7 @@
               <div class="legend-swatch pb-5"></div>
               <div class="legend-pct l5-pct">81–100%</div>
               <div class="legend-meaning">Full Autonomy</div>
-              <div class="legend-reality">WOPR fully controls the phase</div>
+              <div class="legend-reality">Parsing Engine fully controls the phase</div>
             </div>
           </div>
         </div>
@@ -506,16 +789,16 @@
           <tr class="mat-row" onclick="toggleRow('r1')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e74c3c;">ADP</div><span class="provider-name">ADP Run</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Signal: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Assess: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Keys: 2/5"></div></div></td>
             <td><span class="eta-cell">Jan '27</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r1">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r1">
             <td colspan="6"><div class="detail-content">
-              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
-              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#6366f1;">ML</div><div><div class="assignee-name">Marcus L.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Sep 2026</div></div></div></div>
-              <div><div class="detail-label">Notes</div><textarea class="notes-area">Carrier template requires manual review. A + C phases need automation rules built out before Kickoff can be unlocked.</textarea></div>
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Keys</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#6366f1;">ML</div><div><div class="assignee-name">Marcus L.</div><div class="assignee-phase">Working on Assess (A) phase</div><div class="assignee-eta-text">Est. done Sep 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Carrier template requires manual review. A + C phases need automation rules built out before Keys can be unlocked.</textarea></div>
             </div></td>
           </tr>
 
@@ -523,7 +806,7 @@
           <tr class="mat-row" onclick="toggleRow('r2')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#27ae60;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">AmTrust</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-3" title="Store: 3/5"></div><div class="pp-seg pb-3" title="Transform: 3/5"></div><div class="pp-seg pb-3" title="Analyze: 3/5"></div><div class="pp-seg pb-3" title="Check: 3/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-3" title="Signal: 3/5"></div><div class="pp-seg pb-3" title="Transform: 3/5"></div><div class="pp-seg pb-3" title="Assess: 3/5"></div><div class="pp-seg pb-3" title="Check: 3/5"></div><div class="pp-seg pb-2" title="Keys: 2/5"></div></div></td>
             <td><span class="eta-cell">Sep '26</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-orange">56%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r2">▼</span></td>
@@ -531,8 +814,8 @@
           <tr class="detail-row" id="detail-r2">
             <td colspan="6"><div class="detail-content">
               <div><div class="detail-label">Bottleneck</div><span class="btag btag-amber">▼ K — final mile gap</span></div>
-              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#f59e0b;">TR</div><div><div class="assignee-name">Taylor R.</div><div class="assignee-phase">Working on Kickoff (K) phase</div><div class="assignee-eta-text">Est. done Aug 2026</div></div></div></div>
-              <div><div class="detail-label">Notes</div><textarea class="notes-area">Strong relationship — all phases at 3. Final Kickoff automation depends on carrier API access confirmation from AmTrust tech team.</textarea></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#f59e0b;">TR</div><div><div class="assignee-name">Taylor R.</div><div class="assignee-phase">Working on Keys (K) phase</div><div class="assignee-eta-text">Est. done Aug 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Strong relationship — all phases at 3. Final Keys automation depends on carrier API access confirmation from AmTrust tech team.</textarea></div>
             </div></td>
           </tr>
 
@@ -540,16 +823,16 @@
           <tr class="mat-row" onclick="toggleRow('r3')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#2c3e50;">AS</div><span class="provider-name">Asure</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">The Hartford</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Signal: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Assess: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Keys: 2/5"></div></div></td>
             <td><span class="eta-cell">Jan '27</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r3">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r3">
             <td colspan="6"><div class="detail-content">
-              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
-              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#10b981;">JK</div><div><div class="assignee-name">Jordan K.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
-              <div><div class="detail-label">Notes</div><textarea class="notes-area">Hartford requires specific data field ordering. Check phase dependent on Analyze completion — both need to move together.</textarea></div>
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Keys</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#10b981;">JK</div><div><div class="assignee-name">Jordan K.</div><div class="assignee-phase">Working on Assess (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Hartford requires specific data field ordering. Check phase dependent on Assess completion — both need to move together.</textarea></div>
             </div></td>
           </tr>
 
@@ -557,16 +840,16 @@
           <tr class="mat-row" onclick="toggleRow('r4')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#8e44ad;">QB</div><span class="provider-name">QuickBooks Online</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Signal: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Assess: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Keys: 2/5"></div></div></td>
             <td><span class="eta-cell">Jan '27</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r4">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r4">
             <td colspan="6"><div class="detail-content">
-              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Keys</span></div>
               <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ec4899;">SR</div><div><div class="assignee-name">Sam R.</div><div class="assignee-phase">Working on Check (C) phase</div><div class="assignee-eta-text">Est. done Nov 2026</div></div></div></div>
-              <div><div class="detail-label">Notes</div><textarea class="notes-area">QB export format is inconsistent month-to-month. Analyze rules need training data before Check can be reliably automated.</textarea></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">QB export format is inconsistent month-to-month. Assess rules need training data before Check can be reliably automated.</textarea></div>
             </div></td>
           </tr>
 
@@ -574,7 +857,7 @@
           <tr class="mat-row" onclick="toggleRow('r5')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#e67e22;">SE</div><span class="provider-name">Serendipity</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏦</div><span class="provider-name">AmTrust</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-1" title="Store: 1/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Analyze: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Kickoff: 1/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-1" title="Signal: 1/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Assess: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Keys: 1/5"></div></div></td>
             <td><span class="eta-cell">Jul '27</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-red">8%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r5">▼</span></td>
@@ -583,7 +866,7 @@
             <td colspan="6"><div class="detail-content">
               <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ T · A · C — no automation</span></div>
               <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#64748b;">AL</div><div><div class="assignee-name">Alex L.</div><div class="assignee-phase">Working on Transform (T) phase</div><div class="assignee-eta-text">Est. done Mar 2027</div></div></div></div>
-              <div><div class="detail-label">Notes</div><textarea class="notes-area">Non-standard payroll format. Requires custom WOPR template build. Priority: T phase first, then A and C can follow.</textarea></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Non-standard payroll format. Requires custom Parsing Engine template build. Priority: T phase first, then A and C can follow.</textarea></div>
             </div></td>
           </tr>
 
@@ -591,7 +874,7 @@
           <tr class="mat-row" onclick="toggleRow('r6')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#c0392b;">SR</div><span class="provider-name">Self-Reporting</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏢</div><span class="provider-name">Employers</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-0" title="Store: 0/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Analyze: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Kickoff: 1/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-0" title="Signal: 0/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Assess: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Keys: 1/5"></div></div></td>
             <td><span class="eta-cell">Nov '27</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-red">4%</span><span class="pct-label">automated</span><span class="pct-trend flat">→ holding</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r6">▼</span></td>
@@ -599,8 +882,8 @@
           <tr class="detail-row" id="detail-r6">
             <td colspan="6"><div class="detail-content">
               <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ S · T · A · C — fully manual</span></div>
-              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ef4444;">DW</div><div><div class="assignee-name">Dana W.</div><div class="assignee-phase">Working on Store (S) phase</div><div class="assignee-eta-text">Est. done May 2027</div></div></div></div>
-              <div><div class="detail-label">Notes</div><textarea class="notes-area">Fully manual today. Client self-reports directly. First milestone: get data into WOPR intake. Store phase is the priority unlock.</textarea></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#ef4444;">DW</div><div><div class="assignee-name">Dana W.</div><div class="assignee-phase">Working on Signal (S) phase</div><div class="assignee-eta-text">Est. done May 2027</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Fully manual today. Client self-reports directly. First milestone: get data into Parsing Engine intake. Signal phase is the priority unlock.</textarea></div>
             </div></td>
           </tr>
 
@@ -608,7 +891,7 @@
           <tr class="mat-row" onclick="toggleRow('r7')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#16a085;">EB</div><span class="provider-name">eBacon</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏗️</div><span class="provider-name">ICW Group</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-1" title="Store: 1/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Analyze: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Kickoff: 1/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-1" title="Signal: 1/5"></div><div class="pp-seg pb-0" title="Transform: 0/5"></div><div class="pp-seg pb-0" title="Assess: 0/5"></div><div class="pp-seg pb-0" title="Check: 0/5"></div><div class="pp-seg pb-1" title="Keys: 1/5"></div></div></td>
             <td><span class="eta-cell">Jul '27</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-red">8%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r7">▼</span></td>
@@ -625,16 +908,16 @@
           <tr class="mat-row" onclick="toggleRow('r8')">
             <td><div class="provider-cell"><div class="provider-logo" style="color:#d35400;">TO</div><span class="provider-name">Toast</span></div></td>
             <td><div class="provider-cell"><div class="provider-logo">🏛️</div><span class="provider-name">Travelers</span></div></td>
-            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Store: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Analyze: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Kickoff: 2/5"></div></div></td>
+            <td><div class="phase-pill"><div class="pp-seg pb-2" title="Signal: 2/5"></div><div class="pp-seg pb-2" title="Transform: 2/5"></div><div class="pp-seg pb-1" title="Assess: 1/5"></div><div class="pp-seg pb-1" title="Check: 1/5"></div><div class="pp-seg pb-2" title="Keys: 2/5"></div></div></td>
             <td><span class="eta-cell">Jan '27</span></td>
             <td class="center"><div class="pct-score"><span class="pct-num pct-amber">32%</span><span class="pct-label">automated</span><span class="pct-trend up">↑ trending up</span></div></td>
             <td class="center"><span class="expand-chevron" id="chev-r8">▼</span></td>
           </tr>
           <tr class="detail-row" id="detail-r8">
             <td colspan="6"><div class="detail-content">
-              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Kickoff</span></div>
-              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#7c3aed;">BN</div><div><div class="assignee-name">Blake N.</div><div class="assignee-phase">Working on Analyze (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
-              <div><div class="detail-label">Notes</div><textarea class="notes-area">Toast restaurant payroll is high-volume. Travelers template is mapped but Analyze rules need refinement for tip-credit pay types.</textarea></div>
+              <div><div class="detail-label">Bottleneck</div><span class="btag btag-red">▼ A · C blocking Keys</span></div>
+              <div><div class="detail-label">Who's On It</div><div class="assignee-wrap"><div class="assignee-avatar" style="background:#7c3aed;">BN</div><div><div class="assignee-name">Blake N.</div><div class="assignee-phase">Working on Assess (A) phase</div><div class="assignee-eta-text">Est. done Oct 2026</div></div></div></div>
+              <div><div class="detail-label">Notes</div><textarea class="notes-area">Toast restaurant payroll is high-volume. Travelers template is mapped but Assess rules need refinement for tip-credit pay types.</textarea></div>
             </div></td>
           </tr>
 
@@ -701,16 +984,16 @@
     <div class="footer-banner-left">
       <div class="footer-banner-icon">🧠</div>
       <div>
-        <div class="footer-banner-main">WOPR AI is the intelligence behind every step.</div>
+        <div class="footer-banner-main">The Parsing Engine is the intelligence behind every step.</div>
         <div class="footer-banner-sub">Learning. Validating. Improving. Continuously.</div>
       </div>
     </div>
-    <a class="btn-orange" href="mailto:dustale@gmail.com?subject=WOPR Demo Request" style="white-space:nowrap;padding:12px 24px;font-size:0.9rem;">See STACK In Action →</a>
+    <a class="btn-orange" href="mailto:dustale@gmail.com?subject=STACK Demo Request" style="white-space:nowrap;padding:12px 24px;font-size:0.9rem;">See STACK In Action →</a>
   </div>
 </div>
 <footer>
   <div class="footer-inner">
-    <div class="footer-copy">© 2026 WOPR — STACK Intelligence. All rights reserved.</div>
+    <div class="footer-copy">© 2026 PayComp — STACK Intelligence. All rights reserved.</div>
     <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="mailto:dustale@gmail.com">Contact</a></div>
   </div>
 </footer>
@@ -732,6 +1015,16 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
   },{threshold:0.1});
   document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+  // STACK In Practice toggle
+  function showGuide(view, e) {
+    document.getElementById('guide-biz').style.display = view === 'biz' ? 'block' : 'none';
+    document.getElementById('guide-dev').style.display = view === 'dev' ? 'block' : 'none';
+    document.querySelectorAll('.gtog-btn').forEach(b => b.classList.remove('active'));
+    if (e && e.target) e.target.classList.add('active');
+  }
+  // Dev accordion
+  function toggleDev(id) { document.getElementById(id).classList.toggle('open'); }
 
   // Legend toggle
   function toggleLegend() { document.getElementById('legend-wrap').classList.toggle('open'); }
