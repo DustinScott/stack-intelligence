@@ -364,12 +364,12 @@
 
 <div class="main">
 
-  <!-- ── GOOGLE SHEET CONNECTION BANNER ── -->
+  <!-- ── DATA SOURCE BANNER ── -->
   <div class="sheet-banner" id="sheet-banner">
     <div class="sheet-banner-text">
-      <strong>Live Data:</strong> Connected to Google Sheet — team updates reflect within 5 minutes automatically.
+      <strong>Data Source:</strong> Scores derived from ClickUp task analysis across all product folders — last audited May 2026.
     </div>
-    <a class="sheet-banner-btn" href="https://docs.google.com/spreadsheets/d/1he0Ch_BzIbA4iMwWehlP7TZp4LeYSGEyQMmfyUKYZnk/edit" target="_blank">Open Sheet →</a>
+    <a class="sheet-banner-btn" href="https://app.clickup.com/9017763907" target="_blank">Open ClickUp →</a>
   </div>
 
   <!-- ── KPI BAR ── -->
@@ -377,17 +377,17 @@
     <div class="kpi-item">
       <div class="kpi-label">Platform Automation</div>
       <div class="kpi-value orange" id="platform-pct">—</div>
-      <div class="kpi-sub"><span class="delta-up">↑ Up from 58% last quarter</span></div>
+      <div class="kpi-sub"><span class="delta-up">↑ Across all 4 product lines</span></div>
     </div>
     <div class="kpi-item">
-      <div class="kpi-label">Products Live</div>
-      <div class="kpi-value green">3 <span style="font-size:1rem;font-weight:600;color:var(--text3);">/ 4</span></div>
-      <div class="kpi-sub">ATLAS · Relay · CompConnect</div>
+      <div class="kpi-label">Products Tracked</div>
+      <div class="kpi-value green">4 <span style="font-size:1rem;font-weight:600;color:var(--text3);">active</span></div>
+      <div class="kpi-sub">ATLAS · WOPR Mobile · PayComp API · WOPR Engine</div>
     </div>
     <div class="kpi-item">
-      <div class="kpi-label">Active Dev Product</div>
-      <div class="kpi-value amber">Parsing Engine</div>
-      <div class="kpi-sub"><span class="delta-up">↑ 6% this sprint</span></div>
+      <div class="kpi-label">Highest STACK Score</div>
+      <div class="kpi-value amber">ATLAS</div>
+      <div class="kpi-sub"><span class="delta-up">↑ Leading automation readiness</span></div>
     </div>
     <div class="kpi-item">
       <div class="kpi-label">Team Updates Today</div>
@@ -491,97 +491,105 @@
 
 <script>
   // ─────────────────────────────────────────────────────────────
-  // CONFIGURATION — Replace with your Google Sheet ID
-  // Sheet must be published: File → Share → Publish to web
-  // ─────────────────────────────────────────────────────────────
-  const SHEET_ID = '1he0Ch_BzIbA4iMwWehlP7TZp4LeYSGEyQMmfyUKYZnk';
-  const USE_SHEET = true; // Live — connected to Google Sheet
-
-  // ─────────────────────────────────────────────────────────────
-  // DATA — Local fallback (replace with Sheet API when ready)
-  // Developers: update pct_complete and notes here until
-  // Google Sheet is connected
-  // ─────────────────────────────────────────────────────────────
-  // ─── DATA MODEL ───────────────────────────────────────────────
-  // Each product has sections[] — the real modules/screens inside it.
-  // Each section has s,t,a,c,k scores (0-100) representing how
-  // automated that section is across each STACK phase.
+  // DATA — Sourced from ClickUp task data (May 2026)
+  // S/T/A/C/K scores reflect real task completion rates per phase
+  // across each product's active ClickUp folders.
   // ─────────────────────────────────────────────────────────────
   const PRODUCTS = [
     {
-      id: 'atlas', name: 'ATLAS', tagline: 'Automated Tracking & Live Analytics System',
+      id: 'atlas', name: 'ATLAS', tagline: 'QR Registration & Broker Portal',
       color: '#f59e0b', cssClass: 'atlas', pctClass: 'atlas-c', status: 'live',
       sections: [
-        { name:'Dashboard',       desc:'Live KPIs, platform health, cross-product analytics overview',
-          s:95, t:90, a:88, c:92, k:95, assignee:'Dev Team', assignee_color:'#f59e0b', status:'complete',     eta:'Done',      notes:'All real-time data feeds live. KPI widgets, alerts, and export all operational.' },
-        { name:'My Organization', desc:'Workspace setup, agency profile, admin configuration',
-          s:90, t:85, a:80, c:88, k:85, assignee:'Dev Team', assignee_color:'#f59e0b', status:'complete',     eta:'Done',      notes:'Workspace org setup complete. Admin config and branding options live.' },
-        { name:'Resources',       desc:'Operational PDF library — intake forms, agreements, bank docs',
-          s:92, t:88, a:78, c:90, k:92, assignee:'Dev Team', assignee_color:'#f59e0b', status:'complete',     eta:'Done',      notes:'All PDFs live: Client Intake (EN/ES), Bank Info Form, Guard GRIP Agreement.' },
-        { name:'New Business',    desc:'Binding instructions by carrier + DropZone document upload',
-          s:90, t:85, a:75, c:88, k:85, assignee:'Dev Team', assignee_color:'#f59e0b', status:'complete',     eta:'Done',      notes:'DropZone live. Carrier binding instructions searchable. File send automated.' },
-        { name:'CRM',             desc:'Agency and client relationship tracking, contact management',
-          s:85, t:80, a:78, c:85, k:82, assignee:'Dev Team', assignee_color:'#f59e0b', status:'in_progress', eta:'Jul 2026',  notes:'Core CRM live. Advanced segmentation and follow-up automation in progress.' },
-        { name:'Marketing',       desc:'Flyer library — broker outreach PDFs in English and Spanish',
-          s:90, t:85, a:72, c:88, k:90, assignee:'Dev Team', assignee_color:'#f59e0b', status:'complete',     eta:'Done',      notes:'Broker flyers live in EN and ES. Preview and open-PDF workflow complete.' },
-        { name:'Event Signups',   desc:'Admin capture of event registrations from PayComp signup flow',
-          s:88, t:82, a:80, c:88, k:85, assignee:'Dev Team', assignee_color:'#f59e0b', status:'complete',     eta:'Done',      notes:'Live event registrations captured. vCard collector and admin table operational.' },
-        { name:'Users',           desc:'Access control, role assignments, workspace user management',
-          s:92, t:88, a:82, c:92, k:90, assignee:'Dev Team', assignee_color:'#f59e0b', status:'complete',     eta:'Done',      notes:'Role-based access live. Guest/Admin/Superuser/Staff tiers all functional.' },
+        { name:'QR Registration App',    desc:'Event signups, QR code flow, vCard capture, form automation',
+          s:90, t:100, a:100, c:100, k:88, assignee:'Luis Mendoza', assignee_color:'#10b981', status:'complete', eta:'Done',
+          notes:'23 tasks completed. Dashboard records, form UI, WP API integration, and vCard collector all live.' },
+        { name:'Portal Authentication',  desc:'Login, JWT auth, OTP, social login integration',
+          s:72, t:100, a:100, c:100, k:70, assignee:'Luis Mendoza', assignee_color:'#10b981', status:'in_progress', eta:'Jun 2026',
+          notes:'Core auth live. Social login in progress. ATLAS finalization and API key capture from Tamarin pending.' },
+        { name:'Event Management',       desc:'Events dropdown, admin dashboard, registration records',
+          s:88, t:100, a:100, c:100, k:85, assignee:'Luis Mendoza', assignee_color:'#10b981', status:'complete', eta:'Done',
+          notes:'Events dropdown live. Admin dashboard records working. UX terminology (OTP) aligned.' },
+        { name:'Backend Migration',      desc:'Node.js → Python migration, system relinking, data migration',
+          s:75, t:100, a:100, c:100, k:75, assignee:'Francisco Meneses', assignee_color:'#6366f1', status:'complete', eta:'Done',
+          notes:'Full backend migration to Python complete. System relinking and data migration confirmed done.' },
+        { name:'UI & Forms',             desc:'Form redesigns, success messages, label improvements',
+          s:80, t:100, a:100, c:100, k:78, assignee:'Luis Mendoza', assignee_color:'#10b981', status:'complete', eta:'Done',
+          notes:'All form UI enhancements complete. Labels, success messages, view buttons, and duplicate form cleanup live.' },
+        { name:'Deployment & Delivery',  desc:'Presentation strategy, API key setup, Atlas finalization',
+          s:65, t:100, a:100, c:100, k:72, assignee:'Dustin Garza', assignee_color:'#f97316', status:'in_progress', eta:'Jul 2026',
+          notes:'Deployment strategy presented. API keys from Tamarin and Atlas finalization still pending.' },
       ]
     },
     {
-      id: 'relay', name: 'Relay', tagline: 'ACH Premium Fund Transfer Program',
-      color: '#22c55e', cssClass: 'relay', pctClass: 'relay-c', status: 'live',
+      id: 'relay', name: 'WOPR Mobile', tagline: 'Cross-Platform Mobile & Desktop Client',
+      color: '#22c55e', cssClass: 'relay', pctClass: 'relay-c', status: 'building',
       sections: [
-        { name:'Bank Authorization', desc:'ACH auth capture, client banking setup, NACHA compliance',
-          s:90, t:85, a:80, c:88, k:85, assignee:'Dev Team', assignee_color:'#22c55e', status:'complete',     eta:'Done',      notes:'NACHA-compliant auth capture complete. FDIC trust account active.' },
-        { name:'Payment Scheduling', desc:'Payroll-run triggers → ACH transaction timing and parameters',
-          s:85, t:82, a:75, c:80, k:78, assignee:'Dev Team', assignee_color:'#22c55e', status:'complete',     eta:'Done',      notes:'Payroll trigger to ACH working for all pay frequencies.' },
-        { name:'Fund Transfer',      desc:'NACHA file generation and bank execution pipeline',
-          s:88, t:80, a:72, c:78, k:75, assignee:'Dev Team', assignee_color:'#22c55e', status:'in_progress', eta:'Jul 2026',  notes:'Live ACH transfers confirmed via Dwolla. High-volume batching in progress.' },
-        { name:'Reconciliation',     desc:'Payment matching, amount validation, timing audit trail',
-          s:80, t:75, a:68, c:72, k:70, assignee:'Dev Team', assignee_color:'#22c55e', status:'in_progress', eta:'Aug 2026',  notes:'Core reconciliation live. Edge cases for partial and split payments in progress.' },
-        { name:'NSF & Returns',      desc:'Failed payment detection, return item management, alerts',
-          s:78, t:72, a:65, c:70, k:68, assignee:'Dev Team', assignee_color:'#22c55e', status:'in_progress', eta:'Aug 2026',  notes:'NSF handling live. Return item automation 70% complete via Dwolla webhooks.' },
-        { name:'Remittance Reports', desc:'Carrier payment confirmation, audit logs, export',
-          s:82, t:78, a:72, c:80, k:78, assignee:'Dev Team', assignee_color:'#22c55e', status:'in_progress', eta:'Sep 2026',  notes:'Automated remittance reports live for 4 of 7 carrier types.' },
+        { name:'Auth & User Management', desc:'Login, JWT, refresh tokens, profile CRUD, secure storage',
+          s:95, t:85, a:60, c:55, k:70, assignee:'Jeico Corrales Madriz', assignee_color:'#22c55e', status:'complete', eta:'Done',
+          notes:'Auth, Remember Me (flutter_secure_storage), refresh tokens, profile + password update, and delete user all live.' },
+        { name:'Client & Data Views',    desc:'Clients module, payroll company CRUD, carriers screen',
+          s:90, t:88, a:60, c:50, k:72, assignee:'Jeico Corrales Madriz', assignee_color:'#22c55e', status:'complete', eta:'Done',
+          notes:'Client page, payroll company, and carriers API integration complete. Paginated API call implemented.' },
+        { name:'File Handling',          desc:'PDF viewer, file display, remote directory, CSV parsing',
+          s:88, t:100, a:58, c:50, k:70, assignee:'Jeico Corrales Madriz', assignee_color:'#22c55e', status:'complete', eta:'Done',
+          notes:'PDF viewer, show files/remote directory, and dynamic CSV table all live.' },
+        { name:'Submit & Delivery Flow', desc:'Submit page, submit button, API integration for submission',
+          s:80, t:88, a:55, c:48, k:68, assignee:'Jeico Corrales Madriz', assignee_color:'#22c55e', status:'in_progress', eta:'Jun 2026',
+          notes:'Submit page designed and submit button implemented. Connect API to prepare submission and submit screen API not yet started.' },
+        { name:'Intelligence & Logs',    desc:'Dashboards, logs CRUD, dynamic cards, scope planning',
+          s:88, t:88, a:65, c:48, k:65, assignee:'Jeico Corrales Madriz', assignee_color:'#22c55e', status:'in_progress', eta:'Jul 2026',
+          notes:'Dashboard screen live. Logs CRUD complete. Full dashboard and set scope still pending.' },
+        { name:'Build & Distribution',   desc:'Windows/Android builds, App Store readiness, .exe, distribution',
+          s:88, t:88, a:60, c:48, k:72, assignee:'Jeico Corrales Madriz', assignee_color:'#22c55e', status:'in_progress', eta:'Jul 2026',
+          notes:'Windows, Android, and distribution builds complete. App icon configured. App Store requirements and deployment pending.' },
       ]
     },
     {
-      id: 'compconnect', name: 'CompConnect', tagline: "Workers' Comp Referral & Binding Program",
-      color: '#3b82f6', cssClass: 'compconnect', pctClass: 'compconn-c', status: 'live',
+      id: 'compconnect', name: 'PayComp API', tagline: 'Shared Microservices Infrastructure',
+      color: '#3b82f6', cssClass: 'compconnect', pctClass: 'compconn-c', status: 'building',
       sections: [
-        { name:'Agency Intake',       desc:'Referral capture form, partner onboarding, data collection',
-          s:88, t:82, a:75, c:85, k:82, assignee:'Dev Team', assignee_color:'#3b82f6', status:'complete',     eta:'Done',      notes:'Referral flow and partner intake form live. Data piped to carrier queue.' },
-        { name:'Carrier Qualification',desc:'Eligibility screening, state licensing, coverage validation',
-          s:80, t:75, a:68, c:72, k:68, assignee:'Dev Team', assignee_color:'#3b82f6', status:'in_progress', eta:'Jul 2026',  notes:'State eligibility checks automated. TPG licensing layer complete.' },
-        { name:'Quote Engine',        desc:'Comparative pricing, carrier ranking, premium analysis',
-          s:75, t:70, a:62, c:68, k:65, assignee:'Dev Team', assignee_color:'#3b82f6', status:'in_progress', eta:'Aug 2026',  notes:'Quote formatting working for 140+ of 160+ carriers. Ranking algorithm live.' },
-        { name:'Binding Workflow',    desc:'Policy execution, carrier confirmation, bind documents',
-          s:72, t:68, a:60, c:65, k:62, assignee:'Dev Team', assignee_color:'#3b82f6', status:'in_progress', eta:'Sep 2026',  notes:'Binding working for major carriers. 22 carriers still manual.' },
-        { name:'Document Delivery',   desc:'Policy docs, binder letters, certificate distribution',
-          s:78, t:72, a:65, c:72, k:70, assignee:'Dev Team', assignee_color:'#3b82f6', status:'in_progress', eta:'Sep 2026',  notes:'Document delivery automated for bound policies. Certificate flow in progress.' },
-        { name:'Premium Sync',        desc:'Payroll integration trigger, recurring premium management',
-          s:68, t:62, a:55, c:60, k:58, assignee:'Dev Team', assignee_color:'#3b82f6', status:'in_progress', eta:'Oct 2026',  notes:'Payroll premium sync in progress. Manual reconciliation still required for 40%.' },
+        { name:'Auth & User Microservices', desc:'Authentication, users, roles, permissions, profile modules',
+          s:95, t:90, a:35, c:100, k:62, assignee:'Jon Kim', assignee_color:'#3b82f6', status:'complete', eta:'Done',
+          notes:'Auth, Users, Roles, Permissions, and Profile modules all complete by Jon Kim. JWT and multi-tenant support live.' },
+        { name:'Carrier & Client Services', desc:'Carriers, clients, companies, company mappings modules',
+          s:88, t:95, a:35, c:100, k:60, assignee:'Jon Kim', assignee_color:'#3b82f6', status:'complete', eta:'Done',
+          notes:'Carriers, Clients, Companies, and Company Mappings modules all complete.' },
+        { name:'Data Processing Modules',   desc:'Files, imports, extractors, formatters, drivers modules',
+          s:82, t:100, a:35, c:100, k:58, assignee:'Jon Kim', assignee_color:'#3b82f6', status:'complete', eta:'Done',
+          notes:'Files, Imports, Extractors, Formatters, and Drivers all complete. Core data pipeline operational.' },
+        { name:'Submissions Layer',         desc:'Submissions module, WOPR File API, soft delete support',
+          s:80, t:90, a:35, c:100, k:55, assignee:'Dario Olivares', assignee_color:'#8b5cf6', status:'in_progress', eta:'Jun 2026',
+          notes:'Submissions module complete. WOPR File API in progress. Soft delete implemented across Carriers, StrategicPartners, Vendor.' },
+        { name:'Multi-Tenant Architecture', desc:'Multi-tenant setup, Docker Compose config, local testing',
+          s:75, t:85, a:30, c:90, k:50, assignee:'Francisco Meneses', assignee_color:'#6366f1', status:'in_progress', eta:'Jun 2026',
+          notes:'Multi-tenant microservices live. Docker Compose refactor not started. Local testing environment confirmed.' },
+        { name:'API Integration & Review',  desc:'PayComp API review, model comparison, gateway integration',
+          s:70, t:80, a:30, c:85, k:45, assignee:'Francisco Meneses', assignee_color:'#6366f1', status:'in_progress', eta:'Jul 2026',
+          notes:'API model review and PayComp API integration review not yet started. Architecture doc pending.' },
       ]
     },
     {
-      id: 'wopr', name: 'Parsing Engine', tagline: 'Payroll Reporting Automation Engine',
+      id: 'wopr', name: 'Parsing Engine', tagline: 'Payroll-to-Carrier Automation Engine',
       color: '#f97316', cssClass: 'wopr', pctClass: 'wopr-c', status: 'building',
       sections: [
-        { name:'Payroll Ingestion',  desc:'PDF, CSV, XLS, ZIP intake from payroll provider exports',
-          s:72, t:55, a:30, c:20, k:28, assignee:'Marcus L.', assignee_color:'#6366f1', status:'in_progress', eta:'Jul 2026',  notes:'PDF and CSV intake working. XLS multi-tab and ZIP extraction in progress.' },
-        { name:'Field Mapping',      desc:'Payroll field → carrier format translation & templates',
-          s:60, t:45, a:22, c:15, k:20, assignee:'Taylor R.', assignee_color:'#f59e0b', status:'in_progress', eta:'Aug 2026',  notes:'Templates built for 6 of 14 carriers. AmTrust and Hartford complete.' },
-        { name:'Report Builder',     desc:'Carrier-specific document generation and formatting',
-          s:58, t:42, a:18, c:12, k:22, assignee:'Taylor R.', assignee_color:'#f59e0b', status:'in_progress', eta:'Aug 2026',  notes:'Report output working for AmTrust. Hartford in QA. 12 carriers pending.' },
-        { name:'Error Detection',    desc:'AI-powered anomaly scoring, flagging, and deviation alerts',
-          s:45, t:30, a:18, c:10, k:15, assignee:'Jordan K.', assignee_color:'#10b981', status:'in_progress', eta:'Sep 2026',  notes:'Parsing Engine AI model in early training. Basic rule-based validation live.' },
-        { name:'SOP Compliance',     desc:'Carrier ruleset validation against submission standards',
-          s:40, t:28, a:15, c:10, k:12, assignee:'Sam R.',    assignee_color:'#ec4899', status:'in_progress', eta:'Oct 2026',  notes:'SOP rule engine building. 3 of 14 carrier rulesets complete.' },
-        { name:'Submission Engine',  desc:'Electronic carrier delivery, receipt confirmation, retry logic',
-          s:50, t:35, a:20, c:15, k:28, assignee:'Chris P.',  assignee_color:'#0891b2', status:'in_progress', eta:'Nov 2026',  notes:'AmTrust and Hartford submission live. 12 carriers pending integration.' },
+        { name:'File Intake & Signal Layer', desc:'PDF, CSV, XLS, ZIP ingestion; Asure API; SFTP auth',
+          s:72, t:50, a:35, c:40, k:28, assignee:'Francisco Meneses', assignee_color:'#6366f1', status:'in_progress', eta:'Jul 2026',
+          notes:'Fix API not connecting to SFTP resolved. Define API endpoints for Asure data in backlog. Complete Asure-AmTrust sending in progress.' },
+        { name:'Carrier Field Mapping',      desc:'Payroll field → carrier format templates; normalization engine',
+          s:60, t:80, a:38, c:68, k:30, assignee:'Dario Olivares', assignee_color:'#8b5cf6', status:'in_progress', eta:'Aug 2026',
+          notes:'Pay Reports Mapping in backlog. Formatters and extractors complete in API. Frontend API pagination and submission list live.' },
+        { name:'AI Review & Assessment',     desc:'Anomaly detection, gross payroll validation, edge cases',
+          s:50, t:45, a:42, c:55, k:25, assignee:'Francisco Meneses', assignee_color:'#6366f1', status:'in_progress', eta:'Sep 2026',
+          notes:'Review of Eats Fantastic case and gross payroll miscalculation both in progress. Reframe Technical Work into Product Outcomes active.' },
+        { name:'SOP Compliance & QA',        desc:'Carrier ruleset validation, testing framework, QA environment',
+          s:55, t:62, a:40, c:78, k:28, assignee:'Jose Daniel Mena Silva', assignee_color:'#ec4899', status:'in_progress', eta:'Sep 2026',
+          notes:'Testing environment and method established. Mobile/Desktop testing in staging. QA bugs being addressed. Submit Direct Carrier Validation in progress.' },
+        { name:'Carrier Submission Engine',  desc:'Electronic delivery, SFTP, AmTrust/Asure sending, receipts',
+          s:65, t:55, a:35, c:65, k:38, assignee:'Francisco Meneses', assignee_color:'#6366f1', status:'in_progress', eta:'Oct 2026',
+          notes:'Submit Direct Carriers API document functionality in progress. Feature/list submission live. Forgot Password auth flow in code review.' },
+        { name:'Infrastructure & Architecture', desc:'Local deployment, project naming, tech stack alignment',
+          s:45, t:52, a:55, c:65, k:25, assignee:'Francisco Meneses', assignee_color:'#6366f1', status:'in_progress', eta:'Jun 2026',
+          notes:'Local deployment complete. Review Project naming done. Create Infrastructure for new ATLAS project complete. Reframe work in progress.' },
       ]
     }
   ];
