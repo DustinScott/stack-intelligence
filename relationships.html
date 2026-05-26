@@ -86,7 +86,7 @@
     .rel-row.l2 { border-left: 3px solid var(--blue); }
     .rel-row.l3 { border-left: 3px solid var(--green); }
 
-    .rel-main { display: grid; grid-template-columns: 2.2fr 1.6fr 1fr auto; gap: 16px; align-items: center; padding: 18px 22px; cursor: pointer; }
+    .rel-main { display: grid; grid-template-columns: 2fr 1.1fr 1.6fr 0.85fr auto; gap: 16px; align-items: center; padding: 18px 22px; cursor: pointer; }
     .rel-identity { display: flex; flex-direction: column; gap: 6px; }
     .rel-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 700; padding: 4px 11px; border-radius: 7px; white-space: nowrap; }
@@ -118,6 +118,35 @@
     .rel-score { text-align: right; }
     .rel-pct { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
     .rel-pct-sub { font-size: 0.6rem; color: var(--text3); margin-top: 2px; }
+
+    /* INTEL PANEL (option 1 + 2 in the row) */
+    .intel-panel { display: flex; flex-direction: column; gap: 7px; }
+    .bottleneck-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 7px; font-size: 0.7rem; font-weight: 700; width: fit-content; white-space: nowrap; }
+    .bottleneck-chip.bt-s { background: rgba(59,130,246,0.1); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2); }
+    .bottleneck-chip.bt-t { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+    .bottleneck-chip.bt-a { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
+    .bottleneck-chip.bt-c { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+    .bottleneck-chip.bt-k { background: rgba(249,115,22,0.1); color: #fb923c; border: 1px solid rgba(249,115,22,0.2); }
+    .bottleneck-chip.bt-none { background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+    .intel-meta { display: flex; flex-direction: column; gap: 2px; }
+    .intel-meta-row { font-size: 0.68rem; color: var(--text3); }
+    .intel-meta-row strong { color: var(--text2); font-weight: 700; }
+
+    /* PHASE GAP ANALYSIS (option 3 in dropdown) */
+    .gap-section { padding: 16px 22px 14px; border-bottom: 1px solid var(--border); }
+    .gap-title { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; }
+    .gap-phases { display: flex; flex-direction: column; gap: 7px; }
+    .gap-phase-row { display: flex; align-items: center; gap: 10px; padding: 3px 6px; border-radius: 5px; transition: background 0.15s; }
+    .gap-phase-row.is-gap { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.12); }
+    .gap-phase-key { font-size: 0.65rem; font-weight: 800; width: 12px; }
+    .gap-phase-name { font-size: 0.7rem; color: var(--text3); width: 72px; }
+    .gap-bar-wrap { flex: 1; height: 7px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+    .gap-bar { height: 100%; border-radius: 4px; }
+    .gap-pct { font-size: 0.7rem; font-weight: 700; width: 34px; text-align: right; color: var(--text2); }
+    .gap-drop { font-size: 0.62rem; font-weight: 800; color: var(--red); width: 52px; text-align: right; }
+    .gap-drop.positive { color: var(--green); }
+    .gap-insight { margin-top: 10px; padding: 9px 12px; background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.15); border-radius: 8px; font-size: 0.73rem; color: var(--text2); line-height: 1.5; }
+    .gap-insight strong { color: var(--orange); }
 
     /* TOGGLE */
     .rel-toggle { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 1rem; padding: 4px 8px; border-radius: 6px; transition: transform 0.2s, color 0.2s; }
@@ -342,6 +371,83 @@ function getGroups(clients) {
 let viewMode = 'rel';
 let currentGroups = [];
 
+// ── OPTION 1 + 2: Bottleneck chip + client/format meta ──────────────────────
+function bottleneckInfo(sc) {
+  const phases = [
+    { key:'s', name:'Signal',    val:sc.s },
+    { key:'t', name:'Transform', val:sc.t },
+    { key:'a', name:'Assess',    val:sc.a },
+    { key:'c', name:'Check',     val:sc.c },
+    { key:'k', name:'Keys',      val:sc.k },
+  ];
+  if (pct(sc) >= 75) return { key:'none', name:'No bottleneck', drop:0 };
+  let maxDrop = -1, bottleneck = phases[0];
+  for (let i = 1; i < phases.length; i++) {
+    const drop = phases[i-1].val - phases[i].val;
+    if (drop > maxDrop) { maxDrop = drop; bottleneck = phases[i]; }
+  }
+  return { ...bottleneck, drop: maxDrop };
+}
+
+const BN_MSG = {
+  s:'Intake not automated yet', t:'Transform template needed',
+  a:'Assess rules not built', c:'Compliance check not automated',
+  k:'Final delivery not automated', none:'Fully automated'
+};
+
+function intelligencePanelHTML(sc, clients) {
+  const bn = bottleneckInfo(sc);
+  const formats = [...new Set(clients.map(c=>c.format))].join(' · ');
+  const methods = [...new Set(clients.map(c=>c.method))];
+  const methodStr = methods.length === 1 ? methods[0] : `${methods.length} report methods`;
+  return `<div class="intel-panel">
+    <div class="bottleneck-chip bt-${bn.key}">
+      ${bn.key==='none'?'✓':'⚠'} Blocked at <strong>${bn.key.toUpperCase()}</strong> · ${BN_MSG[bn.key]}
+    </div>
+    <div class="intel-meta">
+      <div class="intel-meta-row"><strong>${clients.length} client${clients.length>1?'s':''}</strong> · ${formats}</div>
+      <div class="intel-meta-row">${methodStr}</div>
+    </div>
+  </div>`;
+}
+
+// ── OPTION 3: Phase gap analysis for dropdown ────────────────────────────────
+function phaseGapHTML(sc) {
+  const phases = [
+    { key:'s', name:'Signal',    val:sc.s, color:'#3b82f6' },
+    { key:'t', name:'Transform', val:sc.t, color:'#10b981' },
+    { key:'a', name:'Assess',    val:sc.a, color:'#a855f7' },
+    { key:'c', name:'Check',     val:sc.c, color:'#f59e0b' },
+    { key:'k', name:'Keys',      val:sc.k, color:'#f97316' },
+  ];
+  let maxGap = 0, gapToKey = null;
+  for (let i = 1; i < phases.length; i++) {
+    const gap = phases[i-1].val - phases[i].val;
+    if (gap > maxGap) { maxGap = gap; gapToKey = phases[i].key; }
+  }
+  const rows = phases.map((ph, i) => {
+    const drop = i > 0 ? phases[i-1].val - ph.val : null;
+    const isGap = ph.key === gapToKey && maxGap > 12;
+    return `<div class="gap-phase-row${isGap?' is-gap':''}">
+      <div class="gap-phase-key" style="color:${ph.color}">${ph.key.toUpperCase()}</div>
+      <div class="gap-phase-name">${ph.name}</div>
+      <div class="gap-bar-wrap"><div class="gap-bar" style="width:${ph.val}%;background:${ph.color}"></div></div>
+      <div class="gap-pct">${ph.val}%</div>
+      <div class="gap-drop${drop!==null&&drop<0?' positive':''}">${drop===null?'':(drop>5?`▼ ${drop}pts`:drop<-2?`▲ ${Math.abs(drop)}pts`:'')}</div>
+    </div>`;
+  }).join('');
+  const gapPhase = phases.find(p=>p.key===gapToKey);
+  const prevPhase = gapPhase ? phases[phases.indexOf(gapPhase)-1] : null;
+  const insight = maxGap > 12 && gapPhase && prevPhase
+    ? `Biggest drop: <strong>${prevPhase.name} (${prevPhase.val}%) → ${gapPhase.name} (${gapPhase.val}%)</strong> — ${maxGap}pt gap. Automating <strong>${gapPhase.name}</strong> is the highest-leverage unlock for this relationship.`
+    : `Phase scores are balanced. Raise all phases evenly to advance this relationship's automation level.`;
+  return `<div class="gap-section">
+    <div class="gap-title">Phase Gap Analysis — where automation drops off</div>
+    <div class="gap-phases">${rows}</div>
+    <div class="gap-insight">💡 ${insight}</div>
+  </div>`;
+}
+
 function stackMiniHTML(sc) {
   return `<div class="stack-mini">${['s','t','a','c','k'].map(k=>`<div class="stack-mini-col"><div class="stack-mini-bar-wrap"><div class="stack-mini-bar ${k}" style="height:${sc[k]}%"></div></div><div class="stack-mini-label">${k.toUpperCase()}</div></div>`).join('')}</div>`;
 }
@@ -380,6 +486,7 @@ function relRowHTML(g, idx) {
         </div>
       </div>
       ${stackMiniHTML(sc)}
+      ${intelligencePanelHTML(sc, g.clients)}
       <div class="rel-score">
         <div class="rel-pct" style="color:${pctColor(p)}">${p}%</div>
         <div class="rel-pct-sub">automated</div>
@@ -387,6 +494,7 @@ function relRowHTML(g, idx) {
       <button class="rel-toggle" onclick="event.stopPropagation();toggle('rg-${idx}')">▾</button>
     </div>
     <div class="rel-detail">
+      ${phaseGapHTML(sc)}
       <div class="rel-detail-header">
         <span class="rel-detail-title">Clients on this relationship</span>
       </div>
@@ -416,6 +524,7 @@ function clientFlatRowHTML(c, idx) {
         </div>
       </div>
       ${stackMiniHTML(sc)}
+      ${intelligencePanelHTML(sc, [c])}
       <div class="rel-score">
         <div class="rel-pct" style="color:${pctColor(p)}">${p}%</div>
         <div class="rel-pct-sub">${c.format}</div>
@@ -423,16 +532,7 @@ function clientFlatRowHTML(c, idx) {
       <button class="rel-toggle" onclick="event.stopPropagation();toggle('cf-${idx}')">▾</button>
     </div>
     <div class="rel-detail">
-      <div class="rel-detail-header"><span class="rel-detail-title">STACK Phase Breakdown</span></div>
-      <table class="client-table">
-        <thead><tr><th>Phase</th><th style="width:200px">Progress</th><th>Score</th><th>Report Method</th></tr></thead>
-        <tbody>
-          ${['s','t','a','c','k'].map((k,i)=>{
-            const names=['Signal','Transform','Assess','Check','Keys'];
-            return `<tr><td><span class="phase-mini-label ${k}" style="font-size:0.75rem;font-weight:800">${k.toUpperCase()} — ${names[i]}</span></td><td><div class="phase-mini-bar-wrap" style="width:160px;height:6px"><div class="phase-mini-bar ${k}" style="width:${sc[k]}%"></div></div></td><td style="font-weight:700;color:var(--text2)">${sc[k]}%</td><td class="report-method">${i===0?c.method:''}</td></tr>`;
-          }).join('')}
-        </tbody>
-      </table>
+      ${phaseGapHTML(sc)}
     </div>
   </div>`;
 }
