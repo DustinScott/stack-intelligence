@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Atlas — Permission Management</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-900: #0D1F3C;
+    --blue-800: #1B2B4B;
+    --blue-700: #1E3A5F;
+    --blue-600: #1B6CA8;
+    --blue-200: #B5D4F4;
+    --blue-100: #D6E4F0;
+    --blue-50:  #EBF4FB;
+    --orange:   #F07C20;
+    --orange-light: #FEF0E4;
+    --gray-900: #1A1A2E;
+    --gray-700: #374151;
+    --gray-500: #6B7280;
+    --gray-300: #D1D5DB;
+    --gray-100: #F3F4F6;
+    --gray-50:  #F9FAFB;
+    --white:    #FFFFFF;
+    --green-bg: #ECFDF5; --green-text: #065F46; --green-border: #A7F3D0;
+    --red-bg:   #FEF2F2; --red-text:   #991B1B; --red-border:   #FCA5A5;
+    --amber-bg: #FFFBEB; --amber-text: #92400E; --amber-border: #FCD34D;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 20px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-700);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-300);
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--blue-800);
+    text-decoration: none;
+  }
+  .nav-logo-badge {
+    background: var(--blue-800);
+    color: var(--white);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-link {
+    font-size: 13px;
+    color: var(--gray-500);
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+  }
+  .nav-link:hover { background: var(--gray-100); color: var(--gray-700); }
+  .nav-link.active { color: var(--blue-700); font-weight: 500; }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    font-weight: 600;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+
+  /* ── PAGE LAYOUT ── */
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* ── PAGE HEADER ── */
+  .page-header { margin-bottom: 32px; }
+  .page-header h1 { font-size: 22px; font-weight: 600; color: var(--blue-800); margin-bottom: 4px; }
+  .page-header p { font-size: 13px; color: var(--gray-500); }
+
+  /* ── PRESET CARDS ── */
+  .preset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .preset-card {
+    background: var(--white);
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+  }
+  .preset-card:hover { border-color: var(--blue-200); }
+  .preset-card.selected { border-color: var(--blue-600); box-shadow: 0 0 0 4px var(--blue-50); }
+  .preset-card.owner.selected  { border-color: var(--blue-800); box-shadow: 0 0 0 4px var(--blue-50); }
+  .preset-card.editor.selected { border-color: var(--blue-600); box-shadow: 0 0 0 4px var(--blue-50); }
+  .preset-card.viewer.selected { border-color: #2E86AB;          box-shadow: 0 0 0 4px #EAF4FA; }
+
+  .preset-icon {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .owner  .preset-icon { background: var(--blue-50);  color: var(--blue-800); }
+  .editor .preset-icon { background: #EAF4FB;          color: var(--blue-600); }
+  .viewer .preset-icon { background: #EAF4FA;          color: #2E86AB; }
+
+  .preset-name { font-size: 15px; font-weight: 600; color: var(--blue-800); margin-bottom: 4px; }
+  .preset-desc { font-size: 12px; color: var(--gray-500); line-height: 1.5; margin-bottom: 12px; }
+  .preset-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+  .pill {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+  .pill.on  { background: var(--green-bg);  color: var(--green-text);  border: 1px solid var(--green-border); }
+  .pill.off { background: var(--red-bg);    color: var(--red-text);    border: 1px solid var(--red-border); }
+  .selected-check {
+    position: absolute; top: 14px; right: 14px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--blue-600);
+    color: white;
+    font-size: 11px;
+    display: none;
+    align-items: center; justify-content: center;
+  }
+  .owner.selected  .selected-check { display: flex; background: var(--blue-800); }
+  .editor.selected .selected-check { display: flex; background: var(--blue-600); }
+  .viewer.selected .selected-check { display: flex; background: #2E86AB; }
+
+  /* ── CUSTOM OVERRIDE PANEL ── */
+  .panel {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .panel-title { font-size: 14px; font-weight: 600; color: var(--blue-800); }
+  .panel-subtitle { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+  .custom-badge {
+    background: var(--orange-light);
+    color: var(--orange);
+    border: 1px solid #F9C799;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+
+  /* ── CATEGORY SECTIONS ── */
+  .category {
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .category:last-child { border-bottom: none; }
+  .category-header {
+    padding: 10px 20px;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+  .category-header:hover { background: var(--gray-100); }
+  .category-name { font-size: 12px; font-weight: 600; color: var(--blue-700); text-transform: uppercase; letter-spacing: 0.5px; }
+  .category-count { font-size: 11px; color: var(--gray-500); }
+  .category-chevron { font-size: 12px; color: var(--gray-500); transition: transform 0.2s; }
+  .category-chevron.open { transform: rotate(180deg); }
+  .perm-list { display: none; }
+  .perm-list.open { display: block; }
+
+  /* ── PERMISSION ROW ── */
+  .perm-row {
+    padding: 10px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--gray-100);
+    transition: background 0.1s;
+  }
+  .perm-row:last-child { border-bottom: none; }
+  .perm-row:hover { background: var(--gray-50); }
+
+  .perm-name { font-size: 13px; color: var(--gray-700); }
+  .perm-meta { display: flex; align-items: center; gap: 6px; }
+
+  .badge-locked {
+    font-size: 10px; font-weight: 500;
+    padding: 2px 7px; border-radius: 99px;
+    background: var(--gray-100); color: var(--gray-500);
+    border: 1px solid var(--gray-300);
+  }
+  .badge-custom {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 99px;
+    background: var(--orange-light); color: var(--orange);
+    border: 1px solid #F9C799;
+  }
+  .badge-high {
+    font-size: 10px;
+    padding: 2px 7px; border-radius: 99px;
+    background: var(--red-bg); color: var(--red-text);
+    border: 1px solid var(--red-border);
+  }
+
+  /* ── TOGGLE SWITCH ── */
+  .toggle-wrap { display: flex; align-items: center; }
+  .toggle {
+    position: relative; width: 40px; height: 22px;
+    display: inline-block;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--gray-300);
+    border-radius: 99px;
+    transition: background 0.2s;
+  }
+  .slider:before {
+    content: "";
+    position: absolute;
+    width: 16px; height: 16px;
+    left: 3px; bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle input:checked + .slider { background: #2563EB; }
+  .toggle input:checked + .slider:before { transform: translateX(18px); }
+  .toggle.locked .slider { cursor: not-allowed; opacity: 0.5; }
+  .toggle input:checked + .slider.owner-on { background: var(--blue-800); }
+  .toggle input:checked + .slider.editor-on { background: var(--blue-600); }
+  .toggle input:checked + .slider.viewer-on { background: #2E86AB; }
+
+  /* ── SUMMARY BAR ── */
+  .summary-bar {
+    background: var(--blue-800);
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    font-size: 13px;
+  }
+  .summary-stats { display: flex; gap: 24px; }
+  .stat-item { display: flex; align-items: center; gap: 6px; }
+  .stat-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .stat-dot.on  { background: #6EE7B7; }
+  .stat-dot.off { background: #FCA5A5; }
+  .stat-dot.locked { background: #93C5FD; }
+  .save-btn {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 7px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .save-btn:hover { opacity: 0.9; }
+
+  /* ── INFO CALLOUT ── */
+  .callout {
+    background: var(--blue-50);
+    border: 1px solid var(--blue-200);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--blue-700);
+  }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── USER SELECTOR ── */
+  .user-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    padding: 14px 20px;
+  }
+  .user-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .user-info { flex: 1; }
+  .user-name { font-size: 14px; font-weight: 600; color: var(--blue-800); }
+  .user-email { font-size: 12px; color: var(--gray-500); }
+  .user-preset-label {
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 99px;
+    border: 1px solid;
+  }
+  .preset-owner-badge  { background: var(--blue-50);  color: var(--blue-800); border-color: var(--blue-200); }
+  .preset-editor-badge { background: #EAF4FB;          color: var(--blue-600); border-color: var(--blue-200); }
+  .preset-viewer-badge { background: #EAF4FA;          color: #2E86AB;          border-color: #A8D8EA; }
+
+  @media (max-width: 680px) {
+    .preset-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 16px; }
+    .page { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-badge">ATLAS</span>
+    <span>Client Portal</span>
+  </a>
+  <div class="nav-right">
+    <a href="#" class="nav-link">Dashboard</a>
+    <a href="#" class="nav-link">Payroll</a>
+    <a href="#" class="nav-link">Reports</a>
+    <a href="#" class="nav-link active">Team</a>
+    <div class="avatar">DL</div>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page">
+
+  <div class="page-header">
+    <h1>Permission Management</h1>
+    <p>Assign a preset to each user, then fine-tune individual permissions as needed.</p>
+  </div>
+
+  <!-- USER BEING EDITED -->
+  <div class="user-row">
+    <div class="user-avatar" id="userInitials">SJ</div>
+    <div class="user-info">
+      <div class="user-name" id="userName">Sarah Johnson</div>
+      <div class="user-email" id="userEmail">sarah.johnson@acme-payroll.com</div>
+    </div>
+    <span class="user-preset-label preset-editor-badge" id="userPresetBadge">Editor</span>
+    <select onchange="switchUser(this.value)" style="font-size:13px; padding:6px 10px; border:1px solid var(--gray-300); border-radius:var(--radius-sm); color:var(--gray-700); background:var(--white);">
+      <option value="sarah">Sarah Johnson — Editor</option>
+      <option value="mike">Mike Torres — Viewer</option>
+      <option value="ana">Ana Rivera — Owner</option>
+    </select>
+  </div>
+
+  <!-- CALLOUT -->
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Select a <strong>preset</strong> below to set the baseline. Permissions marked <strong>&#10022; Custom</strong> can be individually toggled on or off on top of the preset. <strong>Locked</strong> permissions follow the preset and cannot be changed per-user.</span>
+  </div>
+
+  <!-- PRESET SELECTION -->
+  <div class="preset-grid">
+
+    <div class="preset-card owner" id="preset-owner" onclick="selectPreset('owner')">
+      <span class="selected-check">&#10003;</span>
+      <div class="preset-icon">&#128737;</div>
+      <div class="preset-name">Owner</div>
+      <div class="preset-desc">Full account control. Manages users, billing, and all settings. Intended for the primary contact.</div>
+      <div class="preset-pills">
+        <span class="pill on">All features on</span>
+        <span class="pill on">User management</span>
+        <span class="pill on">Billing &amp; payments</span>
+      </div>
+    </div>
+
+    <div class="preset-card editor selected" id="preset-editor" onclick="selectPreset('editor')">
+      <span class="selected-check">&#10003;</span>
+      <div class="preset-icon">&#9998;</div>
+      <div class="preset-name">Editor</div>
+      <div class="preset-desc">Day-to-day operational access. Can work with payroll, employees, and documents but cannot manage users.</div>
+      <div class="preset-pills">
+        <span class="pill on">Payroll &amp; reports</span>
+        <span class="pill on">Employees</span>
+        <span class="pill off">No user mgmt</span>
+        <span class="pill off">No billing</span>
+      </div>
+    </div>
+
+    <div class="preset-card viewer" id="preset-viewer" onclick="selectPreset('viewer')">
+      <span class="selected-check">&#10003;</span>
+      <div class="preset-icon">&#128065;</div>
+      <div class="preset-name">Viewer</div>
+      <div class="preset-desc">Read-only access. Ideal for auditors, brokers, or executives who need visibility without edit rights.</div>
+      <div class="preset-pills">
+        <span class="pill on">View &amp; download</span>
+        <span class="pill on">Receive alerts</span>
+        <span class="pill off">No edits</span>
+        <span class="pill off">No uploads</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PERMISSIONS PANEL -->
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Custom permission overrides</div>
+        <div class="panel-subtitle">Toggles apply on top of the selected preset</div>
+      </div>
+      <span class="custom-badge">&#10022; Hybrid mode</span>
+    </div>
+
+    <div id="permissionsContainer"></div>
+
+    <div class="summary-bar">
+      <div class="summary-stats">
+        <div class="stat-item"><span class="stat-dot on"></span><span id="countOn">—</span> enabled</div>
+        <div class="stat-item"><span class="stat-dot off"></span><span id="countOff">—</span> disabled</div>
+        <div class="stat-item"><span class="stat-dot locked"></span><span id="countLocked">—</span> locked to preset</div>
+      </div>
+      <button class="save-btn" onclick="savePermissions()">Save changes</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PERMISSIONS = [
+  { cat:"User & Security", name:"View Users",                  owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"User & Security", name:"Add Users",                   owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+  { cat:"User & Security", name:"Edit Users",                  owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+  { cat:"User & Security", name:"Deactivate Users",            owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+  { cat:"User & Security", name:"Manage User Permissions",     owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+  { cat:"User & Security", name:"View Login History",          owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"User & Security", name:"Manage MFA Settings",         owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+  { cat:"User & Security", name:"Manage Security Settings",    owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+
+  { cat:"Company Info",    name:"View Company Profile",        owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Company Info",    name:"Edit Company Profile",        owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Company Info",    name:"View Billing Contacts",       owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Company Info",    name:"Edit Billing Contacts",       owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Company Info",    name:"View Company Documents",      owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Company Info",    name:"Upload Company Documents",    owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+
+  { cat:"Policy & Coverage", name:"View Policies",            owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Policy & Coverage", name:"View Documents",           owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Policy & Coverage", name:"View Renewal Information", owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Policy & Coverage", name:"Submit Renewal Information",owner:"Y",editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+
+  { cat:"Payroll",         name:"View Payroll Dashboard",      owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Payroll",         name:"View Payroll Reports",        owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Payroll",         name:"Download Payroll Reports",    owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Payroll",         name:"Upload Payroll Data",         owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Payroll",         name:"Edit Payroll Data",           owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"high" },
+  { cat:"Payroll",         name:"Skip Payroll",                owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"high" },
+  { cat:"Payroll",         name:"View Payroll Schedule",       owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Payroll",         name:"Request Schedule Changes",    owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Payroll",         name:"View Payroll Audit Info",     owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+
+  { cat:"Billing",         name:"View PayComp Fee Invoices",   owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Billing",         name:"Download Fee Invoices",       owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Billing",         name:"Pay PayComp Fee Invoices",    owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+  { cat:"Billing",         name:"View Fee Payment History",    owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Billing",         name:"Manage Payment Methods",      owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+  { cat:"Billing",         name:"View Premium Invoices",       owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Billing",         name:"View Premium Payment History",owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Billing",         name:"Manage Premium Pay Methods",  owner:"Y", editor:"N", viewer:"N", custom:false, sens:"high" },
+
+  { cat:"Onboarding",      name:"View Onboarding Status",      owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Onboarding",      name:"Complete Onboarding Tasks",   owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Onboarding",      name:"Upload Onboarding Documents", owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Onboarding",      name:"Edit Onboarding Information", owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+
+  { cat:"Employees",       name:"View Employee Roster",        owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Employees",       name:"Add Employees",               owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Employees",       name:"Edit Employees",              owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Employees",       name:"Terminate Employees",         owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"high" },
+  { cat:"Employees",       name:"View Excluded Employees",     owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Employees",       name:"Request Exclusion Changes",   owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+
+  { cat:"Reports & Analytics", name:"View Dashboards",         owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Reports & Analytics", name:"Export Reports",          owner:"Y", editor:"Y", viewer:"Y", custom:true,  sens:"medium" },
+  { cat:"Reports & Analytics", name:"Create Custom Reports",   owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Reports & Analytics", name:"Schedule Reports",        owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+
+  { cat:"Notifications",   name:"Receive System Notifications",owner:"Y", editor:"Y", viewer:"Y", custom:true,  sens:"low" },
+  { cat:"Notifications",   name:"Receive Payroll Alerts",      owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"low" },
+  { cat:"Notifications",   name:"Receive Billing Alerts",      owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"low" },
+  { cat:"Notifications",   name:"Receive Renewal Alerts",      owner:"Y", editor:"Y", viewer:"Y", custom:true,  sens:"low" },
+  { cat:"Notifications",   name:"Manage Notification Prefs",   owner:"Y", editor:"Y", viewer:"Y", custom:true,  sens:"low" },
+  { cat:"Notifications",   name:"Message PayComp Support",     owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"low" },
+  { cat:"Notifications",   name:"View Support Tickets",        owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"low" },
+  { cat:"Notifications",   name:"Submit Support Requests",     owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"low" },
+
+  { cat:"Documents",       name:"View Documents",              owner:"Y", editor:"Y", viewer:"Y", custom:false, sens:"low" },
+  { cat:"Documents",       name:"Upload Documents",            owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Documents",       name:"Edit Documents",              owner:"Y", editor:"Y", viewer:"N", custom:true,  sens:"medium" },
+  { cat:"Documents",       name:"Delete Documents",            owner:"Y", editor:"N", viewer:"N", custom:true,  sens:"high" },
+  { cat:"Documents",       name:"Download Documents",          owner:"Y", editor:"Y", viewer:"Y", custom:true,  sens:"low" },
+];
+
+const USERS = {
+  sarah: { name:"Sarah Johnson",  email:"sarah.johnson@acme-payroll.com",  initials:"SJ", preset:"editor" },
+  mike:  { name:"Mike Torres",    email:"mike.torres@acme-payroll.com",     initials:"MT", preset:"viewer" },
+  ana:   { name:"Ana Rivera",     email:"ana.rivera@acme-payroll.com",      initials:"AR", preset:"owner"  },
+};
+
+let currentPreset = "editor";
+let overrides = {};
+let openCategories = {};
+
+function getDefaultValue(perm, preset) {
+  return perm[preset] === "Y";
+}
+
+function getEffectiveValue(perm, i) {
+  const def = getDefaultValue(perm, currentPreset);
+  if (!perm.custom) return def;
+  return overrides[i] !== undefined ? overrides[i] : def;
+}
+
+function selectPreset(preset) {
+  currentPreset = preset;
+  overrides = {};
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('preset-' + preset).classList.add('selected');
+  const badges = { owner:'preset-owner-badge', editor:'preset-editor-badge', viewer:'preset-viewer-badge' };
+  const names  = { owner:'Owner', editor:'Editor', viewer:'Viewer' };
+  const badge = document.getElementById('userPresetBadge');
+  badge.className = 'user-preset-label ' + badges[preset];
+  badge.textContent = names[preset];
+  renderPermissions();
+}
+
+function togglePerm(i, val) {
+  const perm = PERMISSIONS[i];
+  const def = getDefaultValue(perm, currentPreset);
+  if (val === def) delete overrides[i];
+  else overrides[i] = val;
+  updateSummary();
+}
+
+function toggleCategory(cat) {
+  openCategories[cat] = !openCategories[cat];
+  const list = document.getElementById('cat-list-' + CSS.escape(cat));
+  const chev = document.getElementById('cat-chev-' + CSS.escape(cat));
+  if (list) list.classList.toggle('open', openCategories[cat]);
+  if (chev) chev.classList.toggle('open', openCategories[cat]);
+}
+
+function renderPermissions() {
+  const container = document.getElementById('permissionsContainer');
+  const categories = [...new Set(PERMISSIONS.map(p => p.cat))];
+
+  container.innerHTML = categories.map(cat => {
+    const perms = PERMISSIONS.map((p,i) => ({...p, i})).filter(p => p.cat === cat);
+    if (!(cat in openCategories)) openCategories[cat] = true;
+    const isOpen = openCategories[cat];
+
+    const rows = perms.map(p => {
+      const effective = getEffectiveValue(p, p.i);
+      const def = getDefaultValue(p, currentPreset);
+      const isOverridden = p.custom && overrides[p.i] !== undefined;
+      const sliderClass = currentPreset + '-on';
+
+      const sensTag = p.sens === 'high'
+        ? `<span class="badge-high">sensitive</span>`
+        : '';
+      const typeTag = !p.custom
+        ? `<span class="badge-locked">locked</span>`
+        : (isOverridden ? `<span class="badge-custom">&#10022; overridden</span>` : `<span class="badge-custom">&#10022; custom</span>`);
+
+      const toggleHtml = `
+        <label class="toggle ${!p.custom ? 'locked' : ''}">
+          <input type="checkbox" ${effective ? 'checked' : ''} ${!p.custom ? 'disabled' : ''}
+            onchange="togglePerm(${p.i}, this.checked)">
+          <span class="slider ${sliderClass}"></span>
+        </label>`;
+
+      return `<div class="perm-row">
+        <span class="perm-name">${p.name}</span>
+        <div class="perm-meta">${sensTag}${typeTag}</div>
+        <div class="toggle-wrap">${toggleHtml}</div>
+      </div>`;
+    }).join('');
+
+    const catId = cat.replace(/[^a-z0-9]/gi, '_');
+    return `<div class="category">
+      <div class="category-header" onclick="toggleCategory('${cat}')">
+        <span class="category-name">${cat}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="category-count">${perms.length} permissions</span>
+          <span class="category-chevron ${isOpen ? 'open' : ''}" id="cat-chev-${catId}">&#9660;</span>
+        </div>
+      </div>
+      <div class="perm-list ${isOpen ? 'open' : ''}" id="cat-list-${catId}">${rows}</div>
+    </div>`;
+  }).join('');
+
+  updateSummary();
+}
+
+function updateSummary() {
+  let on = 0, off = 0, locked = 0;
+  PERMISSIONS.forEach((p, i) => {
+    if (!p.custom) { locked++; }
+    else if (getEffectiveValue(p, i)) { on++; }
+    else { off++; }
+  });
+  document.getElementById('countOn').textContent = on;
+  document.getElementById('countOff').textContent = off;
+  document.getElementById('countLocked').textContent = locked;
+}
+
+function switchUser(key) {
+  const u = USERS[key];
+  document.getElementById('userInitials').textContent = u.initials;
+  document.getElementById('userName').textContent = u.name;
+  document.getElementById('userEmail').textContent = u.email;
+  selectPreset(u.preset);
+}
+
+function savePermissions() {
+  const btn = document.querySelector('.save-btn');
+  btn.textContent = '✓ Saved';
+  btn.style.background = '#059669';
+  setTimeout(() => {
+    btn.textContent = 'Save changes';
+    btn.style.background = '';
+  }, 2000);
+}
+
+renderPermissions();
+</script>
+</body>
+</html>
