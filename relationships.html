@@ -102,26 +102,74 @@
     .level-tag.l3 { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
     .rel-format { font-size: 0.7rem; color: var(--text3); }
 
-    /* STACK MINI BARS */
-    .stack-mini { display: flex; gap: 4px; align-items: flex-end; }
-    .stack-mini-col { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-    .stack-mini-label { font-size: 0.56rem; font-weight: 800; color: var(--text3); }
-    .stack-mini-bar-wrap { width: 20px; height: 36px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; display: flex; align-items: flex-end; }
-    .stack-mini-bar { width: 100%; border-radius: 3px; }
-    .stack-mini-bar.s { background: #3b82f6; }
-    .stack-mini-bar.t { background: #10b981; }
-    .stack-mini-bar.a { background: #a855f7; }
-    .stack-mini-bar.c { background: #f59e0b; }
-    .stack-mini-bar.k { background: #f97316; }
+    /* ── PIPELINE FLOW VISUALIZATION ── */
+    .pipeline { display: flex; align-items: center; gap: 0; }
+    .pip-stage { display: flex; align-items: center; }
+    .pip-node {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1; flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .pip-letter { font-size: 0.65rem; font-weight: 900; letter-spacing: 0; }
+    .pip-stage.complete .pip-node { color: #fff; }
+    .pip-stage.complete.ps { background: #3b82f6; box-shadow: 0 0 10px rgba(59,130,246,0.4); }
+    .pip-stage.complete.pt { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
+    .pip-stage.complete.pa { background: #a855f7; box-shadow: 0 0 10px rgba(168,85,247,0.4); }
+    .pip-stage.complete.pc { background: #f59e0b; box-shadow: 0 0 10px rgba(245,158,11,0.4); }
+    .pip-stage.complete.pk { background: #f97316; box-shadow: 0 0 10px rgba(249,115,22,0.4); }
+    .pip-stage.partial .pip-node { color: #fff; opacity: 0.7; }
+    .pip-stage.partial.ps { background: rgba(59,130,246,0.6); }
+    .pip-stage.partial.pt { background: rgba(16,185,129,0.6); }
+    .pip-stage.partial.pa { background: rgba(168,85,247,0.6); }
+    .pip-stage.partial.pc { background: rgba(245,158,11,0.6); }
+    .pip-stage.partial.pk { background: rgba(249,115,22,0.6); }
+    .pip-stage.blocked .pip-node {
+      background: rgba(239,68,68,0.1); border: 2px solid var(--red);
+      color: var(--red); animation: pip-pulse 1.6s ease-in-out infinite;
+    }
+    .pip-stage.waiting .pip-node {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text3);
+    }
+    /* Connector lines */
+    .pip-line { width: 22px; height: 3px; position: relative; overflow: hidden; border-radius: 2px; flex-shrink: 0; }
+    .pip-stage.complete .pip-line { background: rgba(255,255,255,0.12); }
+    .pip-stage.complete .pip-line::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 60%;
+      height: 100%; border-radius: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+      animation: pip-flow 1.8s linear infinite;
+    }
+    .pip-stage.partial .pip-line { background: rgba(255,255,255,0.08); }
+    .pip-stage.partial .pip-line::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+      animation: pip-flow 2.8s linear infinite;
+    }
+    .pip-stage.blocked .pip-line, .pip-stage.waiting .pip-line { background: rgba(255,255,255,0.05); }
+    /* Phase label below node */
+    .pip-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .pip-label { font-size: 0.52rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+    .pip-stage.complete .pip-label { color: var(--text3); }
+    .pip-stage.partial  .pip-label { color: var(--text3); opacity:0.7; }
+    .pip-stage.blocked  .pip-label { color: var(--red); }
+    .pip-stage.waiting  .pip-label { color: rgba(100,116,139,0.5); }
+    @keyframes pip-flow { 0%{left:-60%} 100%{left:160%} }
+    @keyframes pip-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+      50%      { box-shadow: 0 0 0 7px rgba(239,68,68,0); }
+    }
 
     /* SCORE BLOCK */
     .rel-score { text-align: right; }
     .rel-pct { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
     .rel-pct-sub { font-size: 0.6rem; color: var(--text3); margin-top: 2px; }
 
-    /* INTEL PANEL (option 1 + 2 in the row) */
+    /* INTEL PANEL */
     .intel-panel { display: flex; flex-direction: column; gap: 7px; }
-    .bottleneck-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 7px; font-size: 0.7rem; font-weight: 700; width: fit-content; white-space: nowrap; }
+    .bottleneck-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 7px; font-size: 0.7rem; font-weight: 700; width: fit-content; }
     .bottleneck-chip.bt-s { background: rgba(59,130,246,0.1); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2); }
     .bottleneck-chip.bt-t { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
     .bottleneck-chip.bt-a { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
@@ -132,14 +180,20 @@
     .intel-meta-row { font-size: 0.68rem; color: var(--text3); }
     .intel-meta-row strong { color: var(--text2); font-weight: 700; }
 
-    /* PHASE GAP ANALYSIS (option 3 in dropdown) */
+    /* LANGUAGE TOGGLE */
+    .lang-toggle { display: flex; background: rgba(255,255,255,0.04); border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; }
+    .lang-btn { background: transparent; border: none; color: var(--text3); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .lang-btn:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+    .lang-btn.active { background: var(--orange); color: #fff; }
+
+    /* PHASE GAP ANALYSIS */
     .gap-section { padding: 16px 22px 14px; border-bottom: 1px solid var(--border); }
     .gap-title { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; }
     .gap-phases { display: flex; flex-direction: column; gap: 7px; }
-    .gap-phase-row { display: flex; align-items: center; gap: 10px; padding: 3px 6px; border-radius: 5px; transition: background 0.15s; }
+    .gap-phase-row { display: flex; align-items: center; gap: 10px; padding: 3px 6px; border-radius: 5px; }
     .gap-phase-row.is-gap { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.12); }
     .gap-phase-key { font-size: 0.65rem; font-weight: 800; width: 12px; }
-    .gap-phase-name { font-size: 0.7rem; color: var(--text3); width: 72px; }
+    .gap-phase-name { font-size: 0.7rem; color: var(--text3); width: 90px; }
     .gap-bar-wrap { flex: 1; height: 7px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
     .gap-bar { height: 100%; border-radius: 4px; }
     .gap-pct { font-size: 0.7rem; font-weight: 700; width: 34px; text-align: right; color: var(--text2); }
@@ -147,6 +201,28 @@
     .gap-drop.positive { color: var(--green); }
     .gap-insight { margin-top: 10px; padding: 9px 12px; background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.15); border-radius: 8px; font-size: 0.73rem; color: var(--text2); line-height: 1.5; }
     .gap-insight strong { color: var(--orange); }
+
+    /* WORKING TOOL */
+    .work-section { padding: 14px 22px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+    .work-block { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 160px; }
+    .work-label { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
+    .work-input { background: rgba(255,255,255,0.05); border: 1px solid var(--border2); color: var(--text); font-size: 0.78rem; padding: 6px 10px; border-radius: 7px; outline: none; width: 100%; }
+    .work-input:focus { border-color: var(--orange); }
+    .work-textarea { background: rgba(255,255,255,0.05); border: 1px solid var(--border2); color: var(--text); font-size: 0.78rem; padding: 7px 10px; border-radius: 7px; outline: none; width: 100%; resize: vertical; min-height: 56px; font-family: inherit; }
+    .work-textarea:focus { border-color: var(--orange); }
+    .promote-btn { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: var(--green); font-size: 0.72rem; font-weight: 800; padding: 6px 14px; border-radius: 7px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .promote-btn:hover { background: rgba(34,197,94,0.2); }
+    .promote-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .promote-badge { font-size: 0.62rem; color: var(--green); margin-top: 3px; }
+    .saved-flash { font-size: 0.62rem; color: var(--green); opacity: 0; transition: opacity 0.3s; }
+    .saved-flash.show { opacity: 1; }
+
+    /* DRILL-DOWN ICONS */
+    .drilldown-icons { display: flex; gap: 6px; align-items: center; margin-left: auto; padding-right: 4px; }
+    .dd-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border2); color: var(--text3); font-size: 0.72rem; padding: 4px 9px; border-radius: 7px; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; position: relative; }
+    .dd-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); border-color: rgba(255,255,255,0.25); }
+    .dd-btn .dd-soon { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: var(--navy3); border: 1px solid var(--border2); color: var(--text3); font-size: 0.58rem; padding: 2px 6px; border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s; }
+    .dd-btn:hover .dd-soon { opacity: 1; }
 
     /* TOGGLE */
     .rel-toggle { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 1rem; padding: 4px 8px; border-radius: 6px; transition: transform 0.2s, color 0.2s; }
@@ -274,6 +350,12 @@
     <div class="filter-sep"></div>
     <button class="view-btn active" id="vb-rel" onclick="setView('rel')">By Relationship</button>
     <button class="view-btn" id="vb-client" onclick="setView('client')">By Client</button>
+    <div class="filter-sep"></div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="lb-dev"  onclick="setLang('dev')">DEV</button>
+      <button class="lang-btn"        id="lb-ops"  onclick="setLang('ops')">OPS</button>
+      <button class="lang-btn"        id="lb-exec" onclick="setLang('exec')">EXEC</button>
+    </div>
     <span class="result-count" id="count-label">—</span>
   </div>
 
@@ -371,6 +453,41 @@ function getGroups(clients) {
 let viewMode = 'rel';
 let currentGroups = [];
 
+// ── THREE-TIER LANGUAGE SYSTEM ───────────────────────────────────────────────
+const LANG = {
+  dev: {
+    bottleneck: { s:'Intake not automated', t:'Transform template needed', a:'Assess rules not built', c:'Compliance check not automated', k:'Final delivery not automated', none:'Fully automated' },
+    phaseNames:  { s:'Signal', t:'Transform', a:'Assess', c:'Check', k:'Keys' },
+    gapPrefix: 'Biggest drop:',
+    gapAction: 'Automating {phase} is the highest-leverage unlock for this relationship.',
+    levelDesc: ['Straight to carrier site — no WOPR involvement', 'Template dropped into WOPR', 'PDF into WOPR — validate before sending', 'WOPR sends to carrier automatically'],
+    clientLabel: 'clients on this relationship'
+  },
+  ops: {
+    bottleneck: { s:'Files still manually received', t:'No template — manual reformatting each cycle', a:'Manual review required before every submission', c:'Compliance sign-off requires human each time', k:'Someone still clicks send to the carrier', none:'Running without manual touch' },
+    phaseNames:  { s:'File Intake', t:'Formatting', a:'Review', c:'Validation', k:'Submission' },
+    gapPrefix: 'Ops bottleneck:',
+    gapAction: 'Fixing {phase} would eliminate the most manual hours on this account.',
+    levelDesc: ['100% manual — staff handles everything', 'Template-assisted — partial automation', 'Validate & send — nearly hands-free', 'Hands-free — system manages end-to-end'],
+    clientLabel: 'accounts on this workflow'
+  },
+  exec: {
+    bottleneck: { s:'Staff still manually receiving files', t:'Every report requires manual reformatting', a:'An analyst reviews each submission before it goes out', c:'Compliance approval is a manual step per cycle', k:'Staff manually delivers to the carrier — final mile gap', none:'This relationship runs itself — zero staff time' },
+    phaseNames:  { s:'Data Intake', t:'Formatting', a:'Quality Review', c:'Compliance', k:'Delivery' },
+    gapPrefix: 'Highest cost center:',
+    gapAction: 'Automating {phase} delivers the highest ROI on this relationship.',
+    levelDesc: ['Entirely staff-driven — highest cost', 'Partially automated — staff still involved', 'Nearly autonomous — minimal oversight', 'Fully autonomous — no staff time required'],
+    clientLabel: 'clients generating this workflow'
+  }
+};
+let currentLang = 'dev';
+
+function setLang(l) {
+  currentLang = l;
+  ['dev','ops','exec'].forEach(k => document.getElementById('lb-'+k).classList.toggle('active', k===l));
+  render();
+}
+
 // ── OPTION 1 + 2: Bottleneck chip + client/format meta ──────────────────────
 function bottleneckInfo(sc) {
   const phases = [
@@ -389,37 +506,28 @@ function bottleneckInfo(sc) {
   return { ...bottleneck, drop: maxDrop };
 }
 
-const BN_MSG = {
-  s:'Intake not automated yet', t:'Transform template needed',
-  a:'Assess rules not built', c:'Compliance check not automated',
-  k:'Final delivery not automated', none:'Fully automated'
-};
-
 function intelligencePanelHTML(sc, clients) {
+  const L = LANG[currentLang];
   const bn = bottleneckInfo(sc);
   const formats = [...new Set(clients.map(c=>c.format))].join(' · ');
   const methods = [...new Set(clients.map(c=>c.method))];
   const methodStr = methods.length === 1 ? methods[0] : `${methods.length} report methods`;
+  const msg = L.bottleneck[bn.key] || '';
   return `<div class="intel-panel">
     <div class="bottleneck-chip bt-${bn.key}">
-      ${bn.key==='none'?'✓':'⚠'} Blocked at <strong>${bn.key.toUpperCase()}</strong> · ${BN_MSG[bn.key]}
+      ${bn.key==='none'?'✓':'⚠'} ${msg}
     </div>
     <div class="intel-meta">
-      <div class="intel-meta-row"><strong>${clients.length} client${clients.length>1?'s':''}</strong> · ${formats}</div>
+      <div class="intel-meta-row"><strong>${clients.length} ${L.clientLabel}</strong> · ${formats}</div>
       <div class="intel-meta-row">${methodStr}</div>
     </div>
   </div>`;
 }
 
-// ── OPTION 3: Phase gap analysis for dropdown ────────────────────────────────
 function phaseGapHTML(sc) {
-  const phases = [
-    { key:'s', name:'Signal',    val:sc.s, color:'#3b82f6' },
-    { key:'t', name:'Transform', val:sc.t, color:'#10b981' },
-    { key:'a', name:'Assess',    val:sc.a, color:'#a855f7' },
-    { key:'c', name:'Check',     val:sc.c, color:'#f59e0b' },
-    { key:'k', name:'Keys',      val:sc.k, color:'#f97316' },
-  ];
+  const L = LANG[currentLang];
+  const phaseColors = { s:'#3b82f6', t:'#10b981', a:'#a855f7', c:'#f59e0b', k:'#f97316' };
+  const phases = ['s','t','a','c','k'].map(k => ({ key:k, name:L.phaseNames[k], val:sc[k], color:phaseColors[k] }));
   let maxGap = 0, gapToKey = null;
   for (let i = 1; i < phases.length; i++) {
     const gap = phases[i-1].val - phases[i].val;
@@ -438,9 +546,10 @@ function phaseGapHTML(sc) {
   }).join('');
   const gapPhase = phases.find(p=>p.key===gapToKey);
   const prevPhase = gapPhase ? phases[phases.indexOf(gapPhase)-1] : null;
+  const insightAction = gapPhase ? L.gapAction.replace('{phase}', `<strong>${gapPhase.name}</strong>`) : '';
   const insight = maxGap > 12 && gapPhase && prevPhase
-    ? `Biggest drop: <strong>${prevPhase.name} (${prevPhase.val}%) → ${gapPhase.name} (${gapPhase.val}%)</strong> — ${maxGap}pt gap. Automating <strong>${gapPhase.name}</strong> is the highest-leverage unlock for this relationship.`
-    : `Phase scores are balanced. Raise all phases evenly to advance this relationship's automation level.`;
+    ? `${L.gapPrefix} <strong>${prevPhase.name} (${prevPhase.val}%) → ${gapPhase.name} (${gapPhase.val}%)</strong> — ${maxGap}pt gap. ${insightAction}`
+    : `Phase scores are balanced. Focus on raising the overall level across all phases.`;
   return `<div class="gap-section">
     <div class="gap-title">Phase Gap Analysis — where automation drops off</div>
     <div class="gap-phases">${rows}</div>
@@ -448,8 +557,105 @@ function phaseGapHTML(sc) {
   </div>`;
 }
 
-function stackMiniHTML(sc) {
-  return `<div class="stack-mini">${['s','t','a','c','k'].map(k=>`<div class="stack-mini-col"><div class="stack-mini-bar-wrap"><div class="stack-mini-bar ${k}" style="height:${sc[k]}%"></div></div><div class="stack-mini-label">${k.toUpperCase()}</div></div>`).join('')}</div>`;
+// ── ANIMATED PIPELINE VISUALIZATION ─────────────────────────────────────────
+function getPipelineStates(sc) {
+  const keys = ['s','t','a','c','k'];
+  const bn = bottleneckInfo(sc);
+  let pastBlocker = false;
+  return keys.map(k => {
+    if (bn.key === 'none') return { key:k, state:'complete' };
+    if (k === bn.key) { pastBlocker = true; return { key:k, state:'blocked' }; }
+    if (pastBlocker)  return { key:k, state:'waiting' };
+    return { key:k, state: sc[k] >= 65 ? 'complete' : 'partial' };
+  });
+}
+
+function pipelineHTML(sc) {
+  const L = LANG[currentLang];
+  const states = getPipelineStates(sc);
+  const phaseColors = { s:'#3b82f6', t:'#10b981', a:'#a855f7', c:'#f59e0b', k:'#f97316' };
+  return `<div class="pipeline">
+    ${states.map((ph, i) => {
+      const isLast = i === states.length - 1;
+      const label = L.phaseNames[ph.key];
+      return `<div class="pip-stage ${ph.state} p${ph.key}">
+        <div class="pip-wrap">
+          <div class="pip-node"><span class="pip-letter">${ph.key.toUpperCase()}</span></div>
+          <div class="pip-label">${label}</div>
+        </div>
+        ${isLast ? '' : '<div class="pip-line"></div>'}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ── WORKING TOOL — localStorage persistence ──────────────────────────────────
+function loadWork(id) { try { return JSON.parse(localStorage.getItem('sw_'+id)) || {}; } catch(e) { return {}; } }
+function saveWork(id, data) { try { localStorage.setItem('sw_'+id, JSON.stringify(data)); } catch(e) {} }
+function saveOwner(id, val) {
+  const d = loadWork(id); d.owner = val; saveWork(id, d);
+  flashSaved(id);
+}
+function saveNote(id, val) {
+  const d = loadWork(id); d.note = val; saveWork(id, d);
+  flashSaved(id);
+}
+function flashSaved(id) {
+  const el = document.getElementById('flash-'+id);
+  if (el) { el.classList.add('show'); setTimeout(()=>el.classList.remove('show'), 1400); }
+}
+function promoteRelationship(id, currentLevel) {
+  if (currentLevel >= 3) return;
+  const d = loadWork(id);
+  const newTarget = Math.min(3, currentLevel + 1);
+  d.targetLevel = newTarget;
+  saveWork(id, d);
+  const btn = document.getElementById('promote-'+id);
+  if (btn) { btn.textContent = `✓ Target: L${newTarget}`; btn.disabled = true; }
+  const badge = document.getElementById('promote-badge-'+id);
+  if (badge) badge.textContent = `Promoted → Level ${newTarget}`;
+}
+
+function workToolHTML(wid, level) {
+  const d = loadWork(wid);
+  const promoted = d.targetLevel != null;
+  const targetLevel = d.targetLevel ?? (level + 1);
+  return `<div class="work-section">
+    <div class="work-block">
+      <div class="work-label">Owner</div>
+      <input class="work-input" type="text" placeholder="Assign owner…" value="${(d.owner||'').replace(/"/g,'&quot;')}"
+        onchange="saveOwner('${wid}', this.value)" />
+    </div>
+    <div class="work-block" style="flex:2">
+      <div class="work-label">Notes</div>
+      <textarea class="work-textarea" placeholder="Working notes…"
+        onchange="saveNote('${wid}', this.value)">${d.note||''}</textarea>
+    </div>
+    <div class="work-block" style="flex:0;min-width:fit-content;align-items:flex-end;gap:6px">
+      <div class="work-label">Advance Level</div>
+      <button class="promote-btn" id="promote-${wid}"
+        onclick="promoteRelationship('${wid}',${level})"
+        ${(promoted||level>=3)?'disabled':''}>
+        ${promoted?`✓ Target: L${targetLevel}`:level>=3?'Max Level ✓':`→ Promote to L${level+1}`}
+      </button>
+      <div class="promote-badge" id="promote-badge-${wid}">${promoted?`Promoted → Level ${targetLevel}`:''}</div>
+    </div>
+    <span class="saved-flash" id="flash-${wid}">Saved ✓</span>
+  </div>`;
+}
+
+function drilldownHTML() {
+  return `<div class="drilldown-icons">
+    <button class="dd-btn" onclick="event.stopPropagation()" title="Carrier Profile">
+      📊 Profile<span class="dd-soon">Coming soon</span>
+    </button>
+    <button class="dd-btn" onclick="event.stopPropagation()" title="Trend Over Time">
+      📈 Trend<span class="dd-soon">Coming soon</span>
+    </button>
+    <button class="dd-btn" onclick="event.stopPropagation()" title="Client Readiness Score">
+      🎯 Readiness<span class="dd-soon">Coming soon</span>
+    </button>
+  </div>`;
 }
 
 function clientRowHTML(c) {
@@ -471,6 +677,7 @@ function relRowHTML(g, idx) {
   const lmin = minLevel(g.clients);
   const lvlClass = lmax >= 2 ? `l${lmax}` : lmin <= 0 ? 'l0' : 'l1';
   const lvlLabel = lmin === lmax ? levelLabel(lmin) : `L${lmin}–L${lmax} mixed`;
+  const wid = (g.payroll + '_' + g.carrier).replace(/[^a-zA-Z0-9]/g, '_');
   return `<div class="rel-row ${lvlClass}" id="rg-${idx}">
     <div class="rel-main" onclick="toggle('rg-${idx}')">
       <div class="rel-identity">
@@ -485,7 +692,7 @@ function relRowHTML(g, idx) {
           <span class="rel-format">${[...new Set(g.clients.map(c=>c.format))].join(' / ')}</span>
         </div>
       </div>
-      ${stackMiniHTML(sc)}
+      ${pipelineHTML(sc)}
       ${intelligencePanelHTML(sc, g.clients)}
       <div class="rel-score">
         <div class="rel-pct" style="color:${pctColor(p)}">${p}%</div>
@@ -495,8 +702,10 @@ function relRowHTML(g, idx) {
     </div>
     <div class="rel-detail">
       ${phaseGapHTML(sc)}
+      ${workToolHTML(wid, lmax)}
       <div class="rel-detail-header">
         <span class="rel-detail-title">Clients on this relationship</span>
+        ${drilldownHTML()}
       </div>
       <table class="client-table">
         <thead><tr><th>Client</th><th>Format</th><th>Report Method</th><th>DZ Level</th><th>Score</th></tr></thead>
@@ -509,6 +718,7 @@ function relRowHTML(g, idx) {
 function clientFlatRowHTML(c, idx) {
   const sc = SCORES[c.level];
   const p = pct(sc);
+  const wid = (c.id + '_' + c.carrier).replace(/[^a-zA-Z0-9]/g, '_');
   return `<div class="rel-row l${c.level}" id="cf-${idx}">
     <div class="rel-main" onclick="toggle('cf-${idx}')">
       <div class="rel-identity">
@@ -523,7 +733,7 @@ function clientFlatRowHTML(c, idx) {
           <span class="level-tag l${c.level}">${levelLabel(c.level)}</span>
         </div>
       </div>
-      ${stackMiniHTML(sc)}
+      ${pipelineHTML(sc)}
       ${intelligencePanelHTML(sc, [c])}
       <div class="rel-score">
         <div class="rel-pct" style="color:${pctColor(p)}">${p}%</div>
@@ -533,6 +743,10 @@ function clientFlatRowHTML(c, idx) {
     </div>
     <div class="rel-detail">
       ${phaseGapHTML(sc)}
+      ${workToolHTML(wid, c.level)}
+      <div class="rel-detail-header" style="justify-content:flex-end">
+        ${drilldownHTML()}
+      </div>
     </div>
   </div>`;
 }
