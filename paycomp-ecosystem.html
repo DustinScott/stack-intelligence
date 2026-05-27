@@ -133,13 +133,50 @@
     .s1      { animation: twinkle 3s ease-in-out infinite; }
     .s2      { animation: twinkle 4s ease-in-out 1.3s infinite; }
     .breathe { animation: breathe 2s ease-in-out infinite; }
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,9,26,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1e2a42;
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; width: 100%;
+    }
+    .site-nav-logo { font-size: 14px; font-weight: 700; color: #fff; text-decoration: none; }
+    .site-nav-logo span { color: #f97316; }
+    .site-nav-links { display: flex; gap: 4px; }
+    .site-nav-links a { font-size: 13px; padding: 6px 12px; border-radius: 6px; color: #64748b; text-decoration: none; transition: all .15s; }
+    .site-nav-links a:hover { color: #fff; background: #1e2a42; }
+    .site-nav-links a.active { color: #fff; background: #1e2a42; }
+    .site-nav-actions { display: flex; gap: 8px; }
+    .site-nav-actions a { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; text-decoration: none; }
+    .snav-ghost { border: 1px solid #2d3d5a; color: #94a3b8; }
+    .snav-ghost:hover { border-color: #4a6fa5; color: #fff; }
+    .snav-primary { background: #f59e0b; color: #0a0700; }
+    .snav-primary:hover { background: #fbbf24; }
     @media (max-width: 640px) {
       .cast { grid-template-columns: 1fr 1fr; }
       h1 { font-size: 24px; }
+      .site-nav-links { display: none; }
+      .site-nav { padding: 0 16px; }
     }
   </style>
 </head>
 <body>
+
+<nav class="site-nav">
+  <a class="site-nav-logo" href="index.html">PayComp <span>STACK</span> Intelligence</a>
+  <div class="site-nav-links">
+    <a href="index.html">Platform</a>
+    <a href="relationships.html">Relationships</a>
+    <a href="stack-dashboard.html">Dashboard</a>
+    <a href="teach.html">Learn</a>
+  </div>
+  <div class="site-nav-actions">
+    <a class="snav-ghost" href="#">Login</a>
+    <a class="snav-primary" href="mailto:dustale@gmail.com?subject=STACK Demo Request">Request Demo</a>
+  </div>
+</nav>
 
 <div class="header">
   <div class="eyebrow">The Big Picture</div>
