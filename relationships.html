@@ -86,76 +86,66 @@
     .rel-row.l2 { border-left: 3px solid var(--blue); }
     .rel-row.l3 { border-left: 3px solid var(--green); }
 
-    .rel-main { display: grid; grid-template-columns: 2fr 1.1fr 1.6fr 0.85fr auto; gap: 16px; align-items: center; padding: 18px 22px; cursor: pointer; }
+    .rel-main { display: grid; grid-template-columns: 1.5fr 1fr 1.8fr 0.65fr auto; gap: 16px; align-items: center; padding: 18px 22px; cursor: pointer; }
     .rel-identity { display: flex; flex-direction: column; gap: 6px; }
     .rel-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 700; padding: 4px 11px; border-radius: 7px; white-space: nowrap; }
-    .badge.payroll { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
-    .badge.carrier { background: rgba(249,115,22,0.12); color: #fdba74; border: 1px solid rgba(249,115,22,0.25); }
-    .badge-arrow { color: var(--text3); font-weight: 900; font-size: 0.85rem; }
-    .rel-meta { display: flex; align-items: center; gap: 8px; }
-    .client-count { font-size: 0.62rem; font-weight: 800; padding: 2px 8px; border-radius: 100px; background: rgba(255,255,255,0.07); color: var(--text2); border: 1px solid var(--border2); }
-    .level-tag { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 100px; }
-    .level-tag.l0 { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
-    .level-tag.l1 { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
-    .level-tag.l2 { background: rgba(59,130,246,0.12); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2); }
-    .level-tag.l3 { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
-    .rel-format { font-size: 0.7rem; color: var(--text3); }
+    .rel-badges { display: flex; align-items: center; gap: 10px; }
+    .rel-name { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; line-height: 1.2; }
+    .rel-name.payroll-name { color: var(--text2); }
+    .rel-name.carrier-name { color: var(--text); }
+    .rel-name-rule { display: inline-block; width: 1px; height: 1.15em; background: rgba(255,255,255,0.18); flex-shrink: 0; align-self: center; }
+    .rel-meta { display: flex; align-items: center; gap: 7px; }
+    .meta-plain { font-size: 0.72rem; font-weight: 500; color: var(--text3); letter-spacing: 0.01em; }
+    .meta-pipe  { font-size: 0.65rem; color: rgba(100,116,139,0.3); user-select: none; }
+    .meta-level { font-size: 0.72rem; font-weight: 600; }
+    .meta-level.l0 { color: rgba(239,68,68,0.6); }
+    .meta-level.l1 { color: rgba(245,158,11,0.65); }
+    .meta-level.l2 { color: rgba(93,161,246,0.75); }
+    .meta-level.l3 { color: rgba(34,197,94,0.7); }
 
     /* ── PIPELINE FLOW VISUALIZATION ── */
-    .pipeline { display: flex; align-items: center; gap: 0; }
-    .pip-stage { display: flex; align-items: center; }
+    .pipeline { display: flex; align-items: center; padding: 4px 8px; }
+    .pip-stage { display: flex; align-items: center; flex-shrink: 0; }
     .pip-node {
-      width: 34px; height: 34px; border-radius: 50%;
+      width: 32px; height: 32px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      position: relative; z-index: 1; flex-shrink: 0;
+      flex-shrink: 0; position: relative; z-index: 1;
       transition: all 0.3s;
     }
-    .pip-letter { font-size: 0.65rem; font-weight: 900; letter-spacing: 0; }
-    .pip-stage.complete .pip-node { color: #fff; }
-    .pip-stage.complete.ps { background: #3b82f6; box-shadow: 0 0 10px rgba(59,130,246,0.4); }
-    .pip-stage.complete.pt { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
-    .pip-stage.complete.pa { background: #a855f7; box-shadow: 0 0 10px rgba(168,85,247,0.4); }
-    .pip-stage.complete.pc { background: #f59e0b; box-shadow: 0 0 10px rgba(245,158,11,0.4); }
-    .pip-stage.complete.pk { background: #f97316; box-shadow: 0 0 10px rgba(249,115,22,0.4); }
-    .pip-stage.partial .pip-node { color: #fff; opacity: 0.7; }
-    .pip-stage.partial.ps { background: rgba(59,130,246,0.6); }
-    .pip-stage.partial.pt { background: rgba(16,185,129,0.6); }
-    .pip-stage.partial.pa { background: rgba(168,85,247,0.6); }
-    .pip-stage.partial.pc { background: rgba(245,158,11,0.6); }
-    .pip-stage.partial.pk { background: rgba(249,115,22,0.6); }
+    .pip-letter { font-size: 0.6rem; font-weight: 900; }
+    /* ── Node colors: state only — complete/partial/blocked/waiting ── */
+    .pip-stage.complete .pip-node {
+      background: rgba(255,255,255,0.88); color: var(--navy);
+    }
+    .pip-stage.partial .pip-node {
+      background: rgba(255,255,255,0.22); color: rgba(255,255,255,0.55);
+    }
     .pip-stage.blocked .pip-node {
-      background: rgba(239,68,68,0.1); border: 2px solid var(--red);
+      width: 38px; height: 38px; border-radius: 7px;
+      background: rgba(239,68,68,0.08); border: 2px solid var(--red);
       color: var(--red); animation: pip-pulse 1.6s ease-in-out infinite;
     }
+    .pip-stage.blocked .pip-letter { font-size: 0.76rem; font-weight: 900; }
     .pip-stage.waiting .pip-node {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text3);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(100,116,139,0.35);
     }
     /* Connector lines */
-    .pip-line { width: 22px; height: 3px; position: relative; overflow: hidden; border-radius: 2px; flex-shrink: 0; }
-    .pip-stage.complete .pip-line { background: rgba(255,255,255,0.12); }
+    .pip-line { width: 14px; height: 2px; position: relative; overflow: hidden; border-radius: 1px; flex-shrink: 0; }
+    .pip-stage.complete .pip-line { background: rgba(255,255,255,0.1); }
     .pip-stage.complete .pip-line::after {
       content: ''; position: absolute; top: 0; left: -100%; width: 60%;
       height: 100%; border-radius: 2px;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
       animation: pip-flow 1.8s linear infinite;
     }
-    .pip-stage.partial .pip-line { background: rgba(255,255,255,0.08); }
+    .pip-stage.partial .pip-line { background: rgba(255,255,255,0.07); }
     .pip-stage.partial .pip-line::after {
-      content: ''; position: absolute; top: 0; left: -100%; width: 60%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+      content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
       animation: pip-flow 2.8s linear infinite;
     }
-    .pip-stage.blocked .pip-line, .pip-stage.waiting .pip-line { background: rgba(255,255,255,0.05); }
-    /* Phase label below node */
-    .pip-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .pip-label { font-size: 0.52rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
-    .pip-stage.complete .pip-label { color: var(--text3); }
-    .pip-stage.partial  .pip-label { color: var(--text3); opacity:0.7; }
-    .pip-stage.blocked  .pip-label { color: var(--red); }
-    .pip-stage.waiting  .pip-label { color: rgba(100,116,139,0.5); }
+    .pip-stage.blocked .pip-line, .pip-stage.waiting .pip-line { background: rgba(255,255,255,0.04); }
     @keyframes pip-flow { 0%{left:-60%} 100%{left:160%} }
     @keyframes pip-pulse {
       0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
@@ -163,22 +153,21 @@
     }
 
     /* SCORE BLOCK */
-    .rel-score { text-align: right; }
+    .rel-score { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
     .rel-pct { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
-    .rel-pct-sub { font-size: 0.6rem; color: var(--text3); margin-top: 2px; }
+    .rel-pct-sub { font-size: 0.6rem; color: var(--text3); }
+    .rel-risk { font-size: 0.68rem; font-weight: 700; margin-top: 4px; }
+    .rel-risk.risk { color: #f87171; }
+    .rel-risk.optimized { color: var(--green); }
 
     /* INTEL PANEL */
-    .intel-panel { display: flex; flex-direction: column; gap: 7px; }
-    .bottleneck-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 7px; font-size: 0.7rem; font-weight: 700; width: fit-content; }
-    .bottleneck-chip.bt-s { background: rgba(59,130,246,0.1); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2); }
-    .bottleneck-chip.bt-t { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
-    .bottleneck-chip.bt-a { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
-    .bottleneck-chip.bt-c { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
-    .bottleneck-chip.bt-k { background: rgba(249,115,22,0.1); color: #fb923c; border: 1px solid rgba(249,115,22,0.2); }
-    .bottleneck-chip.bt-none { background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
-    .intel-meta { display: flex; flex-direction: column; gap: 2px; }
-    .intel-meta-row { font-size: 0.68rem; color: var(--text3); }
-    .intel-meta-row strong { color: var(--text2); font-weight: 700; }
+    .intel-panel { display: flex; flex-direction: column; gap: 5px; padding-left: 10px; }
+    .bottleneck-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 300; color: var(--text2); line-height: 1.45; letter-spacing: 0.005em; }
+    .bottleneck-chip.bt-none { color: var(--green); }
+    .bottleneck-chip .bn-icon { font-size: 0.7rem; color: var(--text3); flex-shrink: 0; }
+    .intel-impact { font-size: 0.72rem; font-weight: 700; color: var(--text2); letter-spacing: 0.01em; margin-top: 1px; }
+    .intel-impact.risk { color: #f87171; }
+    .intel-impact.optimized { color: var(--green); }
 
     /* LANGUAGE TOGGLE */
     .lang-toggle { display: flex; background: rgba(255,255,255,0.04); border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; }
@@ -210,10 +199,17 @@
     .work-input:focus { border-color: var(--orange); }
     .work-textarea { background: rgba(255,255,255,0.05); border: 1px solid var(--border2); color: var(--text); font-size: 0.78rem; padding: 7px 10px; border-radius: 7px; outline: none; width: 100%; resize: vertical; min-height: 56px; font-family: inherit; }
     .work-textarea:focus { border-color: var(--orange); }
+    .level-btns { display: flex; gap: 6px; }
     .promote-btn { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: var(--green); font-size: 0.72rem; font-weight: 800; padding: 6px 14px; border-radius: 7px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-    .promote-btn:hover { background: rgba(34,197,94,0.2); }
+    .promote-btn:hover:not(:disabled) { background: rgba(34,197,94,0.22); }
     .promote-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .promote-badge { font-size: 0.62rem; color: var(--green); margin-top: 3px; }
+    .demote-btn { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.22); color: #f87171; font-size: 0.72rem; font-weight: 800; padding: 6px 14px; border-radius: 7px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .demote-btn:hover:not(:disabled) { background: rgba(239,68,68,0.16); }
+    .demote-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .level-badge { font-size: 0.62rem; color: var(--text3); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
+    .level-badge strong { color: var(--text2); }
+    .reset-link { font-size: 0.62rem; color: var(--text3); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0; }
+    .reset-link:hover { color: var(--text2); }
     .saved-flash { font-size: 0.62rem; color: var(--green); opacity: 0; transition: opacity 0.3s; }
     .saved-flash.show { opacity: 1; }
 
@@ -281,6 +277,52 @@
       .rel-main { grid-template-columns: 1fr; }
       .rankings-section { grid-template-columns: 1fr; }
     }
+
+    /* ── SLIDE PANEL ── */
+    .panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    .panel-overlay.open { opacity: 1; pointer-events: all; }
+    .slide-panel { position: fixed; top: 0; right: 0; height: 100vh; width: 540px; max-width: 96vw; background: var(--navy2); border-left: 1px solid var(--border2); z-index: 201; transform: translateX(100%); transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; display: flex; flex-direction: column; }
+    .slide-panel.open { transform: translateX(0); }
+    .panel-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 28px 28px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--navy2); z-index: 1; }
+    .panel-eyebrow { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+    .panel-title { font-size: 1.2rem; font-weight: 900; letter-spacing: -0.03em; color: var(--text); line-height: 1.2; }
+    .panel-close { background: rgba(255,255,255,0.06); border: 1px solid var(--border2); color: var(--text3); font-size: 0.9rem; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+    .panel-close:hover { color: var(--text); background: rgba(255,255,255,0.12); }
+    .panel-body { padding: 24px 28px 40px; flex: 1; }
+    .panel-section { margin-bottom: 28px; }
+    .panel-section-title { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .panel-stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px; }
+    .panel-stat-card { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; }
+    .panel-stat-val { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: 5px; }
+    .panel-stat-label { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); }
+    .panel-list { display: flex; flex-direction: column; gap: 6px; }
+    .panel-list-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; }
+    .panel-list-name { flex: 1; font-size: 0.8rem; color: var(--text); font-weight: 500; line-height: 1.4; }
+    .panel-list-score { font-size: 0.78rem; font-weight: 700; }
+    .panel-list-count { font-size: 0.65rem; color: var(--text3); white-space: nowrap; }
+    /* Level dist bars */
+    .panel-level-dist { display: flex; flex-direction: column; gap: 9px; }
+    .panel-level-row { display: flex; align-items: center; gap: 10px; }
+    .panel-level-label { font-size: 0.62rem; font-weight: 700; width: 88px; flex-shrink: 0; }
+    .panel-level-bar-wrap { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+    .panel-level-bar { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+    .panel-level-count { font-size: 0.62rem; color: var(--text3); width: 56px; text-align: right; flex-shrink: 0; }
+    /* Trend steps */
+    .trend-steps { display: flex; flex-direction: column; }
+    .trend-step { display: flex; align-items: flex-start; gap: 14px; padding-bottom: 18px; position: relative; }
+    .trend-step-dot { width: 14px; height: 14px; border-radius: 4px; border: 2px solid; flex-shrink: 0; margin-top: 3px; }
+    .trend-step-connector { position: absolute; left: 6px; top: 20px; width: 2px; bottom: 0; background: var(--border2); }
+    .trend-step-content { flex: 1; }
+    .trend-step-label { font-size: 0.8rem; font-weight: 600; color: var(--text3); }
+    .trend-step.current .trend-step-label { color: var(--text); font-weight: 700; }
+    .trend-step.target-step .trend-step-label { color: var(--orange); }
+    .trend-step-sub { font-size: 0.66rem; color: var(--text3); margin-top: 2px; }
+    /* Grade display */
+    .readiness-grade { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; padding: 20px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; }
+    .grade-letter { font-size: 4.5rem; font-weight: 900; letter-spacing: -0.05em; line-height: 1; }
+    .grade-meta { flex: 1; }
+    .grade-label { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .grade-desc { font-size: 0.76rem; color: var(--text2); line-height: 1.55; }
   </style>
 </head>
 <body>
@@ -352,9 +394,9 @@
     <button class="view-btn" id="vb-client" onclick="setView('client')">By Client</button>
     <div class="filter-sep"></div>
     <div class="lang-toggle">
-      <button class="lang-btn active" id="lb-dev"  onclick="setLang('dev')">DEV</button>
+      <button class="lang-btn"        id="lb-dev"  onclick="setLang('dev')">DEV</button>
       <button class="lang-btn"        id="lb-ops"  onclick="setLang('ops')">OPS</button>
-      <button class="lang-btn"        id="lb-exec" onclick="setLang('exec')">EXEC</button>
+      <button class="lang-btn active" id="lb-exec" onclick="setLang('exec')">EXEC</button>
     </div>
     <span class="result-count" id="count-label">—</span>
   </div>
@@ -363,6 +405,19 @@
 
   <div class="rankings-section" id="rankings"></div>
 
+</div>
+
+<!-- SLIDE PANEL -->
+<div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+<div class="slide-panel" id="slide-panel">
+  <div class="panel-header">
+    <div>
+      <div class="panel-eyebrow" id="panel-eyebrow">Loading…</div>
+      <div class="panel-title" id="panel-title">—</div>
+    </div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-body"></div>
 </div>
 
 <script>
@@ -480,7 +535,7 @@ const LANG = {
     clientLabel: 'clients generating this workflow'
   }
 };
-let currentLang = 'dev';
+let currentLang = 'exec';
 
 function setLang(l) {
   currentLang = l;
@@ -509,17 +564,11 @@ function bottleneckInfo(sc) {
 function intelligencePanelHTML(sc, clients) {
   const L = LANG[currentLang];
   const bn = bottleneckInfo(sc);
-  const formats = [...new Set(clients.map(c=>c.format))].join(' · ');
-  const methods = [...new Set(clients.map(c=>c.method))];
-  const methodStr = methods.length === 1 ? methods[0] : `${methods.length} report methods`;
   const msg = L.bottleneck[bn.key] || '';
+  const icon = bn.key === 'none' ? '✓' : '—';
   return `<div class="intel-panel">
     <div class="bottleneck-chip bt-${bn.key}">
-      ${bn.key==='none'?'✓':'⚠'} ${msg}
-    </div>
-    <div class="intel-meta">
-      <div class="intel-meta-row"><strong>${clients.length} ${L.clientLabel}</strong> · ${formats}</div>
-      <div class="intel-meta-row">${methodStr}</div>
+      <span class="bn-icon">${icon}</span>${msg}
     </div>
   </div>`;
 }
@@ -573,16 +622,13 @@ function getPipelineStates(sc) {
 function pipelineHTML(sc) {
   const L = LANG[currentLang];
   const states = getPipelineStates(sc);
-  const phaseColors = { s:'#3b82f6', t:'#10b981', a:'#a855f7', c:'#f59e0b', k:'#f97316' };
   return `<div class="pipeline">
     ${states.map((ph, i) => {
       const isLast = i === states.length - 1;
       const label = L.phaseNames[ph.key];
+      const stateHint = ph.state === 'blocked' ? ' ⚠ blocked' : ph.state === 'waiting' ? ' waiting' : ph.state === 'partial' ? ' partial' : ' ✓';
       return `<div class="pip-stage ${ph.state} p${ph.key}">
-        <div class="pip-wrap">
-          <div class="pip-node"><span class="pip-letter">${ph.key.toUpperCase()}</span></div>
-          <div class="pip-label">${label}</div>
-        </div>
+        <div class="pip-node" title="${label}${stateHint}"><span class="pip-letter">${ph.key.toUpperCase()}</span></div>
         ${isLast ? '' : '<div class="pip-line"></div>'}
       </div>`;
     }).join('')}
@@ -604,22 +650,47 @@ function flashSaved(id) {
   const el = document.getElementById('flash-'+id);
   if (el) { el.classList.add('show'); setTimeout(()=>el.classList.remove('show'), 1400); }
 }
-function promoteRelationship(id, currentLevel) {
-  if (currentLevel >= 3) return;
+function adjustLevel(id, currentLevel, direction) {
+  const newTarget = currentLevel + direction;
+  if (newTarget < 0 || newTarget > 3) return;
   const d = loadWork(id);
-  const newTarget = Math.min(3, currentLevel + 1);
   d.targetLevel = newTarget;
+  d.lastAction = direction > 0 ? 'upgrade' : 'downgrade';
+  d.lastActionDate = new Date().toISOString();
   saveWork(id, d);
-  const btn = document.getElementById('promote-'+id);
-  if (btn) { btn.textContent = `✓ Target: L${newTarget}`; btn.disabled = true; }
-  const badge = document.getElementById('promote-badge-'+id);
-  if (badge) badge.textContent = `Promoted → Level ${newTarget}`;
+  const pb = document.getElementById('promote-'+id);
+  const db = document.getElementById('demote-'+id);
+  if (pb) pb.disabled = true;
+  if (db) db.disabled = true;
+  const badge = document.getElementById('level-badge-'+id);
+  const arrow = direction > 0 ? '↑' : '↓';
+  if (badge) badge.innerHTML = `<strong>${arrow} Target: Level ${newTarget}</strong> <button class="reset-link" onclick="resetLevel('${id}', ${currentLevel})">Reset</button>`;
+  flashSaved(id);
+}
+
+function resetLevel(id, currentLevel) {
+  const d = loadWork(id);
+  delete d.targetLevel;
+  delete d.lastAction;
+  delete d.lastActionDate;
+  saveWork(id, d);
+  const pb = document.getElementById('promote-'+id);
+  const db = document.getElementById('demote-'+id);
+  if (pb) { pb.disabled = currentLevel >= 3; pb.textContent = currentLevel >= 3 ? 'Max Level' : `↑ L${currentLevel + 1}`; }
+  if (db) { db.disabled = currentLevel <= 0; db.textContent = currentLevel <= 0 ? 'Min Level' : `↓ L${currentLevel - 1}`; }
+  const badge = document.getElementById('level-badge-'+id);
+  if (badge) badge.innerHTML = '';
+  flashSaved(id);
 }
 
 function workToolHTML(wid, level) {
   const d = loadWork(wid);
-  const promoted = d.targetLevel != null;
-  const targetLevel = d.targetLevel ?? (level + 1);
+  const hasTarget = d.targetLevel != null;
+  const targetLevel = d.targetLevel;
+  const arrow = hasTarget ? (targetLevel > level ? '↑' : '↓') : '';
+  const badgeHTML = hasTarget
+    ? `<strong>${arrow} Target: Level ${targetLevel}</strong> <button class="reset-link" onclick="resetLevel('${wid}', ${level})">Reset</button>`
+    : '';
   return `<div class="work-section">
     <div class="work-block">
       <div class="work-label">Owner</div>
@@ -632,30 +703,182 @@ function workToolHTML(wid, level) {
         onchange="saveNote('${wid}', this.value)">${d.note||''}</textarea>
     </div>
     <div class="work-block" style="flex:0;min-width:fit-content;align-items:flex-end;gap:6px">
-      <div class="work-label">Advance Level</div>
-      <button class="promote-btn" id="promote-${wid}"
-        onclick="promoteRelationship('${wid}',${level})"
-        ${(promoted||level>=3)?'disabled':''}>
-        ${promoted?`✓ Target: L${targetLevel}`:level>=3?'Max Level ✓':`→ Promote to L${level+1}`}
-      </button>
-      <div class="promote-badge" id="promote-badge-${wid}">${promoted?`Promoted → Level ${targetLevel}`:''}</div>
+      <div class="work-label">Adjust Level</div>
+      <div class="level-btns">
+        <button class="demote-btn" id="demote-${wid}"
+          onclick="adjustLevel('${wid}', ${level}, -1)"
+          ${(hasTarget || level <= 0) ? 'disabled' : ''}>
+          ↓ L${Math.max(0, level - 1)}
+        </button>
+        <button class="promote-btn" id="promote-${wid}"
+          onclick="adjustLevel('${wid}', ${level}, +1)"
+          ${(hasTarget || level >= 3) ? 'disabled' : ''}>
+          ↑ L${Math.min(3, level + 1)}
+        </button>
+      </div>
+      <div class="level-badge" id="level-badge-${wid}">${badgeHTML}</div>
     </div>
     <span class="saved-flash" id="flash-${wid}">Saved ✓</span>
   </div>`;
 }
 
-function drilldownHTML() {
+// ── PANEL DATA REGISTRY — populated during render() ──────────────────────────
+let PANEL_DATA = {};
+
+function drilldownHTML(wid, payroll, carrier, sc, level) {
+  PANEL_DATA[wid] = { payroll, carrier, sc, level };
   return `<div class="drilldown-icons">
-    <button class="dd-btn" onclick="event.stopPropagation()" title="Carrier Profile">
-      📊 Profile<span class="dd-soon">Coming soon</span>
-    </button>
-    <button class="dd-btn" onclick="event.stopPropagation()" title="Trend Over Time">
-      📈 Trend<span class="dd-soon">Coming soon</span>
-    </button>
-    <button class="dd-btn" onclick="event.stopPropagation()" title="Client Readiness Score">
-      🎯 Readiness<span class="dd-soon">Coming soon</span>
-    </button>
+    <button class="dd-btn" onclick="event.stopPropagation(); openProfile('${wid}')">📊 Profile</button>
+    <button class="dd-btn" onclick="event.stopPropagation(); openTrend('${wid}')">📈 Trend</button>
+    <button class="dd-btn" onclick="event.stopPropagation(); openReadiness('${wid}')">🎯 Readiness</button>
   </div>`;
+}
+
+// ── PANEL CONTROLS ───────────────────────────────────────────────────────────
+function openPanelEl() {
+  document.getElementById('panel-overlay').classList.add('open');
+  document.getElementById('slide-panel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePanel() {
+  document.getElementById('panel-overlay').classList.remove('open');
+  document.getElementById('slide-panel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── PROFILE PANEL ────────────────────────────────────────────────────────────
+function openProfile(wid) {
+  const { payroll, carrier } = PANEL_DATA[wid];
+  const carrierClients = CLIENTS.filter(c => c.carrier === carrier);
+  const payrollClients = CLIENTS.filter(c => c.payroll === payroll);
+  const relClients     = CLIENTS.filter(c => c.carrier === carrier && c.payroll === payroll);
+  const cAvg = Math.round(carrierClients.reduce((a,c)=>a+pct(SCORES[c.level]),0)/carrierClients.length);
+  const pAvg = Math.round(payrollClients.reduce((a,c)=>a+pct(SCORES[c.level]),0)/payrollClients.length);
+  const cLevels = {0:0,1:0,2:0,3:0};
+  carrierClients.forEach(c=>cLevels[c.level]++);
+  const carrierPayrollMap = {};
+  carrierClients.forEach(c=>{ if(!carrierPayrollMap[c.payroll]) carrierPayrollMap[c.payroll]=[]; carrierPayrollMap[c.payroll].push(c); });
+  const payrollCarrierMap = {};
+  payrollClients.forEach(c=>{ if(!payrollCarrierMap[c.carrier]) payrollCarrierMap[c.carrier]=[]; payrollCarrierMap[c.carrier].push(c); });
+  const lvlColors = ['var(--red)','var(--amber)','var(--blue)','var(--green)'];
+  const lvlNames  = ['L0 — Manual','L1 — Template','L2 — Validate','L3 — Automatic'];
+  document.getElementById('panel-eyebrow').textContent = 'Relationship Profile';
+  document.getElementById('panel-title').textContent   = `${payroll}  ·  ${carrier}`;
+  document.getElementById('panel-body').innerHTML = `
+    <div class="panel-section">
+      <div class="panel-section-title">Carrier — ${carrier}</div>
+      <div class="panel-stats-grid">
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:${pctColor(cAvg)}">${cAvg}%</div><div class="panel-stat-label">Avg Automation</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val">${carrierClients.length}</div><div class="panel-stat-label">Total Clients</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val">${Object.keys(carrierPayrollMap).length}</div><div class="panel-stat-label">Payroll Partners</div></div>
+      </div>
+      <div class="panel-level-dist">
+        ${[0,1,2,3].map(l=>{ const w=Math.round(cLevels[l]/carrierClients.length*100); return `<div class="panel-level-row"><div class="panel-level-label" style="color:${lvlColors[l]}">${lvlNames[l]}</div><div class="panel-level-bar-wrap"><div class="panel-level-bar" style="width:${w}%;background:${lvlColors[l]}"></div></div><div class="panel-level-count">${cLevels[l]} client${cLevels[l]!==1?'s':''}</div></div>`; }).join('')}
+      </div>
+      <div class="panel-section-title" style="margin-top:20px">Payroll Partners for ${carrier}</div>
+      <div class="panel-list">
+        ${Object.entries(carrierPayrollMap).sort((a,b)=>b[1].length-a[1].length).slice(0,7).map(([n,cl])=>{ const a=Math.round(cl.reduce((x,c)=>x+pct(SCORES[c.level]),0)/cl.length); return `<div class="panel-list-item"><div class="panel-list-name">${n}</div><div class="panel-list-count">${cl.length} client${cl.length!==1?'s':''}</div><div class="panel-list-score" style="color:${pctColor(a)}">${a}%</div></div>`; }).join('')}
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Payroll Provider — ${payroll}</div>
+      <div class="panel-stats-grid">
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:${pctColor(pAvg)}">${pAvg}%</div><div class="panel-stat-label">Avg Automation</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val">${payrollClients.length}</div><div class="panel-stat-label">Total Clients</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val">${Object.keys(payrollCarrierMap).length}</div><div class="panel-stat-label">Carrier Partners</div></div>
+      </div>
+      <div class="panel-section-title" style="margin-top:4px">Carrier Partners for ${payroll}</div>
+      <div class="panel-list">
+        ${Object.entries(payrollCarrierMap).sort((a,b)=>b[1].length-a[1].length).slice(0,7).map(([n,cl])=>{ const a=Math.round(cl.reduce((x,c)=>x+pct(SCORES[c.level]),0)/cl.length); return `<div class="panel-list-item"><div class="panel-list-name">${n}</div><div class="panel-list-count">${cl.length} client${cl.length!==1?'s':''}</div><div class="panel-list-score" style="color:${pctColor(a)}">${a}%</div></div>`; }).join('')}
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Clients on ${payroll} → ${carrier}</div>
+      <div class="panel-list">
+        ${relClients.map(c=>{ const s=pct(SCORES[c.level]); return `<div class="panel-list-item"><div class="panel-list-name">${c.name}<br><span style="font-size:0.62rem;color:var(--text3);font-family:monospace">${c.id}</span></div><div class="panel-list-count" style="color:${lvlColors[c.level]}">L${c.level}</div><div class="panel-list-score" style="color:${pctColor(s)}">${s}%</div></div>`; }).join('')}
+      </div>
+    </div>`;
+  openPanelEl();
+}
+
+// ── TREND PANEL ──────────────────────────────────────────────────────────────
+function openTrend(wid) {
+  const { payroll, carrier, level } = PANEL_DATA[wid];
+  const d = loadWork(wid);
+  if (!d.baselineDate) { d.baselineDate = new Date().toISOString(); d.baselineLevel = level; saveWork(wid, d); }
+  const baseDateStr = new Date(d.baselineDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const targetLevel = d.targetLevel ?? null;
+  const baselineLevel = d.baselineLevel ?? level;
+  const lvlColors = ['var(--red)','var(--amber)','var(--blue)','var(--green)'];
+  const lvlNames  = ['Level 0 — Manual','Level 1 — Template','Level 2 — Validate','Level 3 — Automatic'];
+  const lvlPcts   = [7, 42, 63, 85];
+  document.getElementById('panel-eyebrow').textContent = 'Automation Trend';
+  document.getElementById('panel-title').textContent   = `${payroll}  ·  ${carrier}`;
+  document.getElementById('panel-body').innerHTML = `
+    <div class="panel-section">
+      <div class="panel-section-title">Current Status</div>
+      <div class="panel-stats-grid">
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:${lvlColors[level]}">L${level}</div><div class="panel-stat-label">Current Level</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:${pctColor(lvlPcts[level])}">${lvlPcts[level]}%</div><div class="panel-stat-label">Automation</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:${targetLevel!=null?lvlColors[targetLevel]:'var(--text3)'}">${targetLevel!=null?`L${targetLevel}`:'—'}</div><div class="panel-stat-label">Target</div></div>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Level Progression</div>
+      <div class="trend-steps">
+        ${[0,1,2,3].map((l)=>{ const isCurrent=l===level; const isTarget=l===targetLevel; const isPast=l<level; const isLast=l===3; const isDowngrade=isTarget&&targetLevel<level; return `<div class="trend-step ${isPast?'past':''} ${isCurrent?'current':''} ${isTarget?'target-step':''}"><div class="trend-step-dot" style="border-color:${lvlColors[l]};background:${isPast||isCurrent?lvlColors[l]:'transparent'}"></div>${!isLast?'<div class="trend-step-connector"></div>':''}<div class="trend-step-content"><div class="trend-step-label">${lvlNames[l]}${isCurrent?' ← Current':''}${isTarget?` ← ${isDowngrade?'↓ Downgrade Target':'↑ Upgrade Target'}`:''}</div><div class="trend-step-sub">${lvlPcts[l]}% automation${isCurrent?` · baseline ${baseDateStr}`:''}</div></div></div>`; }).join('')}
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Activity Log</div>
+      <div class="panel-list">
+        <div class="panel-list-item"><div class="panel-list-name"><div style="font-size:0.62rem;color:var(--text3)">${baseDateStr}</div>Baseline recorded — L${baselineLevel}</div><div class="panel-list-score" style="color:${lvlColors[baselineLevel]}">L${baselineLevel}</div></div>
+        ${targetLevel!=null?(()=>{ const isDown=targetLevel<level; const actionDate=d.lastActionDate?new Date(d.lastActionDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'; return `<div class="panel-list-item"><div class="panel-list-name"><div style="font-size:0.62rem;color:var(--text3)">${actionDate}</div>${isDown?'↓ Downgrade':'↑ Upgrade'} target set → L${targetLevel}</div><div class="panel-list-score" style="color:${isDown?'#f87171':'var(--orange)'}">L${targetLevel}</div></div>`; })():''}
+      </div>
+      ${targetLevel==null?`<div style="margin-top:12px;padding:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;font-size:0.74rem;color:var(--text3);line-height:1.6">Use the <strong style="color:var(--text2)">Promote</strong> button in the working tool to set a target level. Each promotion is logged here and will track the relationship's journey toward full automation.</div>`:''}
+    </div>`;
+  openPanelEl();
+}
+
+// ── READINESS PANEL ──────────────────────────────────────────────────────────
+function openReadiness(wid) {
+  const { payroll, carrier, sc } = PANEL_DATA[wid];
+  const p = pct(sc);
+  const grades = [
+    { min:80, g:'A', label:'Automation Ready',     color:'var(--green)',  desc:'This relationship operates at peak automation. Minimal staff involvement each cycle.' },
+    { min:60, g:'B', label:'Mostly Automated',      color:'var(--blue)',   desc:'Strong foundation. One or two phases still require manual attention each cycle.' },
+    { min:40, g:'C', label:'Partially Automated',   color:'var(--amber)',  desc:'Middle of the road. Several key phases depend on staff time each reporting period.' },
+    { min:20, g:'D', label:'Minimally Automated',   color:'var(--orange)', desc:'Most of this relationship still runs on manual effort. High staff dependency.' },
+    { min:0,  g:'F', label:'Manual Operations',     color:'var(--red)',    desc:'Little to no automation in place. Every cycle requires full staff involvement.' },
+  ];
+  const gr = grades.find(g=>p>=g.min);
+  const nextGrade = grades[grades.indexOf(gr)-1];
+  const ptsToNext = nextGrade ? nextGrade.min - p : 0;
+  const phaseColors = {s:'#3b82f6',t:'#10b981',a:'#a855f7',c:'#f59e0b',k:'#f97316'};
+  const phaseNames  = {s:'Signal — Data Intake',t:'Transform — Formatting',a:'Assess — Quality Review',c:'Check — Compliance',k:'Keys — Delivery'};
+  const bn = bottleneckInfo(sc);
+  document.getElementById('panel-eyebrow').textContent = 'Automation Readiness Score';
+  document.getElementById('panel-title').textContent   = `${payroll}  ·  ${carrier}`;
+  document.getElementById('panel-body').innerHTML = `
+    <div class="panel-section">
+      <div class="readiness-grade">
+        <div class="grade-letter" style="color:${gr.color}">${gr.g}</div>
+        <div class="grade-meta"><div class="grade-label">${gr.label}</div><div class="grade-desc">${gr.desc}</div></div>
+      </div>
+      <div class="panel-stats-grid">
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:${gr.color}">${p}%</div><div class="panel-stat-label">Automation Score</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:var(--text3)">${nextGrade?nextGrade.g:'—'}</div><div class="panel-stat-label">Next Grade</div></div>
+        <div class="panel-stat-card"><div class="panel-stat-val" style="color:var(--text3)">${nextGrade?`+${ptsToNext}pts`:'Peak'}</div><div class="panel-stat-label">Points Needed</div></div>
+      </div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Phase Breakdown</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        ${['s','t','a','c','k'].map(k=>{ const val=sc[k]; const isBn=k===bn.key; return `<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;background:${isBn?'rgba(239,68,68,0.06)':'rgba(255,255,255,0.02)'};border:1px solid ${isBn?'rgba(239,68,68,0.18)':'var(--border)'}"><div style="font-size:0.62rem;font-weight:800;color:${phaseColors[k]};width:10px">${k.toUpperCase()}</div><div style="flex:1;font-size:0.75rem;color:var(--text2)">${phaseNames[k]}</div><div style="width:80px;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div style="width:${val}%;height:100%;background:${isBn?'var(--red)':phaseColors[k]};border-radius:3px"></div></div><div style="font-size:0.72rem;font-weight:700;color:${isBn?'var(--red)':'var(--text2)'};width:32px;text-align:right">${val}%</div>${isBn?'<div style="font-size:0.58rem;color:var(--red);white-space:nowrap">⚠ bottleneck</div>':''}</div>`; }).join('')}
+      </div>
+    </div>
+    ${bn.key!=='none'&&nextGrade?`<div class="panel-section"><div class="panel-section-title">Recommended Action</div><div style="padding:16px;background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.15);border-radius:10px;font-size:0.8rem;color:var(--text2);line-height:1.6">💡 Automating the <strong style="color:var(--orange)">${phaseNames[bn.key].split('—')[0].trim()}</strong> phase is the highest-leverage action to improve this score toward a <strong style="color:${nextGrade.color}">${nextGrade.g} — ${nextGrade.label}</strong> grade.</div></div>`:''}`;
+  openPanelEl();
 }
 
 function clientRowHTML(c) {
@@ -682,14 +905,14 @@ function relRowHTML(g, idx) {
     <div class="rel-main" onclick="toggle('rg-${idx}')">
       <div class="rel-identity">
         <div class="rel-badges">
-          <span class="badge payroll">${g.payroll}</span>
-          <span class="badge-arrow">→</span>
-          <span class="badge carrier">${g.carrier}</span>
+          <span class="rel-name payroll-name">${g.payroll}</span>
+          <span class="rel-name-rule"></span>
+          <span class="rel-name carrier-name">${g.carrier}</span>
         </div>
         <div class="rel-meta">
-          <span class="client-count">${g.clients.length} client${g.clients.length>1?'s':''}</span>
-          <span class="level-tag l${lmax}">${lvlLabel}</span>
-          <span class="rel-format">${[...new Set(g.clients.map(c=>c.format))].join(' / ')}</span>
+          <span class="meta-plain">${g.clients.length} Client${g.clients.length>1?'s':''}</span>
+          <span class="meta-pipe">|</span>
+          <span class="meta-level l${lmax}">${lvlLabel}</span>
         </div>
       </div>
       ${pipelineHTML(sc)}
@@ -701,11 +924,15 @@ function relRowHTML(g, idx) {
       <button class="rel-toggle" onclick="event.stopPropagation();toggle('rg-${idx}')">▾</button>
     </div>
     <div class="rel-detail">
+      ${(()=>{ const bn=bottleneckInfo(sc); const n=g.clients.length; const none=bn.key==='none'; return `<div style="padding:10px 22px 0;font-size:0.7rem;font-weight:600;color:${none?'var(--green)':'#f87171'}">${none?`✓ Fully optimized · ${n} Client${n!==1?'s':''}`:`Risk: ${n} Client${n!==1?'s':''} affected by this bottleneck`}</div>`; })()}
       ${phaseGapHTML(sc)}
       ${workToolHTML(wid, lmax)}
       <div class="rel-detail-header">
-        <span class="rel-detail-title">Clients on this relationship</span>
-        ${drilldownHTML()}
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span class="rel-detail-title">Clients on this relationship</span>
+          <span style="font-size:0.68rem;color:var(--text3);">Format: ${[...new Set(g.clients.map(c=>c.format))].join(' · ')} &nbsp;·&nbsp; Method: ${[...new Set(g.clients.map(c=>c.method))].length === 1 ? g.clients[0].method : [...new Set(g.clients.map(c=>c.method))].length + ' methods'}</span>
+        </div>
+        ${drilldownHTML(wid, g.payroll, g.carrier, sc, lmax)}
       </div>
       <table class="client-table">
         <thead><tr><th>Client</th><th>Format</th><th>Report Method</th><th>DZ Level</th><th>Score</th></tr></thead>
@@ -723,29 +950,35 @@ function clientFlatRowHTML(c, idx) {
     <div class="rel-main" onclick="toggle('cf-${idx}')">
       <div class="rel-identity">
         <div class="rel-badges">
-          <span class="badge payroll">${c.payroll}</span>
-          <span class="badge-arrow">→</span>
-          <span class="badge carrier">${c.carrier}</span>
+          <span class="rel-name payroll-name">${c.payroll}</span>
+          <span class="rel-name-rule"></span>
+          <span class="rel-name carrier-name">${c.carrier}</span>
         </div>
         <div class="rel-meta">
-          <span class="client-name" style="font-size:0.8rem;color:var(--text)">${c.name}</span>
-          <span class="client-id">${c.id}</span>
-          <span class="level-tag l${c.level}">${levelLabel(c.level)}</span>
+          <span class="meta-plain" style="color:var(--text);font-weight:600;font-size:0.8rem">${c.name}</span>
+          <span class="meta-pipe">|</span>
+          <span class="meta-plain">${c.id}</span>
+          <span class="meta-pipe">|</span>
+          <span class="meta-level l${c.level}">${levelLabel(c.level)}</span>
         </div>
       </div>
       ${pipelineHTML(sc)}
       ${intelligencePanelHTML(sc, [c])}
       <div class="rel-score">
         <div class="rel-pct" style="color:${pctColor(p)}">${p}%</div>
-        <div class="rel-pct-sub">${c.format}</div>
+        <div class="rel-pct-sub">automated</div>
       </div>
       <button class="rel-toggle" onclick="event.stopPropagation();toggle('cf-${idx}')">▾</button>
     </div>
     <div class="rel-detail">
       ${phaseGapHTML(sc)}
       ${workToolHTML(wid, c.level)}
-      <div class="rel-detail-header" style="justify-content:flex-end">
-        ${drilldownHTML()}
+      <div class="rel-detail-header">
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span class="rel-detail-title">Client detail</span>
+          <span style="font-size:0.68rem;color:var(--text3);">Format: ${c.format} &nbsp;·&nbsp; Method: ${c.method}</span>
+        </div>
+        ${drilldownHTML(wid, c.payroll, c.carrier, sc, c.level)}
       </div>
     </div>
   </div>`;
