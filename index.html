@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PayComp STACK Intelligence Platform</title>
   <style>
+
+/* ── SITE-NAV ── */
+.snav{position:sticky;top:0;z-index:200;background:#0d1b2a;border-bottom:1px solid rgba(255,255,255,0.08);height:62px;display:flex;align-items:center;}
+.snav-inner{max-width:1240px;margin:0 auto;padding:0 28px;width:100%;display:flex;align-items:center;}
+.snav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;margin-right:28px;}
+.snav-logo img{height:34px;width:auto;}
+.snav-logo-div{width:1px;height:22px;background:rgba(255,255,255,0.18);}
+.snav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.snav-logo-text strong{font-size:0.95rem;font-weight:900;color:#fff;letter-spacing:-0.02em;}
+.snav-logo-text span{font-size:0.52rem;font-weight:700;color:#f97316;letter-spacing:0.15em;text-transform:uppercase;margin-top:3px;}
+.snav-links{display:flex;gap:2px;flex:1;}
+.snav-links a{font-size:0.875rem;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 13px;border-radius:7px;transition:all 0.15s;}
+.snav-links a:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.snav-links a.active{color:#fff;background:rgba(255,255,255,0.1);font-weight:600;}
+.snav-btns{display:flex;gap:8px;margin-left:12px;flex-shrink:0;}
+.snav-ghost{font-size:0.875rem;font-weight:500;color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.25);padding:6px 16px;border-radius:7px;text-decoration:none;transition:all 0.15s;}
+.snav-ghost:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.snav-cta{font-size:0.875rem;font-weight:700;background:#f97316;color:#fff !important;padding:7px 18px;border-radius:7px;text-decoration:none;transition:opacity 0.15s;white-space:nowrap;}
+.snav-cta:hover{opacity:0.88;}
+.snav-tag{font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.06);padding:3px 9px;border-radius:5px;margin-left:4px;}
+@media(max-width:800px){.snav-links,.snav-btns{display:none;}}
+/* ── END SITE-NAV ── */
+
     /* ── RESET & BASE ─────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -396,24 +419,26 @@
 <body>
 
 <!-- ── NAV ─────────────────────────────────────────────────── -->
-<nav>
-  <div class="nav-inner">
-    <a class="nav-logo" href="#" style="display:flex;align-items:center;gap:14px;text-decoration:none;">
-      <img src="PayCompLogo_AgencySignup.png" alt="PayComp" style="height:38px;width:auto;filter:brightness(1.05);" />
-      <div style="display:flex;flex-direction:column;line-height:1;border-left:1px solid rgba(255,255,255,0.2);padding-left:14px;">
-        <span style="font-size:1rem;font-weight:900;color:#fff;letter-spacing:-0.02em;">STACK</span>
-        <span style="font-size:0.55rem;font-weight:700;color:#f97316;letter-spacing:0.15em;text-transform:uppercase;">Intelligence</span>
+<nav class="snav">
+  <div class="snav-inner">
+    <a class="snav-logo" href="index.html">
+      <img src="PayCompLogo_AgencySignup.png" alt="PayComp" />
+      <div class="snav-logo-div"></div>
+      <div class="snav-logo-text">
+        <strong>STACK</strong>
+        <span>Intelligence</span>
       </div>
     </a>
-    <ul class="nav-links">
-      <li><a href="index.html" style="color:#fff;">Platform</a></li>
-      <li><a href="relationships.html">Relationships</a></li>
-      <li><a href="stack-dashboard.html">Dashboard</a></li>
-      <li><a href="teach.html">Learn</a></li>
-    </ul>
-    <div class="nav-btns">
-      <a class="btn-outline-white" href="#">Login</a>
-      <a class="btn-orange" href="mailto:dustale@gmail.com?subject=STACK Demo Request">Request Demo</a>
+    <div class="snav-links">
+      <a href="index.html" class="active">Platform</a>
+      <a href="relationships.html">Relationships</a>
+      <a href="stack-dashboard.html">Dashboard</a>
+      <a href="teach.html">Learn</a>
+      <a href="Atlas/index.html">Atlas</a>
+    </div>
+    <div class="snav-btns">
+      <a class="snav-ghost" href="#">Login</a>
+      <a class="snav-cta" href="mailto:dustale@gmail.com?subject=STACK Demo Request">Request Demo</a>
     </div>
   </div>
 </nav>
