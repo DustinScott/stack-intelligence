@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karson Kolache Korner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdf6ed;
+      --brown: #3b1f0e;
+      --warm: #c0601a;
+      --gold: #e8a444;
+      --light: #f9efe0;
+      --muted: #7a5c45;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--brown);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--brown);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 48px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      color: #d4b896;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 92vh;
+      background: var(--brown);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(200, 90, 20, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(232, 164, 68, 0.12) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--warm);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 40px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 7rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span { color: var(--gold); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.3rem);
+      font-weight: 300;
+      color: #c9a882;
+      margin-bottom: 48px;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--warm);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 16px 40px;
+      border-radius: 50px;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 6px 24px rgba(192, 96, 26, 0.4);
+    }
+
+    .hero-cta:hover { background: #a84e12; transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #7a5c45;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 100px 24px; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      text-align: center;
+      color: var(--brown);
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 300;
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto 64px;
+      line-height: 1.7;
+    }
+
+    /* ─── MENU ─── */
+    #menu { background: var(--light); }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .menu-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(59, 31, 14, 0.07);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 36px rgba(59, 31, 14, 0.14);
+    }
+
+    .menu-emoji {
+      background: var(--cream);
+      text-align: center;
+      font-size: 4rem;
+      padding: 40px 20px 28px;
+    }
+
+    .menu-body { padding: 24px 28px 32px; }
+
+    .menu-tag {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 8px;
+    }
+
+    .menu-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--brown);
+    }
+
+    .menu-body p {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .menu-price {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--warm);
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      background: var(--brown);
+      color: var(--cream);
+    }
+
+    #about .section-title { color: var(--cream); }
+    #about .section-label { color: var(--gold); }
+    #about .section-desc { color: #c9a882; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-stat {
+      padding: 24px;
+    }
+
+    .about-stat .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .about-stat p {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: #c9a882;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── HOURS ─── */
+    #hours { background: var(--cream); }
+
+    .hours-wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hours-box {
+      background: var(--light);
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid #e8d8c4;
+    }
+
+    .hours-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+      color: var(--brown);
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5d3bc;
+      font-size: 0.92rem;
+    }
+
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row .day { font-weight: 400; color: var(--brown); }
+    .hours-row .time { font-weight: 300; color: var(--muted); }
+    .hours-row .closed { color: #c0887a; font-style: italic; }
+
+    .contact-box {
+      background: var(--warm);
+      border-radius: 20px;
+      padding: 40px;
+      color: #fff;
+    }
+
+    .contact-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .contact-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+
+    .contact-item p {
+      font-size: 0.92rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .contact-item strong { font-weight: 500; color: #fff; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--brown);
+      text-align: center;
+      padding: 40px 24px;
+      color: #7a5c45;
+      font-size: 0.85rem;
+      font-weight: 300;
+    }
+
+    footer span { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Karson Kolache Korner</div>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">Our Story</a></li>
+      <li><a href="#hours">Visit Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Fresh Baked Daily</div>
+    <h1>Karson<br><span>Kolache</span><br>Korner</h1>
+    <p class="hero-sub">Texas-style kolaches made from scratch. Sweet, savory, and straight out of the oven every morning.</p>
+    <a href="#menu" class="hero-cta">See the Menu</a>
+    <div class="scroll-hint">↓ scroll</div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <p class="section-label">What We Make</p>
+    <h2 class="section-title">The Good Stuff</h2>
+    <p class="section-desc">Classic kolaches done right — soft pillowy dough, generous fillings, baked fresh every morning.</p>
+
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <div class="menu-emoji">🌭</div>
+        <div class="menu-body">
+          <div class="menu-tag">Savory</div>
+          <h3>Sausage &amp; Cheese</h3>
+          <p>A whole smoked sausage link wrapped in warm, pillowy dough with sharp cheddar tucked inside. A Texas staple.</p>
+          <div class="menu-price">$3.25</div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-emoji">🍳</div>
+        <div class="menu-body">
+          <div class="menu-tag">Savory</div>
+          <h3>Egg, Bacon &amp; Cheese</h3>
+          <p>Scrambled eggs, crispy bacon crumbles, and melted cheddar folded into our signature soft dough.</p>
+          <div class="menu-price">$3.75</div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-emoji">🍓</div>
+        <div class="menu-body">
+          <div class="menu-tag">Sweet</div>
+          <h3>Strawberry Cream Cheese</h3>
+          <p>Sweet cream cheese filling with a generous spoonful of strawberry jam, dusted with powdered sugar.</p>
+          <div class="menu-price">$2.75</div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-emoji">🫐</div>
+        <div class="menu-body">
+          <div class="menu-tag">Sweet</div>
+          <h3>Blueberry</h3>
+          <p>Plump blueberry filling in our classic sweet dough, topped with a light vanilla glaze and streusel crumble.</p>
+          <div class="menu-price">$2.75</div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-emoji">🌶️</div>
+        <div class="menu-body">
+          <div class="menu-tag">Savory</div>
+          <h3>Jalapeño Cheddar Brisket</h3>
+          <p>Slow-smoked brisket, melted cheddar, and pickled jalapeños all wrapped up in one legendary kolache.</p>
+          <div class="menu-price">$4.50</div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-emoji">☕</div>
+        <div class="menu-body">
+          <div class="menu-tag">Drinks</div>
+          <h3>Coffee &amp; Drinks</h3>
+          <p>Fresh-brewed drip coffee, cold brew, orange juice, and seasonal agua fresca. Everything you need to start the day.</p>
+          <div class="menu-price">from $2.00</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">Made with Love Since '09</h2>
+    <p class="section-desc">Karson started this place with one recipe, a borrowed oven, and a whole lot of heart. Every kolache is still made the same way — by hand, before sunrise.</p>
+
+    <div class="about-grid">
+      <div class="about-stat">
+        <div class="num">17</div>
+        <p>Years in the neighborhood</p>
+      </div>
+      <div class="about-stat">
+        <div class="num">24</div>
+        <p>Flavors in the rotation</p>
+      </div>
+      <div class="about-stat">
+        <div class="num">4am</div>
+        <p>When the oven goes on</p>
+      </div>
+      <div class="about-stat">
+        <div class="num">0</div>
+        <p>Shortcuts. Ever.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOURS & CONTACT -->
+  <section id="hours">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-title">Hours &amp; Location</h2>
+    <p class="section-desc">We sell out fast — come early for the best selection.</p>
+
+    <div class="hours-wrapper">
+      <div class="hours-box">
+        <h3>Hours</h3>
+        <div class="hours-row"><span class="day">Monday – Friday</span><span class="time">6:00 am – 1:00 pm</span></div>
+        <div class="hours-row"><span class="day">Saturday</span><span class="time">7:00 am – 2:00 pm</span></div>
+        <div class="hours-row"><span class="day">Sunday</span><span class="closed">Closed</span></div>
+      </div>
+
+      <div class="contact-box">
+        <h3>Come See Us</h3>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <p><strong>4812 Oak Creek Blvd</strong><br>Austin, TX 78745</p>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <p><strong>(512) 555-0194</strong><br>Call ahead for bulk orders</p>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📸</div>
+          <p><strong>@karsonkolache</strong><br>Tag us in your morning haul</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <span>Karson Kolache Korner</span> · Austin, TX · Made with flour, butter, and way too much love.</p>
+  </footer>
+
+</body>
+</html>
