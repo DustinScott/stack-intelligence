@@ -428,6 +428,54 @@
     </div>
   </div>
 
+  <!-- ── LIVE RELATIONSHIP INTELLIGENCE ── -->
+  <div class="platform-section" id="rel-section" style="margin-bottom:32px;">
+    <div class="section-header" style="margin-bottom:14px;">
+      <div>
+        <div class="section-title" style="display:flex;align-items:center;gap:10px;">
+          Live Relationship Intelligence
+          <span id="rel-live-dot" style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+          <span style="font-size:0.7rem;font-weight:600;color:#22c55e;letter-spacing:0.05em;">LIVE</span>
+        </div>
+      </div>
+      <div class="section-hint">Payroll → Carrier relationships · Supabase real-time</div>
+    </div>
+
+    <!-- KPI mini bar -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+      <div style="background:var(--navy2);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Avg STACK Score</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--orange);" id="rel-avg-score">—</div>
+        <div style="font-size:0.72rem;color:var(--text3);margin-top:2px;">out of 5.0</div>
+      </div>
+      <div style="background:var(--navy2);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Active Relationships</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--green);" id="rel-active-count">—</div>
+        <div style="font-size:0.72rem;color:var(--text3);margin-top:2px;" id="rel-total-label">loading...</div>
+      </div>
+      <div style="background:var(--navy2);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Exceptions Open</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--red);" id="rel-exceptions">—</div>
+        <div style="font-size:0.72rem;color:var(--text3);margin-top:2px;">across all relationships</div>
+      </div>
+      <div style="background:var(--navy2);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Onboarding</div>
+        <div style="font-size:1.6rem;font-weight:900;color:var(--amber);" id="rel-onboarding">—</div>
+        <div style="font-size:0.72rem;color:var(--text3);margin-top:2px;">in progress</div>
+      </div>
+    </div>
+
+    <!-- Relationship rows -->
+    <div style="background:var(--navy2);border:1px solid var(--border2);border-radius:12px;overflow:hidden;">
+      <div style="display:grid;grid-template-columns:2fr 2fr 1fr 2fr 80px;gap:0;padding:10px 18px;border-bottom:1px solid var(--border);font-size:0.68rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">
+        <span>Payroll Provider</span><span>Carrier</span><span>Score</span><span>S · T · A · C · K</span><span style="text-align:center;">Status</span>
+      </div>
+      <div id="rel-rows">
+        <div style="padding:24px;text-align:center;color:var(--text3);font-size:0.85rem;">Loading relationships...</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── PLATFORM OVERALL BAR ── -->
   <div class="platform-section">
     <div class="section-header">
@@ -931,6 +979,118 @@
 
   // Refresh from sheet every 5 minutes
   setInterval(() => { loadFromSheet(); updateTimestamp(); }, 5 * 60 * 1000);
+</script>
+
+<!-- ── SUPABASE LIVE RELATIONSHIP INTELLIGENCE ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+  const SUPABASE_URL = 'https://ntsvfogikkfgtgtfvqlj.supabase.co'
+  const SUPABASE_KEY = 'sb_publishable_H8QTdBNm7oJgVdL1km0U5A_xP7f7j1G'
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+  const STATUS_COLORS = {
+    active:      { bg:'rgba(34,197,94,0.12)',  text:'#22c55e',  label:'Active' },
+    onboarding:  { bg:'rgba(245,158,11,0.12)', text:'#f59e0b',  label:'Onboarding' },
+    exception:   { bg:'rgba(239,68,68,0.12)',  text:'#ef4444',  label:'Exception' },
+    paused:      { bg:'rgba(100,116,139,0.15)',text:'#94a3b8',  label:'Paused' },
+    terminated:  { bg:'rgba(100,116,139,0.1)', text:'#64748b',  label:'Terminated' },
+  }
+
+  function scoreColor(s) {
+    if (s >= 4)  return '#22c55e'
+    if (s >= 2.5) return '#f59e0b'
+    return '#ef4444'
+  }
+
+  function phaseBar(s, t, a, c, k) {
+    const vals = [s, t, a, c, k]
+    const letters = ['S','T','A','C','K']
+    return vals.map((v, i) => {
+      const pct = Math.round((v / 5) * 100)
+      const col = scoreColor(v)
+      return `<span title="${letters[i]}: ${v}" style="display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:28px;">
+        <span style="font-size:0.6rem;color:#64748b;">${letters[i]}</span>
+        <span style="font-size:0.75rem;font-weight:700;color:${col};">${v.toFixed(1)}</span>
+      </span>`
+    }).join('')
+  }
+
+  function renderRows(rows) {
+    if (!rows || rows.length === 0) {
+      document.getElementById('rel-rows').innerHTML =
+        '<div style="padding:24px;text-align:center;color:#64748b;font-size:0.85rem;">No relationships found. Run the schema SQL to seed data.</div>'
+      return
+    }
+
+    document.getElementById('rel-rows').innerHTML = rows.map(r => {
+      const sc = STATUS_COLORS[r.status] || STATUS_COLORS.active
+      const col = scoreColor(r.stack_score)
+      return `<div style="display:grid;grid-template-columns:2fr 2fr 1fr 2fr 80px;align-items:center;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:0.875rem;font-weight:600;color:#f1f5f9;">${r.payroll_provider}</span>
+        <span style="font-size:0.875rem;color:#94a3b8;">${r.carrier}</span>
+        <span style="font-size:1.1rem;font-weight:900;color:${col};">${Number(r.stack_score).toFixed(1)}</span>
+        <div style="display:flex;gap:4px;">${phaseBar(r.s_score,r.t_score,r.a_score,r.c_score,r.k_score)}</div>
+        <span style="text-align:center;">
+          <span style="font-size:0.7rem;font-weight:700;padding:3px 8px;border-radius:99px;background:${sc.bg};color:${sc.text};">${sc.label}</span>
+        </span>
+      </div>`
+    }).join('')
+  }
+
+  function updateKPIs(rows) {
+    if (!rows || rows.length === 0) return
+    const avg = rows.reduce((s, r) => s + Number(r.stack_score), 0) / rows.length
+    const active    = rows.filter(r => r.status === 'active').length
+    const onboarding = rows.filter(r => r.status === 'onboarding').length
+    const exceptions = rows.reduce((s, r) => s + (r.exception_count || 0), 0)
+
+    document.getElementById('rel-avg-score').textContent    = avg.toFixed(1)
+    document.getElementById('rel-active-count').textContent = active
+    document.getElementById('rel-total-label').textContent  = `of ${rows.length} total`
+    document.getElementById('rel-exceptions').textContent   = exceptions
+    document.getElementById('rel-onboarding').textContent   = onboarding
+
+    // Update last-updated timestamp
+    const now = new Date()
+    const t = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    const el = document.getElementById('last-updated-time')
+    if (el) el.textContent = t
+  }
+
+  async function loadRelationships() {
+    const { data, error } = await sb
+      .from('relationships')
+      .select('*')
+      .order('stack_score', { ascending: false })
+
+    if (error) {
+      console.warn('Supabase error:', error.message)
+      document.getElementById('rel-rows').innerHTML =
+        `<div style="padding:24px;text-align:center;color:#ef4444;font-size:0.85rem;">Error: ${error.message}</div>`
+      return
+    }
+
+    renderRows(data)
+    updateKPIs(data)
+  }
+
+  // Initial load
+  loadRelationships()
+
+  // Real-time subscription — updates instantly when Linode writes new scores
+  sb.channel('relationships-live')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'relationships' }, () => {
+      loadRelationships()
+      // Flash the live dot
+      const dot = document.getElementById('rel-live-dot')
+      if (dot) {
+        dot.style.background = '#f97316'
+        setTimeout(() => { dot.style.background = '#22c55e' }, 600)
+      }
+    })
+    .subscribe()
+})()
 </script>
 </body>
 </html>

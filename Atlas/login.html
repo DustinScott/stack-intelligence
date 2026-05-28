@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Atlas — Sign In</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0d1b2a; --blue: #1B2B4B; --orange: #F07C20;
+    --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-300: #D1D5DB;
+    --gray-500: #6B7280; --gray-700: #374151; --white: #FFFFFF;
+    --red: #DC2626; --green: #059669;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    height: 56px;
+    display: flex; align-items: center;
+    padding: 0 28px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { height: 28px; }
+  .nav-logo-div { width: 1px; height: 18px; background: rgba(255,255,255,0.2); }
+  .nav-logo-text strong { font-size: 0.9rem; font-weight: 900; color: #fff; letter-spacing: -0.02em; }
+  .nav-logo-text span  { display: block; font-size: 0.5rem; font-weight: 700; color: #f97316; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 2px; }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: 14px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+  }
+  .card-header { text-align: center; margin-bottom: 28px; }
+  .card-icon {
+    width: 48px; height: 48px;
+    background: #EBF4FB;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    font-size: 22px;
+  }
+  .card-header h1 { font-size: 1.25rem; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+  .card-header p  { font-size: 0.875rem; color: var(--gray-500); }
+
+  /* TABS */
+  .tabs { display: flex; background: var(--gray-100); border-radius: 8px; padding: 3px; margin-bottom: 24px; }
+  .tab {
+    flex: 1; text-align: center; padding: 7px; font-size: 0.875rem; font-weight: 500;
+    color: var(--gray-500); border-radius: 6px; cursor: pointer; transition: all 0.15s; border: none; background: none;
+  }
+  .tab.active { background: var(--white); color: var(--blue); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+  /* FORM */
+  .form-group { margin-bottom: 16px; }
+  label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; }
+  input[type="email"], input[type="password"], input[type="text"] {
+    width: 100%; padding: 10px 12px;
+    border: 1px solid var(--gray-300); border-radius: 8px;
+    font-size: 0.9rem; color: var(--gray-700);
+    background: var(--white);
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  input:focus { border-color: #1B6CA8; box-shadow: 0 0 0 3px rgba(27,108,168,0.1); }
+
+  .btn {
+    width: 100%; padding: 11px;
+    background: var(--blue); color: white;
+    border: none; border-radius: 8px;
+    font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; transition: opacity 0.15s;
+    margin-top: 4px;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn.loading::after { content: ' ...'; }
+
+  .divider { display: flex; align-items: center; gap: 10px; margin: 20px 0; color: var(--gray-300); font-size: 0.8rem; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--gray-300); }
+
+  .message {
+    padding: 10px 14px; border-radius: 8px;
+    font-size: 0.85rem; margin-bottom: 16px; display: none;
+  }
+  .message.error   { background: #FEF2F2; color: var(--red);   border: 1px solid #FECACA; display: block; }
+  .message.success { background: #ECFDF5; color: var(--green); border: 1px solid #A7F3D0; display: block; }
+
+  .forgot { text-align: right; margin-top: -8px; margin-bottom: 16px; }
+  .forgot a { font-size: 0.8rem; color: #1B6CA8; text-decoration: none; }
+  .forgot a:hover { text-decoration: underline; }
+
+  .footer-note { text-align: center; font-size: 0.8rem; color: var(--gray-500); margin-top: 20px; }
+  .footer-note a { color: #1B6CA8; text-decoration: none; }
+
+  /* LOGGED IN STATE */
+  .logged-in { display: none; text-align: center; }
+  .logged-in .check { font-size: 48px; margin-bottom: 12px; }
+  .logged-in h2 { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+  .logged-in p  { font-size: 0.875rem; color: var(--gray-500); margin-bottom: 20px; }
+  .btn-orange { background: var(--orange); }
+  .btn-ghost  { background: transparent; color: var(--blue); border: 1px solid var(--gray-300); margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">
+    <img src="../PayCompLogo_AgencySignup.png" alt="PayComp" />
+    <div class="nav-logo-div"></div>
+    <div class="nav-logo-text">
+      <strong>STACK</strong>
+      <span>Intelligence</span>
+    </div>
+  </a>
+</nav>
+
+<main>
+  <div class="card">
+
+    <!-- AUTH FORM -->
+    <div id="authForm">
+      <div class="card-header">
+        <div class="card-icon">&#128737;</div>
+        <h1>Atlas Client Portal</h1>
+        <p>Sign in to access your account</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('signin')">Sign In</button>
+        <button class="tab" onclick="switchTab('signup')">Create Account</button>
+      </div>
+
+      <div id="msg" class="message"></div>
+
+      <!-- SIGN IN -->
+      <form id="signinForm" onsubmit="handleSignIn(event)">
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" id="signinEmail" placeholder="you@company.com" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signinPassword" placeholder="••••••••" required />
+        </div>
+        <div class="forgot"><a href="#" onclick="handleForgot(event)">Forgot password?</a></div>
+        <button type="submit" class="btn" id="signinBtn">Sign In</button>
+      </form>
+
+      <!-- SIGN UP -->
+      <form id="signupForm" style="display:none;" onsubmit="handleSignUp(event)">
+        <div class="form-group">
+          <label>Full name</label>
+          <input type="text" id="signupName" placeholder="Sarah Johnson" required />
+        </div>
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" id="signupEmail" placeholder="you@company.com" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signupPassword" placeholder="Min. 8 characters" minlength="8" required />
+        </div>
+        <button type="submit" class="btn" id="signupBtn">Create Account</button>
+        <p class="footer-note" style="margin-top:12px;">By creating an account you agree to our <a href="#">Terms of Service</a>.</p>
+      </form>
+    </div>
+
+    <!-- LOGGED IN STATE -->
+    <div class="logged-in" id="loggedIn">
+      <div class="check">&#10003;</div>
+      <h2>You're signed in</h2>
+      <p id="loggedInEmail"></p>
+      <button class="btn btn-orange" onclick="goToPortal()">Go to Portal →</button>
+      <button class="btn btn-ghost" onclick="handleSignOut()">Sign Out</button>
+    </div>
+
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://ntsvfogikkfgtgtfvqlj.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_H8QTdBNm7oJgVdL1km0U5A_xP7f7j1G'
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+// ── Check existing session ────────────────────────────────────
+async function init() {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (session) showLoggedIn(session.user)
+}
+
+function showLoggedIn(user) {
+  document.getElementById('authForm').style.display = 'none'
+  document.getElementById('loggedIn').style.display = 'block'
+  document.getElementById('loggedInEmail').textContent = user.email
+}
+
+// ── Tab switching ─────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('signinForm').style.display = tab === 'signin' ? 'block' : 'none'
+  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none'
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', (tab === 'signin') ? i === 0 : i === 1)
+  })
+  clearMsg()
+}
+
+// ── Messages ──────────────────────────────────────────────────
+function showMsg(text, type) {
+  const el = document.getElementById('msg')
+  el.textContent = text
+  el.className = 'message ' + type
+}
+function clearMsg() {
+  const el = document.getElementById('msg')
+  el.className = 'message'
+  el.textContent = ''
+}
+
+// ── Sign In ───────────────────────────────────────────────────
+async function handleSignIn(e) {
+  e.preventDefault()
+  const btn = document.getElementById('signinBtn')
+  btn.disabled = true; btn.classList.add('loading')
+  clearMsg()
+
+  const email    = document.getElementById('signinEmail').value
+  const password = document.getElementById('signinPassword').value
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+
+  btn.disabled = false; btn.classList.remove('loading')
+
+  if (error) { showMsg(error.message, 'error'); return }
+  showLoggedIn(data.user)
+}
+
+// ── Sign Up ───────────────────────────────────────────────────
+async function handleSignUp(e) {
+  e.preventDefault()
+  const btn = document.getElementById('signupBtn')
+  btn.disabled = true; btn.classList.add('loading')
+  clearMsg()
+
+  const name     = document.getElementById('signupName').value
+  const email    = document.getElementById('signupEmail').value
+  const password = document.getElementById('signupPassword').value
+
+  const { data, error } = await supabase.auth.signUp({
+    email, password,
+    options: { data: { full_name: name } }
+  })
+
+  btn.disabled = false; btn.classList.remove('loading')
+
+  if (error) { showMsg(error.message, 'error'); return }
+  showMsg('Account created! Check your email to confirm, then sign in.', 'success')
+  switchTab('signin')
+}
+
+// ── Forgot password ───────────────────────────────────────────
+async function handleForgot(e) {
+  e.preventDefault()
+  const email = document.getElementById('signinEmail').value
+  if (!email) { showMsg('Enter your email above first.', 'error'); return }
+  const { error } = await supabase.auth.resetPasswordForEmail(email)
+  if (error) { showMsg(error.message, 'error'); return }
+  showMsg('Password reset link sent — check your email.', 'success')
+}
+
+// ── Sign Out ──────────────────────────────────────────────────
+async function handleSignOut() {
+  await supabase.auth.signOut()
+  document.getElementById('authForm').style.display = 'block'
+  document.getElementById('loggedIn').style.display = 'none'
+}
+
+// ── Go to portal ──────────────────────────────────────────────
+function goToPortal() {
+  window.location.href = 'index.html'
+}
+
+init()
+</script>
+</body>
+</html>
