@@ -250,6 +250,127 @@
       color: var(--warm);
     }
 
+    /* ─── PLATES ─── */
+    .plates-section {
+      margin-top: 80px;
+      padding-top: 72px;
+      border-top: 2px dashed #e5d3bc;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .plates-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .plates-header .section-label { margin-bottom: 10px; }
+
+    .plates-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--brown);
+      margin-bottom: 12px;
+    }
+
+    .plates-header p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .plates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .plate-card {
+      background: var(--brown);
+      border-radius: 20px;
+      padding: 36px 32px;
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .plate-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 130px;
+      height: 130px;
+      background: rgba(232, 164, 68, 0.08);
+      border-radius: 50%;
+    }
+
+    .plate-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 40px rgba(59, 31, 14, 0.22);
+    }
+
+    .plate-emoji {
+      font-size: 2.6rem;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .plate-tag {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .plate-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .plate-card p {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: #c9a882;
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+
+    .plate-includes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .plate-chip {
+      background: rgba(232, 164, 68, 0.15);
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 30px;
+      border: 1px solid rgba(232, 164, 68, 0.25);
+    }
+
+    .plate-price {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--gold);
+    }
+
     /* ─── ABOUT ─── */
     #about {
       background: var(--brown);
@@ -462,6 +583,61 @@
       </div>
 
     </div>
+
+    <!-- PLATES -->
+    <div class="plates-section">
+      <div class="plates-header">
+        <p class="section-label">Build a Plate</p>
+        <h3>Pair It Right</h3>
+        <p>Three curated plates that make a full meal out of your kolache order. Mix, match, and eat well.</p>
+      </div>
+
+      <div class="plates-grid">
+
+        <div class="plate-card">
+          <span class="plate-emoji">🍳</span>
+          <div class="plate-tag">Breakfast Plate</div>
+          <h4>The Texas Morning</h4>
+          <p>Two savory kolaches served alongside seasoned home fries and a small cup of pico de gallo. Hearty, fast, and built for the workweek.</p>
+          <div class="plate-includes">
+            <span class="plate-chip">2 Savory Kolaches</span>
+            <span class="plate-chip">Home Fries</span>
+            <span class="plate-chip">Pico de Gallo</span>
+          </div>
+          <div class="plate-price">$9.50</div>
+        </div>
+
+        <div class="plate-card">
+          <span class="plate-emoji">🧺</span>
+          <div class="plate-tag">Sweet & Savory</div>
+          <h4>The Half &amp; Half</h4>
+          <p>One savory kolache and one sweet kolache, paired with a fresh fruit cup and your choice of drip coffee or OJ. The perfect balance.</p>
+          <div class="plate-includes">
+            <span class="plate-chip">1 Savory Kolache</span>
+            <span class="plate-chip">1 Sweet Kolache</span>
+            <span class="plate-chip">Fruit Cup</span>
+            <span class="plate-chip">Coffee or OJ</span>
+          </div>
+          <div class="plate-price">$10.25</div>
+        </div>
+
+        <div class="plate-card">
+          <span class="plate-emoji">🤠</span>
+          <div class="plate-tag">Go Big</div>
+          <h4>The Ranch Hand</h4>
+          <p>Three kolaches — your pick — loaded onto a tray with a side of white gravy for dipping, pickled jalapeños, and a large coffee. No regrets.</p>
+          <div class="plate-includes">
+            <span class="plate-chip">3 Kolaches (your choice)</span>
+            <span class="plate-chip">White Gravy</span>
+            <span class="plate-chip">Pickled Jalapeños</span>
+            <span class="plate-chip">Large Coffee</span>
+          </div>
+          <div class="plate-price">$13.75</div>
+        </div>
+
+      </div>
+    </div>
+
   </section>
 
   <!-- ABOUT -->
